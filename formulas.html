@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>דף נוסחאות — התקני מוליכים למחצה 20132</title>
+<style>
+@page { size: A4; margin: 10mm 9mm; }
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:-apple-system,"Segoe UI","Noto Sans Hebrew",Arial,sans-serif;
+  color:#151512; font-size:10.3px; line-height:1.32; direction:rtl;
+}
+.page{ page-break-after:always; padding:2mm 1mm; }
+.page:last-child{ page-break-after:auto; }
+h1{ font-size:14px; margin:0 0 1mm; text-align:center; }
+h1 small{ display:block; font-size:9.5px; font-weight:600; color:#555; margin-top:1mm; }
+h2.sec{
+  font-size:10.5px; font-weight:800; margin:0 0 1.2mm; padding:1mm 2mm;
+  background:#eef0ea; border-right:3px solid #2f6f4f; break-inside:avoid;
+}
+.cols3{ column-count:3; column-gap:3mm; }
+.cols2{ column-count:2; column-gap:4mm; }
+.blk{ break-inside:avoid; margin:0 0 1.6mm; border:1px solid #d8d6cc; border-radius:3px; padding:1.4mm 1.8mm; background:#fff; }
+.blk b.t{ display:block; font-size:9.6px; font-weight:800; margin-bottom:.6mm; }
+.f{ direction:ltr; unicode-bidi:isolate; display:block; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:9.6px; margin:.5mm 0; text-align:center; }
+.note{ font-size:9px; color:#444; margin:.4mm 0 0; }
+table.t{ width:100%; border-collapse:collapse; font-size:9px; margin:.5mm 0; }
+table.t td,table.t th{ border:1px solid #ccc; padding:.6mm 1mm; text-align:center; }
+table.t td:first-child{ direction:ltr; font-family:monospace; }
+
+/* עמוד 2 — דוגמאות */
+.ex{ break-inside:avoid; border:1px solid #cfcdc0; border-radius:3px; padding:1.6mm 2mm; margin:0 0 2mm; background:#fff; }
+.ex h3{ font-size:10px; margin:0 0 .8mm; }
+.ex h3 span{ font-weight:600; color:#666; font-size:8.6px; }
+.ex .q{ font-size:9.3px; margin:.5mm 0; }
+.ex .g{ font-size:9px; color:#333; margin:.5mm 0; }
+.ex .code, .ex .calc{ direction:ltr; unicode-bidi:isolate; font-family:monospace; font-size:9px; background:#f5f4ef; border-radius:2px; padding:1mm 1.4mm; margin:.6mm 0; white-space:pre-wrap; }
+.ex .trick{ font-size:9px; background:#fdf3dd; border-right:2px solid #8a6100; padding:.8mm 1.4mm; margin-top:.6mm; }
+</style>
+</head>
+<body>
+
+<!-- ============ עמוד 1 — נוסחאות ומושגים בלבד ============ -->
+<div class="page">
+<h1>התקני מוליכים למחצה 20132 — דף נוסחאות
+<small>מבחן סופי · 180 דק' · מחשבון + טבלה מחזורית + דף זה בלבד</small></h1>
+
+<div class="cols3">
+
+<h2 class="sec">קבועים ונתונים שחוזרים</h2>
+<div class="blk">
+<span class="f">k_BT (300K) = 0.0259 eV</span>
+<span class="f">ε₀ = 8.85·10⁻¹⁴ F/cm</span>
+<span class="f">q = 1.6·10⁻¹⁹ C</span>
+<span class="f">n_i(Si,300K) ≈ 1.5·10¹⁰ cm⁻³</span>
+<span class="f">ε_r(Si)=11.8, ε_r,ox(SiO₂)=3.9</span>
+</div>
+
+<h2 class="sec">1 · ריכוזי נשאים ורמת פרמי</h2>
+<div class="blk">
+<span class="f">n₀ = n_i·e^((E_F-E_i)/kT)</span>
+<span class="f">p₀ = n_i·e^((E_i-E_F)/kT)</span>
+<span class="f">n₀·p₀ = n_i²</span>
+<div class="note">אילוח חזק (N≫n_i): n₀≈N_d או p₀≈N_a.<br>
+אילוח חלש/דומה: n²-(N_d-N_a)n-n_i²=0.</div>
+</div>
+<div class="blk">
+<b class="t">אילוח לא-אחיד N(x)</b>
+<span class="f">n₀(x) ≈ N(x)</span>
+<span class="f">ε(x) = -(kT/e)·(1/n₀)·(dn₀/dx)</span>
+<div class="note">שדה שיווי-משקל מתנגד לדיפוזיה — קיים גם בלי צומת.</div>
+</div>
+
+<h2 class="sec">2 · הולכה וזרמים</h2>
+<div class="blk">
+<span class="f">σ = e(μ_n n₀ + μ_p p₀)</span>
+<span class="f">J_drift = σ·ε</span>
+<span class="f">J_diff,n = eD_n(dn/dx)</span>
+<span class="f">J_diff,p = -eD_p(dp/dx)</span>
+<span class="f">D/μ = kT/e  (איינשטיין)</span>
+<span class="f">R = ∫ρ(x)dx / A ,  ρ=1/σ</span>
+</div>
+
+<h2 class="sec">3 · נשאים עודפים ורקומבינציה</h2>
+<div class="blk">
+<span class="f">δp(t) = δp(0)e^(-t/τ_p)  (דעיכה)</span>
+<span class="f">dδp/dt = g_op - δp/τ - (1/e)dJ/dx</span>
+<span class="f">δp(x)=τg_op(x)+Ae^(-x/L_p)+Be^(x/L_p)</span>
+<span class="f">L_p = √(D_p·τ_p)</span>
+<div class="note">שיווי משקל=רק תרמי. מצב עמיד=לא-תלוי-בזמן (יכול לכלול עירור קבוע).
+עירור <b>אחיד</b>: אין גרדיאנט⟸אין שדה/דיפוזיה גם שלא בשיווי משקל.</div>
+</div>
+
+<h2 class="sec">4 · צומת PN — שיווי משקל</h2>
+<div class="blk">
+<span class="f">V₀ = (kT/e)ln(N_aN_d/n_i²)</span>
+<span class="f">V₀ = (kT/e)ln(p_p/p_n) = (kT/e)ln(n_n/n_p)</span>
+<div class="note">הגרסה השנייה חובה כשאחד הצדדים לא מקיים p≈N.</div>
+<span class="f">N_a·x_p0 = N_d·x_n0</span>
+<span class="f">W = √( 2ε_rε₀V₀(N_a+N_d) / (eN_aN_d) )</span>
+<span class="f">x_n0 = N_a·W/(N_a+N_d), x_p0 = N_d·W/(N_a+N_d)</span>
+<span class="f">dε/dx = ρ(x)/(ε_rε₀)  (גאוס דיפרנציאלי)</span>
+</div>
+
+<h2 class="sec">5 · הדיודה בממתח</h2>
+<div class="blk">
+<span class="f">I = I₀(e^(eV/kT) - 1)</span>
+<span class="f">I₀ = eA(D_p·p_n/L_p + D_n·n_p/L_n)</span>
+<span class="f">L = √(Dτ)</span>
+<div class="note">קדמי: I גדל אקספוננציאלית, דיפוזיה שולטת.
+אחורי: I≈-I₀ קבוע, סחיפה של מיעוט שולטת.</div>
+<span class="f">ΔI₀(אור) = -eAG_op(L_n+L_p+W)</span>
+</div>
+
+<h2 class="sec">6 · קבל MOS</h2>
+<div class="blk">
+<span class="f">φ_F = (kT/e)ln(N_a/n_i)  [p-type]</span>
+<span class="f">V_g = V_ox + φ_s</span>
+<span class="f">V_ox = (d_ox/ε_ox)√(2eε_rε₀N_aφ_s)</span>
+<span class="f">V_T = 2φ_F + (2d_ox/ε_ox)√(eε_rε₀N_aφ_F)</span>
+<div class="note">היפוך חזק בהגדרה: φ_s=2φ_F על סף V_T.</div>
+<table class="t"><tr><th>φ_s</th><th>מצב</th></tr>
+<tr><td>&lt;0</td><td>צבירה</td></tr><tr><td>0…φ_F</td><td>מחסור</td></tr>
+<tr><td>=φ_F</td><td>סף היפוך חלש</td></tr><tr><td>=2φ_F</td><td>היפוך חזק (V_T)</td></tr></table>
+</div>
+<div class="blk">
+<span class="f">C_ox = C_max = ε_ox/d_ox</span>
+<span class="f">w_T = 2√(ε_rε₀φ_F/(eN_a))</span>
+<span class="f">C_s,min = ε_r ε₀/w_T</span>
+<span class="f">C_min = C_ox·C_s,min/(C_ox+C_s,min)</span>
+<div class="note">C_min תמיד ב-w_T (φ_s=2φ_F), לא בערך אחר.</div>
+</div>
+
+<h2 class="sec">7 · MOSFET</h2>
+<div class="blk">
+<span class="f">I_D = k[(V_g-V_T)V_D - V_D²/2]</span>
+<span class="f">0 ≤ V_D ≤ V_g-V_T   (טריודי)</span>
+<span class="f">I_D ≈ k(V_g-V_T)V_D   (V_D≪V_g-V_T)</span>
+<span class="f">k = ε_ox·W·μ/(L·d_ox)</span>
+<div class="note">V_g=V_T בדיוק ⟸ I_D=0, R→∞ (pinch-off), לכל V_D.</div>
+</div>
+
+</div><!-- /cols3 -->
+</div><!-- /page 1 -->
+
+<!-- ============ עמוד 2 — דוגמאות פתורות בלבד ============ -->
+<div class="page">
+<h1>דוגמאות פתורות — לכל נושא <small>ש: מה נשאל · נתון: קלט קונקרטי ופלט · טריק</small></h1>
+<div class="cols2">
+
+<div class="ex">
+<h3>1 · אילוח לא-אחיד <span>[22m1·X·ש1]</span></h3>
+<div class="q"><b>ש:</b> פיסת Si באורך L, מאולחת N_d(x)=N_d[1+cos(πx/L)]. מצאו ε(x) ו-R.</div>
+<div class="g"><b>נתון:</b> N_d=10¹⁷cm⁻³, L=10cm, A=1cm², μ_n=1400. <b>פלט:</b> ε(0)=0, R≈0.28Ω.</div>
+<div class="calc">n0(x)≈N_d(x)
+ε(x) = -(kT/e)(1/n0)(dn0/dx) = π·kT/(e·L) · sin(πx/L)/[1+cos(πx/L)]
+dR(x) = dx / (A·e·μ_n·N_d(x))  →  R = ∫dR על כל L</div>
+<div class="trick"><b>טריק:</b> "בכל מקום" n0(x)≈N_d(x) גם כש-N_d תלוי ב-x — הקירוב מקומי, לא גלובלי.
+לאינטגרל R עם תחלופת משתנים u=πx/L.</div>
+</div>
+
+<div class="ex">
+<h3>2 · צומת PN — פרופיל מלבני <span>[22m1·X·ש2]</span></h3>
+<div class="q"><b>ש:</b> נתון x_n0 וε₀(שדה מקס') וn_i — מצאו N_a,N_d,W,V₀.</div>
+<div class="g"><b>נתון:</b> ε₀=43550V/cm, x_n0=2.82e-5cm, N_a מחושב=5e16. <b>פלט:</b> V₀≈0.736V.</div>
+<div class="calc">qN_d = ε₀·ε_rε₀ / x_n0   (מ-Gauss על הצד היחיד)
+W = x_n0+x_p0 ;  V₀ = ½ε₀W  (משולש שדה)</div>
+<div class="trick"><b>טריק:</b> את השדה המקסימלי (בגבול x=0) מקבלים מכל צד בנפרד —
+אין צורך לדעת את שני האילוחים כדי להתחיל.</div>
+</div>
+
+<div class="ex">
+<h3>3 · דיודה בממתח אחורי + אור <span>[22m1·X·ש2]</span></h3>
+<div class="q"><b>ש:</b> חשבו את שינוי הזרם האחורי כשמאירים את הדיודה עם קצב יצירה G_op.</div>
+<div class="g"><b>נתון:</b> G_op=10¹⁸cm⁻³s⁻¹, L_n,L_p,W ידועים. <b>פלט:</b> ΔI₀≈1.02·10⁻⁷A.</div>
+<div class="calc">ΔI₀ = qAG_op(L_n+L_p+W)</div>
+<div class="trick"><b>טריק:</b> תמיד מוסיפים את *כל* אזור המחסור W לשני אורכי הדיפוזיה —
+כל זוג e-h שנוצר בתוך W+L_n+L_p נאסף ותורם לזרם.</div>
+</div>
+
+<div class="ex">
+<h3>4 · קבל MOS — מציאת N מקיבול <span>[22m1·X·ש3]</span></h3>
+<div class="q"><b>ש:</b> נתון C_max,C_min מהגרף — מצאו את ריכוז האילוח והטמפרטורה.</div>
+<div class="g"><b>נתון:</b> qN_a מהגרף (ρ), W מהגרף. <b>פלט:</b> N_a=10¹⁵cm⁻³, T=400K (לא 300K!).</div>
+<div class="calc">φ_F = qN_a·W² / (4ε_rε₀)   (מ-w_T=2√(ε_rε₀φ_F/(qN_a)))
+kT/q = φ_F / ln(N_a/n_i)  →  T = (kT/q)/(0.026/300)</div>
+<div class="trick"><b>טריק:</b> אל תניחו T=300K כברירת מחדל — אם k_BT/q יוצא שונה מ-0.026V,
+זו בעצם השאלה: לחשב את T בעצמה.</div>
+</div>
+
+<div class="ex">
+<h3>5 · MOSFET — שני טרנזיסטורים <span>[25s2m1·Y·ש3]</span></h3>
+<div class="q"><b>ש:</b> משווים I_D של שני MOSFET עם k,V_T שונים על מתחי Drain שונים.</div>
+<div class="g"><b>נתון:</b> יחסי V_T ו-k בין ההתקנים. <b>פלט:</b> V המשותף מהשוואת I_D1(V)=I_D2(V/10).</div>
+<div class="calc">I_D1(V)=aV-bV² ,  I_D2(V)≈cV   (טריודי לעומת ליניארי-קירוב)
+aV-bV² = c(V/10)  →  פתרון ל-V</div>
+<div class="trick"><b>טריק:</b> תמיד לבדוק בסוף שהתנאי לכל משטר (0≤V_D≤V_g-V_T או V_D≪...) אכן מתקיים
+בפתרון שהתקבל — אחרת הפתרון לא עקבי.</div>
+</div>
+
+<div class="ex">
+<h3>6 · נשאים עודפים — הבזקים חוזרים <span>[25s2m21·Y·ש1]</span></h3>
+<div class="q"><b>ש:</b> סדרת הבזקי אור מוסיפים Δp כל פעם; מצאו δp בין ההבזק ה-m למ+1.</div>
+<div class="g"><b>נתון:</b> f=1/τ (תדירות=קצב הדעיכה). <b>פלט:</b> δp_m(t)=Δp(e^m-1)/(e-1)·e^-ft.</div>
+<div class="calc">δp1=Δp·e^-ft
+δp_{k+1}(t)=[δp_k(τ)+Δp]e^-(t-kτ)/τ  →  טור הנדסי ב-e</div>
+<div class="trick"><b>טריק:</b> לזהות שכל "עוד הבזק" מוסיף איבר חדש לטור הנדסי עם יחס e —
+משתמשים בנוסחת סכום סופי, לא פותרים כל שלב מאפס.</div>
+</div>
+
+</div><!-- /cols2 -->
+</div><!-- /page 2 -->
+
+</body>
+</html>

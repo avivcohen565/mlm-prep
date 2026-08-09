@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>שם הקורס — הכנה למבחן</title>
+<title>התקני מוליכים למחצה 20132 — הכנה למבחן</title>
 <style>
 /* ===== מערכת עיצוב משותפת — הכנה למבחן 10804 ===== */
 :root{
@@ -713,9 +713,9 @@ td.v-info{background:var(--blue-bg);border-color:var(--blue);color:var(--blue)}
 <button data-go="map">מפת המבחן</button>
 
 <span class="grp">נושאי המבחן — לפי סדר השאלות</span>
-<button data-go="d01"><span class="qn">1</span>נושא ראשון</button>
-<button data-go="d02"><span class="qn">2</span>נושא שני</button>
-<button data-go="d03"><span class="qn">3</span>נושא שלישי</button>
+<button data-go="d01"><span class="qn">1</span>מוליכים למחצה וזרמים</button>
+<button data-go="d02"><span class="qn">2</span>צומת PN והדיודה</button>
+<button data-go="d03"><span class="qn">3</span>קבל MOS ו-MOSFET</button>
 
 <span class="grp">חומרי עזר</span>
 <button onclick="window.open('formulas.html','_blank')">📄 דף נוסחאות</button>
@@ -728,7 +728,15 @@ td.v-info{background:var(--blue-bg);border-color:var(--blue);color:var(--blue)}
 <!-- ============ עמוד הבית ============ -->
 <section class="pg" id="home">
 <h1>הכנה למבחן <span id="courseName"></span></h1>
-<p class="lead">מלא כאן: תאריך המבחן · משך · מבנה · מה מותר להביא.</p>
+<p class="lead">קורס 20132 · אפקה · ד"ר שטרנפלד איתי · מבחן סופי ביום שלישי,
+<b>11.8.2026</b>, 180 דקות, כיתה רגילה (ללא מחשבים). עזרים מותרים:
+מחשבון רגיל, טבלה מחזורית, ודף נוסחאות כתיבה עצמית עד 8 עמודים.</p>
+
+<div class="ipad-ready">
+  <div>מבנה קבוע ב-8 המבחנים האחרונים שנותחו: <b>3 שאלות</b>, ~33 נק' כל אחת —
+  תמיד באותו סדר נושאים.</div>
+  <span class="status">⏱️ המבחן בעוד <span id="daysLeft">2</span> ימים</span>
+</div>
 
 <div class="grid">
   <a class="deck" href="#practice" style="border-color:var(--accent);background:var(--accent2)">
@@ -744,18 +752,31 @@ td.v-info{background:var(--blue-bg);border-color:var(--blue);color:var(--blue)}
 </div>
 
 <h2>נושאי הלימוד — לפי תדירות ההופעה במבחנים</h2>
-<p><span class="dot p1"></span> מופיע בכל מבחן &nbsp;·&nbsp;
-<span class="dot p2"></span> מופיע ברוב המבחנים &nbsp;·&nbsp;
-<span class="dot p3"></span> לא הופיע אף פעם</p>
+<p><span class="dot p1"></span> מופיע בכל מבחן (כל 8 המבחנים שנותחו)</p>
 
 <div class="decks">
   <a class="deck" href="#d01">
-    <div class="n">01</div>
-    <div class="t">נושא ראשון</div>
-    <div class="d">תיאור קצר של מה יש בעמוד.</div>
+    <div class="n">01 · שאלה 1</div>
+    <div class="t">מוליכים למחצה, זרמים ונשאי מטען עודפים</div>
+    <div class="d">רצועות אנרגיה, ריכוזי נשאים, פרמי-דיראק, מוביליות והולכה,
+    זרמי סחיפה/דיפוזיה, רקומבינציה, משוואת הרצף.</div>
     <div class="m"><span class="dot p1"></span><span class="tag exam">בכל מבחן · שאלה 1</span></div>
   </a>
+  <a class="deck" href="#d02">
+    <div class="n">02 · שאלה 2</div>
+    <div class="t">צומת PN והדיודה</div>
+    <div class="d">שיווי משקל, פוטנציאל מגע, אזור מחסור, משוואת הדיודה,
+    ממתח קדמי/אחורי, פריצה.</div>
+    <div class="m"><span class="dot p1"></span><span class="tag exam">בכל מבחן · שאלה 2</span></div>
+  </a>
+  <a class="deck" href="#d03">
+    <div class="n">03 · שאלה 3</div>
+    <div class="t">קבל MOS וטרנזיסטור MOSFET</div>
+    <div class="d">דיאגרמת פסים, מתח סף, קיבול Cox/Cmin, C-V, מצב עבודה, זרם ID.</div>
+    <div class="m"><span class="dot p1"></span><span class="tag exam">בכל מבחן · שאלה 3</span></div>
+  </a>
 </div>
+
 </section>
 
 <!-- ============ מרכז התרגול ============ -->
@@ -841,9 +862,9 @@ td.v-info{background:var(--blue-bg);border-color:var(--blue);color:var(--blue)}
 </section>
 
 <div class="note">
-<b>שקיפות מקור:</b> לכל אחת מ-150 השאלות יש תווית קבועה וגלויה:
-מבחן ושנה/מועד, מספר מטלה, או <b>“שאלת Codex · לא ממבחן”</b>.
-“נוסח מותאם” פירושו שהרעיון הגיע מהמקור, אבל השאלה נוסחה מחדש לתרגול.
+<b>שקיפות מקור:</b> לכל שאלה יש תווית קבועה וגלויה — שנה, סמסטר, מועד וטופס
+(X/Y) של המבחן האמיתי שממנו היא לקוחה. כל השאלות כאן הן שאלות מבחן רשמיות
+עם פתרון מאומת מחדש — אין כאן שאלות מומצאות.
 ההתקדמות נשמרת מקומית במכשיר, ולכן לכל חבר שתשלח לו את הקישור תהיה התקדמות נפרדת.
 </div>
 </div>
@@ -851,49 +872,206 @@ td.v-info{background:var(--blue-bg);border-color:var(--blue);color:var(--blue)}
 <!-- ============ מפת המבחן ============ -->
 <section class="pg" id="map">
 <h1>מפת המבחן</h1>
-<p class="lead">מה נשאל בפועל, לפי ניתוח שאלוני העבר.</p>
+<p class="lead">ניתוח 8 מבחני סוף אחרונים (2022–2025: כל המבחנים שכתב אבישי אפרת +
+כל מועדי 2025) — 16 סטים של שאלות (טופס X וטופס Y בכל מועד).</p>
+
+<div class="tw"><table>
+<thead><tr><th>שאלה</th><th>נושא</th><th>תדירות</th><th>מה נשאל בפועל</th></tr></thead>
+<tbody>
+<tr><td class="c">1</td><td>מוליכים למחצה, זרמים ונשאי מטען עודפים</td>
+  <td class="c"><span class="dot p1"></span> בכל מבחן</td>
+  <td>ריכוזי נשאים (אינטרינזי/אקסטרינזי, אילוח אחיד/לא-אחיד), רמת פרמי,
+  זרמי סחיפה ודיפוזיה, מוביליות והולכה, נשאי מטען עודפים ורקומבינציה,
+  יצירה אופטית, לעיתים משוואת הרצף</td></tr>
+<tr><td class="c">2</td><td>צומת PN והדיודה</td>
+  <td class="c"><span class="dot p1"></span> בכל מבחן</td>
+  <td>פוטנציאל מגע, רוחב אזור מחסור ((x_n0,x_p0)), צפיפות מטען/שדה חשמלי
+  כפונקציה של המיקום, זרם הדיודה (קדמי/אחורי), לעיתים PIN</td></tr>
+<tr><td class="c">3</td><td>קבל MOS וטרנזיסטור MOSFET</td>
+  <td class="c"><span class="dot p1"></span> בכל מבחן</td>
+  <td>דיאגרמת פסים וקביעת מצב עבודה, (V_ox,\varphi_F,V_T), קיבול Cmax/Cmin
+  ועקומת C-V, לעיתים ממשיך לזרם ה-MOSFET (ID, pinch-off)</td></tr>
+</tbody></table></div>
+
+<div class="ok"><b>המסקנה המעשית:</b> שלוש השאלות חוזרות בדיוק באותו סדר בכל
+מבחן — אין הפתעות במבנה, רק בפרטים המספריים. הסימולטור במרכז התרגול בנוי
+בדיוק לפי שלוש המשבצות האלה.</div>
 </section>
 
-<!-- ============ עמוד נושא — לשכפל לכל נושא ============ -->
+<!-- ============ עמוד נושא 1 ============ -->
 <section class="pg" id="d01">
-<h1>נושא ראשון</h1>
-<p class="lead">משפט אחד שמסביר למה הנושא הזה חשוב במבחן.</p>
+<h1>מוליכים למחצה: ריכוזי נשאים וזרמים</h1>
+<p class="lead">שאלה 1 בכל מבחן — תמיד סביב ריכוזי נשאים ורמת פרמי, ולעיתים
+זרמים/רקומבינציה/דיפוזיה. זו נקודת הפתיחה של כל שאלה אחרת בקורס.</p>
 
-<h2>1 · המושגים</h2>
-<div class="card">
-<table>
-<tr><td><b>מושג</b></td><td>ההגדרה, בשורה אחת</td></tr>
-</table>
-</div>
+<h2>1 · רצועות אנרגיה ורמת פרמי</h2>
+<div class="tw"><table>
+<tr><td><span dir="ltr">n<sub>0</sub></span></td><td>ריכוז אלקטרונים בשיווי משקל</td></tr>
+<tr><td><span dir="ltr">n<sub>0</sub> = n<sub>i</sub> e^{(E<sub>F</sub>-E<sub>i</sub>)/k<sub>B</sub>T}</span></td><td>נוסחת הריכוז דרך רמת פרמי ביחס לאמצע הפס</td></tr>
+<tr><td><span dir="ltr">p<sub>0</sub> = n<sub>i</sub> e^{(E<sub>i</sub>-E<sub>F</sub>)/k<sub>B</sub>T}</span></td><td>אותו דבר לחורים — סימן המעריך הפוך</td></tr>
+<tr><td><span dir="ltr">n<sub>0</sub>·p<sub>0</sub> = n<sub>i</sub>²</span></td><td>חוק פעולת המסה — תמיד נכון בשיווי משקל, גם באילוח לא-אחיד</td></tr>
+</table></div>
+<div class="tip"><b>טיפ לזיהוי מהיר:</b> אם E<sub>F</sub> מעל E<sub>i</sub> → type-n (אילוח תורמים);
+אם מתחת → type-p. ככל שהמרחק |E<sub>F</sub>-E<sub>i</sub>| גדול יותר — האילוח האפקטיבי גדול יותר.</div>
 
-<h2>2 · הקוד</h2>
-<pre class="c">/* קוד לדוגמה — הדגשת התחביר אוטומטית */</pre>
+<h2>2 · אילוח אחיד מול לא-אחיד</h2>
+<p>באילוח <b>אחיד</b>: אם <span dir="ltr">N_d ≫ n_i</span> אז פשוט
+<span dir="ltr">n<sub>0</sub> ≈ N_d</span> (ו-<span dir="ltr">p<sub>0</sub>=n<sub>i</sub>²/N_d</span>).
+אם שני האילוחים מאותו סדר גודל (מקבלים ותורמים גדולים ודומים) — <b>אסור</b> להניח קירוב,
+צריך לפתור את המשוואה הריבועית מעקרון הפיצוי:
+<span dir="ltr">n<sup>2</sup> - (N_d-N_a)n - n_i² = 0</span>.</p>
+<p>באילוח <b>לא-אחיד</b> <span dir="ltr">N_d(x)</span> — בכל נקודה מתקיים עדיין
+<span dir="ltr">n<sub>0</sub>(x) ≈ N_d(x)</span> (כל עוד <span dir="ltr">N_d(x) ≫ n_i</span> בכל x),
+אבל זה יוצר <b>שדה חשמלי פנימי מובנה</b> (גם בלי צומת!) כי יש גרדיאנט בריכוז:</p>
+<div class="tw"><table>
+<tr><td><span dir="ltr">ε(x) = -(k_BT/e)·(1/n₀)·(dn₀/dx)</span></td><td>שדה שיווי-משקל מתנגד לדיפוזיה בכל מל"מ לא-אחיד</td></tr>
+</table></div>
+<div class="warn"><b>מלכודת:</b> שדה זה קיים גם בלי מתח מופעל וגם בלי צומת PN —
+מקורו ישירות בגרדיאנט הריכוז. בכל שאלה עם N(x) לא קבוע — תמיד יהיה סעיף על השדה.</div>
 
-<div class="warn"><b>מלכודת:</b> מה שנופלים עליו, ולמה.</div>
-<div class="tip"><b>טיפ:</b> הדרך המהירה לזהות את סוג השאלה.</div>
+<h2>3 · מוביליות והולכה</h2>
+<div class="tw"><table>
+<tr><td><span dir="ltr">σ = e(μ_n n₀ + μ_p p₀)</span></td><td>מוליכות — כמעט תמיד נשלטת ע"י נושא הרוב</td></tr>
+<tr><td><span dir="ltr">J_drift = σ·ε = e(μ_n n + μ_p p)ε</span></td><td>צפיפות זרם סחיפה</td></tr>
+<tr><td><span dir="ltr">R = ∫ρ(x)dx / A</span></td><td>התנגדות פיסה לא-אחידה — לבנות מ-dR = ρ(x)dx/A ולאנטגרל</td></tr>
+</table></div>
 
-<!-- נגן שלבים: <div id="d01_p1"></div> + mountPlayer('d01_p1', frames) -->
+<h2>4 · זרם דיפוזיה, יחס איינשטין</h2>
+<div class="tw"><table>
+<tr><td><span dir="ltr">J_diff,n = eD_n·(dn/dx)</span></td><td>זרם דיפוזיה אלקטרונים (סימן חיובי!)</td></tr>
+<tr><td><span dir="ltr">J_diff,p = -eD_p·(dp/dx)</span></td><td>זרם דיפוזיה חורים (סימן שלילי!)</td></tr>
+<tr><td><span dir="ltr">D/μ = k_BT/e</span></td><td>יחס איינשטין — מקשר דיפוזיה ומוביליות</td></tr>
+</table></div>
+<div class="tip"><b>בשיווי משקל תמיד:</b> J_diff = -J_drift לכל נושא מטען בנפרד (לא רק הכולל!) —
+זה מה שגורם לזרם הכולל להתאפס.</div>
+
+<h2>5 · נשאי מטען עודפים ורקומבינציה</h2>
+<div class="tw"><table>
+<tr><td><span dir="ltr">δp(t) = δp(0)·e^{-t/τ_p}</span></td><td>דעיכת עודף מטען אחרי הפסקת עירור, ללא יצירה</td></tr>
+<tr><td><span dir="ltr">dδp/dt = g_op - δp/τ_p - (1/e)(dJ/dx)</span></td><td>משוואת הרצף המלאה (יצירה - רקומבינציה - זרימה נטו)</td></tr>
+<tr><td><span dir="ltr">δp(x) = τ_p·g_op(x) + Ae^{-x/L_p} + Be^{x/L_p}</span></td><td>פתרון כללי במצב עמיד עם דיפוזיה בלבד (L_p = √(D_p·τ_p))</td></tr>
+</table></div>
+<div class="warn"><b>מלכודת נפוצה:</b> "שיווי משקל" ≠ "מצב עמיד". שיווי משקל = רק עירור תרמי
+(אין אור/מתח). מצב עמיד = לא משתנה בזמן, גם אם יש עירור נוסף קבוע. עירור אחיד לא
+יוצר גרדיאנט ⟸ אין שדה/זרם דיפוזיה גם בלי שיווי משקל.</div>
+<div class="tip"><b>סימון:</b> אחרי הבזק/הארה שנמשכת "זמן רב" ⟸ מצב עמיד, δp/dt=0.
+בעיה עם הבזקים חוזרים ⟸ טור גיאומטרי על δp שמצטבר בין הבזק להבזק.</div>
 </section>
 
-<section class="pg" id="d02"><h1>נושא שני</h1></section>
-<section class="pg" id="d03"><h1>נושא שלישי</h1></section>
+<!-- ============ עמוד נושא 2 ============ -->
+<section class="pg" id="d02">
+<h1>צומת PN והדיודה</h1>
+<p class="lead">שאלה 2 בכל מבחן. תמיד אותו שלד: פוטנציאל מגע → אזור מחסור → צפיפות
+מטען/שדה → זרם. לפעמים גם PIN, שהוא אותו הדבר עם אזור אינטרינזי באמצע.</p>
+
+<h2>1 · שיווי משקל בצומת</h2>
+<div class="tw"><table>
+<tr><td><span dir="ltr">V₀ = (k_BT/e)·ln(N_aN_d/n_i²)</span></td><td>פוטנציאל מגע — הכי בסיסי, כמעט תמיד שלב ראשון</td></tr>
+<tr><td><span dir="ltr">V₀ = (k_BT/e)·ln(p_p/p_n) = (k_BT/e)·ln(n_n/n_p)</span></td><td>גרסה חלופית — <b>חובה</b> כשאחד הצדדים לא מקיים p₀≈N_a (אילוח נמוך יחסית ל-n_i)</td></tr>
+<tr><td><span dir="ltr">N_a·x_p0 = N_d·x_n0</span></td><td>ניטרליות מטען — הצד עם האילוח הנמוך יותר "רחב" יותר באזור המחסור</td></tr>
+<tr><td><span dir="ltr">W = √(2ε_rε₀V₀(N_a+N_d) / (eN_aN_d))</span></td><td>רוחב אזור המחסור הכולל</td></tr>
+</table></div>
+<div class="warn"><b>מלכודת:</b> אם N_a או N_d לא ≫ n_i (למשל אילוח חלש), אסור להניח
+p_p≈N_a — צריך לפתור את המשוואה הריבועית (עקרון פיצוי, ראה עמוד 1). זה קורה
+בערך במבחן אחד מכל שניים.</div>
+
+<h2>2 · צפיפות מטען ושדה</h2>
+<p>צפיפות המטען באזור המחסור היא <span dir="ltr">ρ(x) = qN(x)</span> (מטען מיוני
+האילוח בלבד — ה"מחסור" הוא בנשאים חופשיים). השדה מתקבל מגאוס הדיפרנציאלי
+<span dir="ltr">dε/dx = ρ(x)/(ε_rε₀)</span> עם דרישת התאפסות בקצוות אזור המחסור.
+פוטנציאל המגע = השטח מתחת לגרף השדה (או האינטגרל שלו).</p>
+<div class="tip"><b>גרפים לא-מלבניים (סינוס/מעריכי):</b> אותה שיטה בדיוק — לאנטגרל
+את ρ(x) הנתון ולדרוש רציפות/התאפסות בגבולות. אלה השאלות שנראות הכי מפחידות
+אבל הן מכניות לגמרי אם עוקבים את השלבים.</div>
+
+<h2>3 · הדיודה בממתח</h2>
+<div class="tw"><table>
+<tr><td><span dir="ltr">I = I₀(e^{eV/k_BT} - 1)</span></td><td>משוואת הדיודה</td></tr>
+<tr><td><span dir="ltr">I₀ = eA(D_p·p_n/L_p + D_n·n_p/L_n)</span></td><td>זרם הרוויה — תלוי בנשאי המיעוט משני הצדדים</td></tr>
+<tr><td><span dir="ltr">L = √(Dτ)</span></td><td>אורך דיפוזיה — "כמה רחוק" נשא מיעוט מגיע לפני שהוא נעלם</td></tr>
+</table></div>
+<div class="warn"><b>מלכודת סימנים:</b> ממתח <b>קדמי</b> V<sub>f</sub>>0 ⟸ I חיובי וגדל
+אקספוננציאלית. ממתח <b>אחורי</b> V<sub>r</sub><0 ⟸ I≈-I₀ (זרם זליגה קבוע, לא תלוי
+במתח). ליד אזור המחסור — רוב הזרם באחורי הוא <b>סחיפה</b> של נשאי מיעוט; רוב הזרם
+בקדמי הוא <b>דיפוזיה</b>.</div>
+<div class="tip"><b>השפעת אור (G_op):</b> מוסיף איבר זליגה נוסף
+<span dir="ltr">-eAG_op(L_n+L_p+W)</span> לזרם — תמיד שולל (מגביר את הזליגה
+האחורית), גם בממתח קדמי.</div>
+</section>
+
+<!-- ============ עמוד נושא 3 ============ -->
+<section class="pg" id="d03">
+<h1>קבל MOS וטרנזיסטור MOSFET</h1>
+<p class="lead">שאלה 3 בכל מבחן. שלד קבוע: קביעת סוג/מצב עבודה → V<sub>ox</sub>,φ<sub>F</sub> →
+מתח סף V<sub>T</sub> → קיבול. לעיתים ממשיך לזרם ה-MOSFET.</p>
+
+<h2>1 · דיאגרמת פסים ומצב עבודה</h2>
+<div class="tw"><table>
+<tr><td><span dir="ltr">φ_F ≡ (E_i-E_F)/e</span></td><td>הגדרה — סימן φ_F חיובי ב-p-type, שלילי ב-n-type</td></tr>
+<tr><td><span dir="ltr">φ_F = (k_BT/e)·ln(N_a/n_i)</span></td><td>עבור מצע p-type (סימטרי ל-n-type עם N_d)</td></tr>
+<tr><td><span dir="ltr">φ_s</span></td><td>כיפוף הפסים בשפת המל"מ — "פוטנציאל המשטח"</td></tr>
+</table></div>
+<div class="tw"><table>
+<thead><tr><th>תחום φ_s (מצע p-type)</th><th>מצב</th></tr></thead>
+<tr><td><span dir="ltr">φ_s &lt; 0</span></td><td>צבירה (accumulation)</td></tr>
+<tr><td><span dir="ltr">0 &lt; φ_s &lt; φ_F</span></td><td>מחסור (depletion)</td></tr>
+<tr><td><span dir="ltr">φ_s = φ_F</span></td><td>סף היפוך חלש</td></tr>
+<tr><td><span dir="ltr">φ_s = 2φ_F</span></td><td>היפוך חזק (מתח הסף V_T)</td></tr>
+</table></div>
+<div class="tip"><b>קיצור נפוץ:</b> על סף היפוך חזק תמיד <span dir="ltr">φ_s = 2φ_F</span> —
+זו ההגדרה בפועל של מתח הסף, ומופיעה כמעט בכל שאלה 3.</div>
+
+<h2>2 · מתח הסף וקיבולים</h2>
+<div class="tw"><table>
+<tr><td><span dir="ltr">V_T = 2φ_F + (2d_ox/ε_ox)·√(eε_rε₀N_aφ_F)</span></td><td>מתח סף (מצע p-type; ל-n-type מחליפים סימנים)</td></tr>
+<tr><td><span dir="ltr">V_g = V_ox + φ_s</span></td><td>פירוק מתח השער בין המבודד למל"מ</td></tr>
+<tr><td><span dir="ltr">C_ox = C_max = ε_ox/d_ox</span></td><td>קיבול המבודד — הערך המקסימלי שנמדד (בצבירה/היפוך חזק בתדר גבוה)</td></tr>
+<tr><td><span dir="ltr">C_min = C_ox·C_s/(C_ox+C_s)</span>, <span dir="ltr">C_s=ε_s/W_T</span></td><td>קיבול מינימלי בתדר גבוה — טורי עם קיבול המחסור המקסימלי (ב-W_T, כלומר φ_s=2φ_F)</td></tr>
+</table></div>
+<div class="warn"><b>מלכודת:</b> C_min מחושב תמיד ב-<span dir="ltr">w=w_T</span>
+(רוחב מחסור *מקסימלי*, בדיוק על סף ההיפוך) — לא בערך אחר. מעבר לסף, בתדר גבוה,
+הקיבול נשאר תקוע ב-C_min כי שכבת ההיפוך לא מגיבה מספיק מהר.</div>
+
+<h2>3 · MOSFET — זרם וריווי</h2>
+<div class="tw"><table>
+<tr><td><span dir="ltr">I_D = k[(V_g-V_T)V_D - V_D²/2]</span></td><td>תחום טריודי/ליניארי, <span dir="ltr">0≤V_D≤V_g-V_T</span></td></tr>
+<tr><td><span dir="ltr">I_D ≈ k(V_g-V_T)V_D</span></td><td>קירוב ליניארי כש-<span dir="ltr">V_D≪V_g-V_T</span></td></tr>
+<tr><td><span dir="ltr">k ≡ ε_ox·W·μ/(L·d_ox)</span></td><td>מקדם ההולכה — תלוי במוביליות, גיאומטריה ועובי המבודד</td></tr>
+</table></div>
+<div class="tip"><b>נקודת pinch-off:</b> כאשר <span dir="ltr">V_g=V_T</span> בדיוק —
+תמיד <span dir="ltr">I_D=0</span> (וההתנגדות שואפת לאינסוף), לא משנה מהו V_D.</div>
+</section>
 
 </div>
 
 <!-- ============ הקבצים ============
      הסדר קריטי: קונפיג ⟵ נתונים ⟵ מנועים -->
-<script src="config.js"></script>
+<script src="config.js?v=1786309895"></script>
 
-<!-- נתונים (נוצרים בשלבים 2, 6, 7) -->
-<script src="questions.js"></script>
-<!-- <script src="walkthrough-2025.js"></script> -->
-<!-- <script src="bank-walk-a.js"></script> -->
+<!-- נתונים (נוצרים בשלבים 2, 6, 7) — שאלות ופתרונות מונפשים, מבחן אחר מבחן -->
+<script src="questions.js?v=1786309895"></script>
+<script src="questions-22m1.js?v=1786309895"></script>
+<script src="walkthrough-22m1.js?v=1786309895"></script>
+<script src="questions-22m2.js?v=1786309895"></script>
+<script src="walkthrough-22m2.js?v=1786309895"></script>
+<script src="questions-24m1.js?v=1786309895"></script>
+<script src="walkthrough-24m1.js?v=1786309895"></script>
+<script src="questions-24m2.js?v=1786309895"></script>
+<script src="walkthrough-24m2.js?v=1786309895"></script>
+<script src="questions-25s2m1.js?v=1786309895"></script>
+<script src="walkthrough-25s2m1.js?v=1786309895"></script>
+<script src="questions-25s2m2.js?v=1786309895"></script>
+<script src="walkthrough-25s2m2.js?v=1786309895"></script>
+<script src="questions-25s3m1.js?v=1786309895"></script>
+<script src="walkthrough-25s3m1.js?v=1786309895"></script>
+<script src="questions-25s3m2.js?v=1786309895"></script>
+<script src="walkthrough-25s3m2.js?v=1786309895"></script>
 
 <!-- מנועים — לא לערוך -->
-<script src="viz.js"></script>
-<script src="adaptive-quiz.js"></script>
-<script src="walkthrough-ui.js"></script>
-<script src="exam-sim.js"></script>
+<script src="viz.js?v=1786309895"></script>
+<script src="adaptive-quiz.js?v=1786309895"></script>
+<script src="walkthrough-ui.js?v=1786309895"></script>
+<script src="exam-sim.js?v=1786309895"></script>
 
 <script>
 /* ---- מצב כהה/בהיר ---- */
@@ -961,7 +1139,14 @@ function mountPlayer(id, frames) {
 }
 
 /* ---- הפעלת מרכז התרגול ---- */
-document.getElementById("courseName").textContent = window.COURSE.code || "";
+document.getElementById("courseName").textContent = window.COURSE.name || window.COURSE.code || "";
+(function () {
+  var el = document.getElementById("daysLeft");
+  if (!el) return;
+  var ms = new Date("2026-08-11T09:00:00") - new Date();
+  var d = Math.max(0, Math.ceil(ms / 86400000));
+  el.textContent = d;
+})();
 if (window.mountCodexQuiz) window.mountCodexQuiz();
 </script>
 </body>
