@@ -732,6 +732,7 @@ table.cue td:first-child{ font-weight:700; width:38% }
 <button class="cta" data-go="practice">🎯 מרכז התרגול</button>
 
 <span class="grp">התחלה</span>
+<button data-go="guide">📖 איך משתמשים באתר</button>
 <button data-go="home">עמוד הבית</button>
 <button data-go="map">מפת המבחן</button>
 
@@ -747,6 +748,87 @@ table.cue td:first-child{ font-weight:700; width:38% }
 </nav>
 
 <div class="wrap">
+
+<!-- ============ מדריך שימוש — הדף הראשון שנפתח ============ -->
+<section class="pg" id="guide">
+<h1>ברוך הבא 👋 — איך משתמשים באתר</h1>
+<p class="lead">אתר הכנה למבחן הסופי בקורס <b>התקני מוליכים למחצה (20132)</b> —
+המבחן ביום שלישי <b>11.8.2026</b>, 180 דקות, 3 שאלות. כל מה שבאתר נבנה מתוך
+8 מבחני עבר אמיתיים (2022–2025) ומחוברות הקורס. העמוד הזה מסביר מה יש, איפה, ומה סדר העבודה המומלץ.</p>
+
+<div class="ok"><b>הכי חשוב לדעת:</b> ההתקדמות שלך (אילו שאלות פתרת, טעויות, שליטה)
+נשמרת אוטומטית בדפדפן של המכשיר הזה — אפשר לסגור ולחזור מתי שרוצים.
+בנייד: אפשר "הוסף למסך הבית" ולקבל חוויית אפליקציה.</div>
+
+<h2>מה יש באתר ואיפה</h2>
+
+<div class="decks">
+  <a class="deck" href="#practice" style="border-color:var(--accent);background:var(--accent2)">
+    <div class="n">🎯 בסרגל הצד — הכפתור הירוק הגדול</div>
+    <div class="t">מרכז התרגול</div>
+    <div class="d"><b>הלב של האתר.</b> בפנים יש 4 מצבים (כפתורים בראש העמוד):<br>
+    · <b>תרגול חופשי</b> — 27 שאלות אמיתיות ממבחני עבר, עם מאמן אישי שבוחר לך את
+    השאלה הבאה לפי הטעויות שלך<br>
+    · <b>סימולטור מבחן מלא</b> — מבחן מדומה: 3 שאלות, שעון של 180 דקות<br>
+    · <b>פתרונות מבחנים מונפשים</b> — כל מבחן עבר, כל שאלה מפורקת לשלבים קטנים עם
+    כפתורי הבא/הקודם<br>
+    · <b>מעבדות חופשיות</b> — סליידרים על קבל MOS וצומת PN, רואים את הפיזיקה זזה</div>
+  </a>
+</div>
+
+<div class="decks">
+  <a class="deck" href="#d01">
+    <div class="n">📚 בסרגל הצד — "נושאי המבחן"</div>
+    <div class="t">שלושה עמודי לימוד — אחד לכל שאלה במבחן</div>
+    <div class="d">לכל נושא (מוליכים למחצה · צומת PN · קבל MOS ו-MOSFET) יש עמוד עם:<br>
+    · <b>שיטת הגישה</b> — סדר פעולות קבוע שעובד כמעט על כל גרסה של השאלה<br>
+    · <b>טבלת זיהוי</b> — "אם רואים בשאלה X ⟸ עושים Y", מבוסס על מבחני עבר<br>
+    · הסבר מלא של החומר + <b>מלכודות שחוזרות</b> שסטודנטים נופלים בהן</div>
+  </a>
+  <a class="deck" href="#map">
+    <div class="n">🗺️ בסרגל הצד — "התחלה"</div>
+    <div class="t">מפת המבחן</div>
+    <div class="d">ניתוח של 8 מבחני העבר: מה בדיוק נשאל בכל אחת מ-3 השאלות,
+    באיזו תדירות, ומה המבנה הקבוע. תתחיל כאן כדי להבין מה מחכה לך.</div>
+  </a>
+  <a class="deck" href="javascript:void(0)" onclick="window.open('formulas.html','_blank');return false">
+    <div class="n">📄 בסרגל הצד — "חומרי עזר"</div>
+    <div class="t">דף נוסחאות להדפסה</div>
+    <div class="d">שני עמודי A4: עמוד נוסחאות + עמוד דוגמאות פתורות ממבחנים.
+    נפתח בחלון נפרד — משם מדפיסים (Ctrl+P) או שומרים כ-PDF.
+    מותר להביא למבחן עד 8 עמודים בכתב יד.</div>
+  </a>
+</div>
+
+<h2>סדר עבודה מומלץ (יומיים למבחן)</h2>
+<ol class="steps">
+  <li><b>מפת המבחן (10 דק')</b> — תבין את המבנה: 3 שאלות, תמיד אותם נושאים באותו סדר.
+      <a class="golink" href="#map">פתח את מפת המבחן ←</a></li>
+  <li><b>עמודי הנושא (2–3 שעות)</b> — עבור על שלושת העמודים, בעיקר על
+      "שיטת הגישה" ו"טבלת הזיהוי" בכל אחד. אלה עמודי הליבה של הלימוד.
+      <a class="golink" href="#d01">התחל מנושא 1 ←</a></li>
+  <li><b>תרגול חופשי עם המאמן (רוב הזמן)</b> — פתור שאלות אמיתיות. אחרי כל שאלה
+      לחץ "בדוק" לראות פתרון מלא, והפעל את הפתרון המונפש שלב-אחר-שלב אם משהו לא ברור.
+      המאמן יחזיר לך שאלות שטעית בהן.
+      <a class="golink" href="#practice">למרכז התרגול ←</a></li>
+  <li><b>סימולטור מבחן (3 שעות, מחר בבוקר)</b> — הרץ מבחן מלא אחד עם שעון,
+      בתנאי אמת, עם דף הנוסחאות שהכנת. זה הכלי שמגלה לך את פערי הזמן.</li>
+  <li><b>ערב המבחן</b> — עבור שוב רק על "מלכודות שחוזרות" בשלושת עמודי הנושא,
+      והדפס/העתק את דף הנוסחאות.</li>
+</ol>
+
+<div class="tip"><b>טיפ תפעולי:</b> בכל שאלה בתרגול יש כפתור
+"לא בטוח בחומר? הרחבה" שקופץ ישר לעמוד הנושא הרלוונטי. מקשי 1–4 בוחרים תשובה,
+ובפתרונות המונפשים אפשר ללחוץ ▶ להרצה אוטומטית של השלבים.</div>
+
+<div class="note"><b>שקיפות:</b> כל השאלות באתר הן שאלות מבחן רשמיות של הקורס
+(2022–2025), והפתרונות אומתו מחדש בחישוב עצמאי — כולל תיקון של כ-10 טעויות
+שנמצאו בפתרונות הרשמיים. ליד כל שאלה מופיע בדיוק מאיזה מבחן היא לקוחה.</div>
+
+<p style="text-align:center;margin-top:24px">
+<a href="#practice" class="golink" style="font-size:18px">🎯 מוכן? קפוץ ישר למרכז התרגול ←</a>
+</p>
+</section>
 
 <!-- ============ עמוד הבית ============ -->
 <section class="pg" id="home">
@@ -2118,33 +2200,33 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <!-- ============ הקבצים ============
      הסדר קריטי: קונפיג ⟵ נתונים ⟵ מנועים -->
-<script src="config.js?v=1786313336"></script>
+<script src="config.js?v=1786313797"></script>
 
 <!-- נתונים (נוצרים בשלבים 2, 6, 7) — שאלות ופתרונות מונפשים, מבחן אחר מבחן -->
-<script src="questions.js?v=1786313336"></script>
-<script src="questions-22m1.js?v=1786313336"></script>
-<script src="walkthrough-22m1.js?v=1786313336"></script>
-<script src="questions-22m2.js?v=1786313336"></script>
-<script src="walkthrough-22m2.js?v=1786313336"></script>
-<script src="questions-24m1.js?v=1786313336"></script>
-<script src="walkthrough-24m1.js?v=1786313336"></script>
-<script src="questions-24m2.js?v=1786313336"></script>
-<script src="walkthrough-24m2.js?v=1786313336"></script>
-<script src="questions-25s2m1.js?v=1786313336"></script>
-<script src="walkthrough-25s2m1.js?v=1786313336"></script>
-<script src="questions-25s2m2.js?v=1786313336"></script>
-<script src="walkthrough-25s2m2.js?v=1786313336"></script>
-<script src="questions-25s3m1.js?v=1786313336"></script>
-<script src="walkthrough-25s3m1.js?v=1786313336"></script>
-<script src="questions-25s3m2.js?v=1786313336"></script>
-<script src="walkthrough-25s3m2.js?v=1786313336"></script>
+<script src="questions.js?v=1786313797"></script>
+<script src="questions-22m1.js?v=1786313797"></script>
+<script src="walkthrough-22m1.js?v=1786313797"></script>
+<script src="questions-22m2.js?v=1786313797"></script>
+<script src="walkthrough-22m2.js?v=1786313797"></script>
+<script src="questions-24m1.js?v=1786313797"></script>
+<script src="walkthrough-24m1.js?v=1786313797"></script>
+<script src="questions-24m2.js?v=1786313797"></script>
+<script src="walkthrough-24m2.js?v=1786313797"></script>
+<script src="questions-25s2m1.js?v=1786313797"></script>
+<script src="walkthrough-25s2m1.js?v=1786313797"></script>
+<script src="questions-25s2m2.js?v=1786313797"></script>
+<script src="walkthrough-25s2m2.js?v=1786313797"></script>
+<script src="questions-25s3m1.js?v=1786313797"></script>
+<script src="walkthrough-25s3m1.js?v=1786313797"></script>
+<script src="questions-25s3m2.js?v=1786313797"></script>
+<script src="walkthrough-25s3m2.js?v=1786313797"></script>
 
 <!-- מנועים — לא לערוך -->
-<script src="viz.js?v=1786313336"></script>
-<script src="adaptive-quiz.js?v=1786313336"></script>
-<script src="walkthrough-ui.js?v=1786313336"></script>
-<script src="labs.js?v=1786313336"></script>
-<script src="exam-sim.js?v=1786313336"></script>
+<script src="viz.js?v=1786313797"></script>
+<script src="adaptive-quiz.js?v=1786313797"></script>
+<script src="walkthrough-ui.js?v=1786313797"></script>
+<script src="labs.js?v=1786313797"></script>
+<script src="exam-sim.js?v=1786313797"></script>
 
 <script>
 /* ---- מצב כהה/בהיר ---- */
@@ -2181,8 +2263,9 @@ table.cue td:first-child{ font-weight:700; width:38% }
     var el = document.getElementById(id);
     if (el && el.classList.contains("pg")) { e.preventDefault(); go(id); }
   });
-  window.addEventListener("hashchange", function () { go(location.hash.slice(1) || "home"); });
-  go(location.hash.slice(1) || "home");
+  window.addEventListener("hashchange", function () { go(location.hash.slice(1) || "guide"); });
+  /* כניסה ראשונה (בלי #hash) נופלת על מדריך השימוש */
+  go(location.hash.slice(1) || "guide");
 })();
 
 /* ---- נגן שלבים לעמודי הנושא ---- */
