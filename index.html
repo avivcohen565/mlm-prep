@@ -421,6 +421,29 @@ td.v-info{background:var(--blue-bg);border-color:var(--blue);color:var(--blue)}
 .v-link{color:var(--fg3);font-size:15px}
 .v-null{font-family:var(--mono);font-size:12px;color:var(--fg3)}
 .v-head-tag,.v-cap-inline{font-size:11px;color:var(--accent);font-weight:700}
+/* ===== מתמטיקה: שברים אמיתיים ואינדקסים ===== */
+.m{ direction:ltr; unicode-bidi:isolate; display:inline-block; font-family:var(--mono);
+    line-height:2.1; vertical-align:middle; }
+.m.blk{ display:block; text-align:center; margin:.8em 0; font-size:15px; }
+.fr{ display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;
+     margin:0 .18em; line-height:1.05; white-space:nowrap; }
+.fr>.n{ display:block; padding:0 .2em .12em; }
+.fr>.d{ display:block; padding:.12em .2em 0; border-top:1.5px solid currentColor; }
+.m sub,.m sup{ white-space:nowrap; font-size:.72em }
+sub,sup{ white-space:nowrap }
+/* צעדי פתרון ממוספרים */
+ol.steps{ counter-reset:st; list-style:none; padding:0; margin:1em 0 }
+ol.steps>li{ counter-increment:st; position:relative; padding:10px 46px 10px 14px;
+  margin:0 0 8px; background:var(--bg2); border:1px solid var(--line);
+  border-radius:var(--radius); }
+ol.steps>li::before{ content:counter(st); position:absolute; right:12px; top:10px;
+  width:24px; height:24px; border-radius:50%; background:var(--accent); color:var(--accent-fg);
+  font:800 13px var(--sans); display:flex; align-items:center; justify-content:center; }
+ol.steps>li b{ color:var(--accent) }
+ol.steps ul{ margin:.4em 0 0; padding-inline-start:18px; font-size:14.5px; color:var(--fg2) }
+/* טבלת "אם רואים ... אז" */
+table.cue td:first-child{ font-weight:700; width:38% }
+
 /* ===== גרפים כלליים (v-plot) — פרופילי מטען/שדה, I-V, C-V ===== */
 .v-plot{display:flex;flex-direction:column;align-items:center;width:100%;max-width:520px}
 .v-plot svg{max-width:100%;height:auto;overflow:visible}
@@ -1046,32 +1069,32 @@ p_p≈N_a — צריך לפתור את המשוואה הריבועית (עקרו
 
 <!-- ============ הקבצים ============
      הסדר קריטי: קונפיג ⟵ נתונים ⟵ מנועים -->
-<script src="config.js?v=1786309895"></script>
+<script src="config.js?v=1786311773"></script>
 
 <!-- נתונים (נוצרים בשלבים 2, 6, 7) — שאלות ופתרונות מונפשים, מבחן אחר מבחן -->
-<script src="questions.js?v=1786309895"></script>
-<script src="questions-22m1.js?v=1786309895"></script>
-<script src="walkthrough-22m1.js?v=1786309895"></script>
-<script src="questions-22m2.js?v=1786309895"></script>
-<script src="walkthrough-22m2.js?v=1786309895"></script>
-<script src="questions-24m1.js?v=1786309895"></script>
-<script src="walkthrough-24m1.js?v=1786309895"></script>
-<script src="questions-24m2.js?v=1786309895"></script>
-<script src="walkthrough-24m2.js?v=1786309895"></script>
-<script src="questions-25s2m1.js?v=1786309895"></script>
-<script src="walkthrough-25s2m1.js?v=1786309895"></script>
-<script src="questions-25s2m2.js?v=1786309895"></script>
-<script src="walkthrough-25s2m2.js?v=1786309895"></script>
-<script src="questions-25s3m1.js?v=1786309895"></script>
-<script src="walkthrough-25s3m1.js?v=1786309895"></script>
-<script src="questions-25s3m2.js?v=1786309895"></script>
-<script src="walkthrough-25s3m2.js?v=1786309895"></script>
+<script src="questions.js?v=1786311773"></script>
+<script src="questions-22m1.js?v=1786311773"></script>
+<script src="walkthrough-22m1.js?v=1786311773"></script>
+<script src="questions-22m2.js?v=1786311773"></script>
+<script src="walkthrough-22m2.js?v=1786311773"></script>
+<script src="questions-24m1.js?v=1786311773"></script>
+<script src="walkthrough-24m1.js?v=1786311773"></script>
+<script src="questions-24m2.js?v=1786311773"></script>
+<script src="walkthrough-24m2.js?v=1786311773"></script>
+<script src="questions-25s2m1.js?v=1786311773"></script>
+<script src="walkthrough-25s2m1.js?v=1786311773"></script>
+<script src="questions-25s2m2.js?v=1786311773"></script>
+<script src="walkthrough-25s2m2.js?v=1786311773"></script>
+<script src="questions-25s3m1.js?v=1786311773"></script>
+<script src="walkthrough-25s3m1.js?v=1786311773"></script>
+<script src="questions-25s3m2.js?v=1786311773"></script>
+<script src="walkthrough-25s3m2.js?v=1786311773"></script>
 
 <!-- מנועים — לא לערוך -->
-<script src="viz.js?v=1786309895"></script>
-<script src="adaptive-quiz.js?v=1786309895"></script>
-<script src="walkthrough-ui.js?v=1786309895"></script>
-<script src="exam-sim.js?v=1786309895"></script>
+<script src="viz.js?v=1786311773"></script>
+<script src="adaptive-quiz.js?v=1786311773"></script>
+<script src="walkthrough-ui.js?v=1786311773"></script>
+<script src="exam-sim.js?v=1786311773"></script>
 
 <script>
 /* ---- מצב כהה/בהיר ---- */
