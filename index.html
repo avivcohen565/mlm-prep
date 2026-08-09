@@ -791,6 +791,61 @@ html{scroll-behavior:smooth}
   .pg.on,ol.steps>li,a.deck,.note,.warn,.tip,.ok{animation:none;transition:none}
   html{scroll-behavior:auto}
 }
+
+/* ===== כרטיסיות זיכרון (flip) ===== */
+.fc-card{perspective:1200px;max-width:640px;margin:14px auto;cursor:pointer;min-height:280px}
+.fc-inner{position:relative;width:100%;min-height:280px;transform-style:preserve-3d;
+  transition:transform .45s cubic-bezier(.4,1.4,.6,1)}
+.fc-card.flipped .fc-inner{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  border-radius:16px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;
+  border:1.5px solid var(--line2);background:var(--bg2);overflow:auto;
+  box-shadow:0 8px 26px rgba(0,0,0,.12)}
+.fc-front{border-color:var(--accent)}
+.fc-back{transform:rotateY(180deg);border-color:var(--blue);background:var(--bg2)}
+.fc-tag{font:700 11.5px var(--sans);color:var(--fg3);letter-spacing:.04em}
+.fc-txt{font-size:17px;line-height:1.75;flex:1;display:flex;align-items:center;justify-content:center;
+  text-align:center;flex-direction:column}
+.fc-hint{text-align:center;color:var(--fg3);font-size:13.5px;margin-top:8px}
+.fc-rate{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.fc-rate .quiz-btn{min-width:150px;padding:10px 14px;line-height:1.35;font-size:14.5px}
+.fc-rate small{font-weight:500;opacity:.7;font-size:11.5px}
+.fc-r0:hover{border-color:var(--red);color:var(--red)}
+.fc-r1:hover{border-color:var(--amber);color:var(--amber)}
+.fc-r2:hover{border-color:var(--accent);color:var(--accent)}
+@media (prefers-reduced-motion:reduce){ .fc-inner{transition:none} }
+
+/* ===== הבזקי פידבק על תשובה ===== */
+@keyframes flashGood{0%{box-shadow:inset 0 0 0 3px var(--accent),0 0 26px color-mix(in srgb,var(--accent) 45%,transparent)}100%{box-shadow:none}}
+@keyframes flashBad{0%{box-shadow:inset 0 0 0 3px var(--red),0 0 26px color-mix(in srgb,var(--red) 40%,transparent)}100%{box-shadow:none}}
+.quiz-shell.flash-good{animation:flashGood .8s ease-out}
+.quiz-shell.flash-bad{animation:flashBad .8s ease-out}
+#streakNow.hot{color:var(--amber)}
+
+/* ===== אקורדיון בעמודי הנושא + מצב ספרינט ===== */
+.sect-body{overflow:hidden}
+.sect-body.closed{display:none}
+#d01 h2,#d02 h2,#d03 h2{cursor:pointer;user-select:none;position:relative}
+#d01 h2::after,#d02 h2::after,#d03 h2::after{
+  content:"▾";position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  font-size:14px;color:var(--fg3);transition:transform .2s}
+h2.collapsed::after{transform:translateY(-50%) rotate(-90deg)!important}
+body.sprint .sect-body.sprint-hide{display:none}
+body.sprint h2.sprint-dim{opacity:.45}
+#sprintBtn.on{background:var(--amber);border-color:var(--amber);color:#1a1a18}
+.sprint-note{display:none;border:1px dashed var(--amber);background:var(--amber-bg);
+  border-radius:var(--radius);padding:9px 14px;margin:10px 0;font-size:13.5px}
+body.sprint .sprint-note{display:block}
+
+/* ===== לוח שליטה לפי נושא (בעמוד המדריך) ===== */
+.mastery-dash{border:1px solid var(--line2);border-radius:14px;background:var(--bg2);
+  padding:15px 17px;margin:14px 0}
+.mastery-dash h3{margin:0 0 10px;font-size:16px}
+.mrow{display:grid;grid-template-columns:minmax(130px,.9fr) 1fr auto;gap:10px;
+  align-items:center;padding:5px 0}
+.mrow .bar{height:10px;border:1px solid var(--line);border-radius:99px;background:var(--bg3);overflow:hidden}
+.mrow .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#6ecfb0);border-radius:99px;transition:width .4s}
+.mrow small{color:var(--fg2);font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
@@ -807,6 +862,7 @@ html{scroll-behavior:smooth}
 <button data-go="guide">📖 איך משתמשים באתר</button>
 <button data-go="home">עמוד הבית</button>
 <button data-go="map">מפת המבחן</button>
+<button id="sprintBtn" title="מציג רק שיטות, טבלאות זיהוי ומלכודות">⚡ מצב ספרינט</button>
 
 <span class="grp">נושאי המבחן — לפי סדר השאלות</span>
 <button data-go="d01"><span class="qn">1</span>מוליכים למחצה וזרמים</button>
@@ -831,6 +887,8 @@ html{scroll-behavior:smooth}
 <div class="ok"><b>הכי חשוב לדעת:</b> ההתקדמות שלך (אילו שאלות פתרת, טעויות, שליטה)
 נשמרת אוטומטית בדפדפן של המכשיר הזה — אפשר לסגור ולחזור מתי שרוצים.
 בנייד: אפשר "הוסף למסך הבית" ולקבל חוויית אפליקציה.</div>
+
+<div class="mastery-dash" id="masteryDash"></div>
 
 <h2>מה יש באתר ואיפה</h2>
 
@@ -967,11 +1025,13 @@ html{scroll-behavior:smooth}
   <button class="quiz-btn" id="modeSim">⏱️ סימולטור מבחן מלא</button>
   <button class="quiz-btn" id="modeWalk">📚 פתרונות מבחנים מונפשים</button>
   <button class="quiz-btn" id="modeLabs">🔬 מעבדות חופשיות</button>
+  <button class="quiz-btn" id="modeCards">🃏 כרטיסיות זיכרון</button>
 </div>
 
 <section id="simulator" style="display:none" aria-label="סימולטור מבחן"></section>
 <section id="walkthroughs" style="display:none" aria-label="פתרונות מבחן מונפשים"></section>
 <section id="labs" style="display:none" aria-label="מעבדות חופשיות"></section>
+<section id="flashcards" style="display:none" aria-label="כרטיסיות זיכרון"></section>
 
 <div id="trainerParts">
 <div class="quiz-hero">
@@ -985,6 +1045,8 @@ html{scroll-behavior:smooth}
     <div class="quiz-stat"><b id="quizRemaining">0</b><span>טרם נבדקו</span></div>
     <div class="quiz-stat"><b id="quizDue">0</b><span>מוכנות לחזרה</span></div>
     <div class="quiz-stat"><b id="quizMastered">0</b><span>נשלטו</span></div>
+    <div class="quiz-stat"><b id="streakNow">0</b><span>🔥 רצף נוכחי</span></div>
+    <div class="quiz-stat"><b id="streakBest">0</b><span>🏆 רצף שיא</span></div>
   </div>
   <div class="quiz-progress" aria-label="התקדמות"><i id="quizProgress"></i></div>
 </div>
@@ -2399,33 +2461,34 @@ html{scroll-behavior:smooth}
 
 <!-- ============ הקבצים ============
      הסדר קריטי: קונפיג ⟵ נתונים ⟵ מנועים -->
-<script src="config.js?v=1786315327"></script>
+<script src="config.js?v=1786316031"></script>
 
 <!-- נתונים (נוצרים בשלבים 2, 6, 7) — שאלות ופתרונות מונפשים, מבחן אחר מבחן -->
-<script src="questions.js?v=1786315327"></script>
-<script src="questions-22m1.js?v=1786315327"></script>
-<script src="walkthrough-22m1.js?v=1786315327"></script>
-<script src="questions-22m2.js?v=1786315327"></script>
-<script src="walkthrough-22m2.js?v=1786315327"></script>
-<script src="questions-24m1.js?v=1786315327"></script>
-<script src="walkthrough-24m1.js?v=1786315327"></script>
-<script src="questions-24m2.js?v=1786315327"></script>
-<script src="walkthrough-24m2.js?v=1786315327"></script>
-<script src="questions-25s2m1.js?v=1786315327"></script>
-<script src="walkthrough-25s2m1.js?v=1786315327"></script>
-<script src="questions-25s2m2.js?v=1786315327"></script>
-<script src="walkthrough-25s2m2.js?v=1786315327"></script>
-<script src="questions-25s3m1.js?v=1786315327"></script>
-<script src="walkthrough-25s3m1.js?v=1786315327"></script>
-<script src="questions-25s3m2.js?v=1786315327"></script>
-<script src="walkthrough-25s3m2.js?v=1786315327"></script>
+<script src="questions.js?v=1786316031"></script>
+<script src="questions-22m1.js?v=1786316031"></script>
+<script src="walkthrough-22m1.js?v=1786316031"></script>
+<script src="questions-22m2.js?v=1786316031"></script>
+<script src="walkthrough-22m2.js?v=1786316031"></script>
+<script src="questions-24m1.js?v=1786316031"></script>
+<script src="walkthrough-24m1.js?v=1786316031"></script>
+<script src="questions-24m2.js?v=1786316031"></script>
+<script src="walkthrough-24m2.js?v=1786316031"></script>
+<script src="questions-25s2m1.js?v=1786316031"></script>
+<script src="walkthrough-25s2m1.js?v=1786316031"></script>
+<script src="questions-25s2m2.js?v=1786316031"></script>
+<script src="walkthrough-25s2m2.js?v=1786316031"></script>
+<script src="questions-25s3m1.js?v=1786316031"></script>
+<script src="walkthrough-25s3m1.js?v=1786316031"></script>
+<script src="questions-25s3m2.js?v=1786316031"></script>
+<script src="walkthrough-25s3m2.js?v=1786316031"></script>
 
 <!-- מנועים — לא לערוך -->
-<script src="viz.js?v=1786315327"></script>
-<script src="adaptive-quiz.js?v=1786315327"></script>
-<script src="walkthrough-ui.js?v=1786315327"></script>
-<script src="labs.js?v=1786315327"></script>
-<script src="exam-sim.js?v=1786315327"></script>
+<script src="viz.js?v=1786316031"></script>
+<script src="adaptive-quiz.js?v=1786316031"></script>
+<script src="walkthrough-ui.js?v=1786316031"></script>
+<script src="labs.js?v=1786316031"></script>
+<script src="flashcards.js?v=1786316031"></script>
+<script src="exam-sim.js?v=1786316031"></script>
 
 <script>
 /* ---- מצב כהה/בהיר ---- */
@@ -2555,6 +2618,181 @@ if (window.mountCodexQuiz) window.mountCodexQuiz();
       });
       links.forEach(function (l, i) { l.classList.toggle("on", i === at); });
     }, { passive: true });
+  });
+})();
+
+/* ===== אקורדיון + מצב ספרינט ===== */
+(function () {
+  var KEEP = /שיטת הגישה|טבלת זיהוי|מלכודות|בדוק את עצמך|צ'ק-ליסט|רשימה סופית/;
+
+  ["d01", "d02", "d03"].forEach(function (id) {
+    var sec = document.getElementById(id);
+    if (!sec) return;
+
+    /* עטיפת התוכן שאחרי כל h2 ב-div מתקפל */
+    [].slice.call(sec.querySelectorAll("h2")).forEach(function (h) {
+      var body = document.createElement("div");
+      body.className = "sect-body";
+      if (!KEEP.test(h.textContent)) {
+        body.classList.add("sprint-hide");
+        h.classList.add("sprint-dim-candidate");
+      }
+      var n = h.nextSibling;
+      while (n && !(n.nodeType === 1 && n.tagName === "H2")) {
+        var next = n.nextSibling;
+        body.appendChild(n);
+        n = next;
+      }
+      h.insertAdjacentElement("afterend", body);
+      h.addEventListener("click", function () {
+        body.classList.toggle("closed");
+        h.classList.toggle("collapsed", body.classList.contains("closed"));
+      });
+    });
+
+    /* הערת ספרינט בראש העמוד */
+    var note = document.createElement("div");
+    note.className = "sprint-note";
+    note.innerHTML = "⚡ <b>מצב ספרינט פעיל:</b> מוצגים רק שיטת הגישה, טבלת הזיהוי, המלכודות והבדיקה העצמית. " +
+      "התאוריה המלאה מוסתרת — כבה את הספרינט בסרגל כדי לראות הכל.";
+    var chips = sec.querySelector(".toc-chips");
+    (chips || sec.firstElementChild).insertAdjacentElement("afterend", note);
+  });
+
+  var btn = document.getElementById("sprintBtn");
+  var SPRINT_KEY = (window.COURSE.storagePrefix || "course-") + "sprint";
+
+  function setSprint(on) {
+    document.body.classList.toggle("sprint", on);
+    btn.classList.toggle("on", on);
+    document.querySelectorAll(".sprint-dim-candidate").forEach(function (h) {
+      h.classList.toggle("sprint-dim", on);
+    });
+    try { localStorage.setItem(SPRINT_KEY, on ? "1" : ""); } catch (e) {}
+  }
+  btn.addEventListener("click", function () {
+    setSprint(!document.body.classList.contains("sprint"));
+  });
+  try { if (localStorage.getItem(SPRINT_KEY) === "1") setSprint(true); } catch (e) {}
+})();
+
+/* ===== רצף (streak) + פידבק ויזואלי/קולי ===== */
+(function () {
+  var PRE = (window.COURSE.storagePrefix || "course-");
+  var S_KEY = PRE + "streak";
+  var SND_KEY = PRE + "sound";
+  var streak = 0, best = 0, soundOn = true;
+  try {
+    var s = JSON.parse(localStorage.getItem(S_KEY) || "{}");
+    streak = Number(s.now) || 0; best = Number(s.best) || 0;
+    soundOn = localStorage.getItem(SND_KEY) !== "0";
+  } catch (e) {}
+
+  var elNow = document.getElementById("streakNow");
+  var elBest = document.getElementById("streakBest");
+  function draw() {
+    if (elNow) { elNow.textContent = streak; elNow.classList.toggle("hot", streak >= 3); }
+    if (elBest) elBest.textContent = best;
+  }
+  function persist() {
+    try { localStorage.setItem(S_KEY, JSON.stringify({ now: streak, best: best })); } catch (e) {}
+  }
+  draw();
+
+  /* צליל קצר דרך WebAudio — בלי קבצים חיצוניים */
+  var ctx = null;
+  function beep(good) {
+    if (!soundOn) return;
+    try {
+      ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type = "sine";
+      o.frequency.value = good ? 880 : 220;
+      g.gain.setValueAtTime(0.06, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (good ? 0.12 : 0.2));
+      o.start(); o.stop(ctx.currentTime + 0.22);
+      if (good) {  /* צליל שני קצר — "הצלחה" */
+        var o2 = ctx.createOscillator(), g2 = ctx.createGain();
+        o2.connect(g2); g2.connect(ctx.destination);
+        o2.frequency.value = 1320; o2.type = "sine";
+        g2.gain.setValueAtTime(0.05, ctx.currentTime + 0.09);
+        g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+        o2.start(ctx.currentTime + 0.09); o2.stop(ctx.currentTime + 0.22);
+      }
+    } catch (e) {}
+  }
+
+  /* כפתור השתקה במתג המצבים */
+  var sw = document.querySelector(".sim-switch");
+  if (sw) {
+    var sb = document.createElement("button");
+    sb.className = "quiz-btn";
+    sb.id = "sndBtn";
+    sb.title = "צלילי פידבק";
+    sb.textContent = soundOn ? "🔊" : "🔇";
+    sb.addEventListener("click", function () {
+      soundOn = !soundOn;
+      sb.textContent = soundOn ? "🔊" : "🔇";
+      try { localStorage.setItem(SND_KEY, soundOn ? "1" : "0"); } catch (e) {}
+    });
+    sw.appendChild(sb);
+  }
+
+  /* מאזינים להופעת פסק-דין (נכון/שגוי) של מנוע התרגול — בלי לגעת בו */
+  var shell = document.getElementById("quizShell");
+  if (!shell) return;
+  var seen = new WeakSet();
+  new MutationObserver(function () {
+    var v = shell.querySelector(".quiz-verdict");
+    if (!v || seen.has(v)) return;
+    seen.add(v);
+    var good = v.classList.contains("good");
+    if (good) { streak++; if (streak > best) best = streak; }
+    else streak = 0;
+    persist(); draw(); beep(good);
+    shell.classList.remove("flash-good", "flash-bad");
+    void shell.offsetWidth;   /* אתחול האנימציה */
+    shell.classList.add(good ? "flash-good" : "flash-bad");
+  }).observe(shell, { childList: true, subtree: true });
+})();
+
+/* ===== לוח שליטה לפי נושא — בעמוד המדריך ===== */
+(function () {
+  var dash = document.getElementById("masteryDash");
+  if (!dash) return;
+  var KEY = (window.COURSE.storagePrefix || "course-") + "adaptive-progress-v2";
+  var NAMES = { "sc-transport": "שאלה 1 · מוליכים למחצה", "pn-diode": "שאלה 2 · צומת PN", "mos-mosfet": "שאלה 3 · קבל MOS" };
+
+  function refresh() {
+    var model = {};
+    try { model = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
+    var recs = model.records || {};
+    var per = {};
+    (window.BANK_OPEN_QUESTIONS || []).forEach(function (q) {
+      var p = per[q.cat] || (per[q.cat] = { total: 0, done: 0, mastered: 0 });
+      p.total++;
+      var r = recs[q.id];
+      if (r && r.attempts > 0) p.done++;
+      if (r && Number(r.mastery) >= 3) p.mastered++;
+    });
+    var rows = "", covT = 0, covD = 0;
+    Object.keys(NAMES).forEach(function (cat) {
+      var p = per[cat] || { total: 0, done: 0, mastered: 0 };
+      covT += p.total; covD += p.done;
+      var pct = p.total ? Math.round(100 * p.done / p.total) : 0;
+      rows += '<div class="mrow"><span>' + NAMES[cat] + '</span>' +
+        '<span class="bar"><i style="width:' + pct + '%"></i></span>' +
+        '<small>' + p.done + "/" + p.total + " נוסו · " + p.mastered + ' נשלטו</small></div>';
+    });
+    var tot = covT ? Math.round(100 * covD / covT) : 0;
+    dash.innerHTML = '<h3>📊 ההתקדמות שלך — כיסית ' + tot + '% מהשאלות</h3>' + rows +
+      '<small style="color:var(--fg3)">"נשלט" = 3 תשובות נכונות ברצף על השאלה. מתעדכן אוטומטית תוך כדי תרגול.</small>';
+  }
+  refresh();
+  /* רענון בכל חזרה לעמוד המדריך */
+  window.addEventListener("hashchange", function () {
+    if ((location.hash.slice(1) || "guide") === "guide") refresh();
   });
 })();
 </script>

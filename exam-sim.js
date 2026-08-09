@@ -334,11 +334,12 @@
     else renderRunning();
   }
 
-  /* מתג בין שלושת המצבים: תרגול חופשי · סימולטור · פתרונות מונפשים */
-  var MODES = ["trainer", "sim", "walk", "labs"];
+  /* מתג בין המצבים: תרגול חופשי · סימולטור · פתרונות מונפשים · מעבדות · כרטיסיות */
+  var MODES = ["trainer", "sim", "walk", "labs", "cards"];
   var buttons = { trainer: btnTrainer, sim: btnSim,
                   walk: document.getElementById("modeWalk"),
-                  labs: document.getElementById("modeLabs") };
+                  labs: document.getElementById("modeLabs"),
+                  cards: document.getElementById("modeCards") };
 
   function show(mode) {
     if (typeof mode === "boolean") mode = mode ? "sim" : "trainer";
@@ -347,6 +348,7 @@
     root.style.display = mode === "sim" ? "" : "none";
     if (window.showWalkthroughs) window.showWalkthroughs(mode === "walk");
     if (window.showLabs) window.showLabs(mode === "labs");
+    if (window.showFlashcards) window.showFlashcards(mode === "cards");
     MODES.forEach(function (m) {
       var b = buttons[m];
       if (!b) return;
