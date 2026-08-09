@@ -722,8 +722,80 @@ table.cue td:first-child{ font-weight:700; width:38% }
 }
 .ipad-ready .status.offline{color:var(--amber);background:var(--amber-bg)}
 </style>
+<style>
+/* ===== שכבת "למידה כיפית ונוחה" — עיצוב בלבד, בלי לגעת בתוכן ===== */
+
+/* פס התקדמות קריאה בראש המסך */
+#readbar{position:fixed;top:0;right:0;height:3px;width:0;z-index:99;
+  background:linear-gradient(90deg,var(--accent),#6ecfb0);border-radius:0 0 0 3px;
+  transition:width .1s linear}
+
+/* נשימה נעימה יותר בעמודי הנושא */
+#d01,#d02,#d03{font-size:16.5px;line-height:1.78}
+#d01 p,#d02 p,#d03 p{max-width:72ch}
+
+/* כותרות משנה עם פס צבע חם */
+#d01 h2,#d02 h2,#d03 h2,#guide h2{
+  border-bottom:0;padding:10px 14px;border-radius:10px;
+  background:linear-gradient(-90deg,color-mix(in srgb,var(--accent) 10%,transparent),transparent 70%);
+  border-inline-start:4px solid var(--accent);
+}
+
+/* צ'יפים של תוכן עניינים בראש כל עמוד נושא */
+.toc-chips{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0 6px;
+  position:sticky;top:0;z-index:45;padding:8px 0;
+  background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:saturate(1.5) blur(10px)}
+.toc-chips a{font:600 12.5px var(--sans);color:var(--fg2);text-decoration:none;
+  background:var(--bg2);border:1px solid var(--line);border-radius:99px;
+  padding:5px 12px;white-space:nowrap;transition:.15s}
+.toc-chips a:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+.toc-chips a.on{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+
+/* צעדים — מספרים עם גרדיאנט וכניסה נעימה */
+ol.steps>li{transition:transform .15s,box-shadow .15s}
+ol.steps>li:hover{transform:translateX(-3px);box-shadow:0 4px 16px rgba(0,0,0,.08)}
+ol.steps>li::before{background:linear-gradient(135deg,var(--accent),#3b8f74)}
+
+/* קופסאות — פינות רכות יותר ותנועה עדינה */
+.note,.warn,.tip,.ok{border-radius:12px;transition:transform .15s}
+.note:hover,.warn:hover,.tip:hover,.ok:hover{transform:translateX(-2px)}
+
+/* כרטיסים בעמוד הבית/מדריך — ריחוף */
+a.deck{transition:transform .18s,box-shadow .18s,border-color .18s}
+a.deck:hover{transform:translateY(-4px);box-shadow:0 10px 26px rgba(0,0,0,.12)}
+
+/* מעבר עדין בין עמודים */
+.pg.on{animation:pgIn .3s ease-out}
+@keyframes pgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* בדוק-את-עצמך — שאלות כמו קלפים */
+details.sol>summary{border-radius:10px}
+details.sol{transition:box-shadow .15s}
+details.sol[open]{box-shadow:0 4px 14px rgba(0,0,0,.08)}
+
+/* כפתור חזרה למעלה */
+#toTop{position:fixed;bottom:18px;left:18px;z-index:70;width:42px;height:42px;
+  border-radius:50%;border:1px solid var(--line2);background:var(--bg2);color:var(--fg2);
+  font-size:18px;cursor:pointer;opacity:0;pointer-events:none;transition:.25s;
+  box-shadow:0 4px 14px rgba(0,0,0,.15)}
+#toTop.show{opacity:1;pointer-events:auto}
+#toTop:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+
+/* עידוד קטן בסוף עמוד נושא */
+.cheer{text-align:center;font-size:15px;color:var(--fg2);margin:26px 0 6px}
+.cheer b{color:var(--accent)}
+
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  .pg.on,ol.steps>li,a.deck,.note,.warn,.tip,.ok{animation:none;transition:none}
+  html{scroll-behavior:auto}
+}
+</style>
 </head>
 <body>
+<div id="readbar"></div>
+<button id="toTop" title="חזרה למעלה" aria-label="חזרה למעלה">↑</button>
 
 <!-- ============ סרגל הניווט ============
      כפתור לכל מקטע. data-go = ה-id של ה-<section>.
@@ -1009,7 +1081,7 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <p class="lead">זו תמיד השאלה הראשונה במבחן, והיא שווה <b>33–34 נקודות</b> (בערך שליש מהציון). בכל שמונת המבחנים שנבדקו (2022–2025) היא בנויה מאותם לבנים בדיוק: פיסת מל״מ בודדת (בלי צומת, בלי שער) — מחשבים בה ריכוזי נשאים, מזהים אם יש שדה פנימי, כותבים זרמי סחיפה ודיפוזיה, ואם יש עירור חיצוני (אור, טמפרטורה, מתח) עוברים לשפה של <b>נשאי מטען עודפים</b> ופותרים משוואת רציפות. השאלה כמעט תמיד נפתחת בסעיף איכותי — "האם המערכת בשיווי משקל? האם במצב עמיד?" — וכל שאר הסעיפים תלויים בתשובה שם. מי שמסווג נכון בשתי הדקות הראשונות, פותר את כל השאלה.</p>
 
-<h2>שיטת הגישה — סדר פעולות קבוע</h2>
+<h2>🧭 שיטת הגישה — סדר פעולות קבוע</h2>
 
 <p>הצעדים הבאים עובדים על כל גרסה של שאלה 1 שהופיעה במבחנים. אל תדלגו על צעדים 1–2 גם אם נראה לכם ש"ברור" — בדיוק שם נופלים.</p>
 
@@ -1074,7 +1146,7 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="ok"><b>שורה תחתונה:</b> סווג (שיווי משקל / עמיד / אחיד) ← <span dir="ltr">n<sub>0</sub>,p<sub>0</sub></span> ← גרדיאנט? ← שדה ← ארבעה זרמים ← עודפים ← רציפות ← גודל נמדד. שמונה תחנות, אותו סדר בכל מבחן.</div>
 
-<h2>טבלת זיהוי — אם רואים X, עושים Y</h2>
+<h2>🔍 טבלת זיהוי — אם רואים X, עושים Y</h2>
 
 <div class="tw"><table class="cue">
 <tr><th>מה שכתוב בשאלה</th><th>מה עושים</th><th>מקור</th></tr>
@@ -1157,7 +1229,7 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 </table></div>
 
-<h2>1 · פסי אנרגיה, רמת פרמי וריכוזי שיווי משקל</h2>
+<h2>🪜 1 · פסי אנרגיה, רמת פרמי וריכוזי שיווי משקל</h2>
 
 <p>באפס מוחלט כל האלקטרונים כלואים בפס הערכיות, פס ההולכה ריק, ואין הולכה כלל. מעל אפס מוחלט חלק מהאלקטרונים מקבלים אנרגיה תרמית, קופצים מעל הפער <span dir="ltr">E<sub>g</sub> = E<sub>C</sub> − E<sub>V</sub></span>, ומשאירים אחריהם <b>חור</b> — היעדר אלקטרון, שאנחנו מתייחסים אליו כאל חלקיק בעל מטען חיובי המסוגל לנוע בסריג. אלקטרון וחור נוצרים תמיד <b>בזוגות</b> (EHP) ונהרסים בזוגות; זו העובדה שממנה נובעות חצי מהתשובות האיכותיות במבחן.</p>
 
@@ -1181,11 +1253,13 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="m blk">n<sub>0</sub> = n<sub>i</sub>·e<sup>(E<sub>F</sub>−E<sub>i</sub>)/k<sub>B</sub>T</sup> &nbsp;&nbsp;,&nbsp;&nbsp; p<sub>0</sub> = n<sub>i</sub>·e<sup>(E<sub>i</sub>−E<sub>F</sub>)/k<sub>B</sub>T</sup></div>
 
-<div class="note"><b>מספרים לזכור בעל פה:</b> <span dir="ltr">k<sub>B</sub>T = 0.026 eV</span> בטמפרטורת החדר (<span dir="ltr">300K</span>); <span dir="ltr">E<sub>g</sub>(Si) = 1.12 eV</span> (נהוג לעגל ל-<span dir="ltr">1.1</span>); <span dir="ltr">n<sub>i</sub>(Si) ≈ 10<sup>10</sup> cm<sup>−3</sup></span> (חלק מהמבחנים נותנים <span dir="ltr">1.5×10<sup>10</sup></span>); <span dir="ltr">E<sub>g</sub>(GaAs) = 1.42 eV</span>, <span dir="ltr">E<sub>g</sub>(Ge) = 0.67 eV</span>, <span dir="ltr">E<sub>g</sub>(InAs) = 0.35 eV</span>; <span dir="ltr">q = 1.6×10<sup>−19</sup> C</span>.</div>
+<div class="note"><b>מספרים לזכור בעל פה:</b> <span dir="ltr">k<sub>B</sub>T = 0.026 eV</span> בטמפרטורת החדר (<span dir="ltr">300K</span>); <span dir="ltr">E<sub>g</sub>(Si) = 1.12 eV</span> (נהוג לעגל ל-<span dir="ltr">1.1</span>); <span dir="ltr">n<sub>i</sub>(Si) ≈ 10<sup>10</sup> cm<sup>−3</sup></span> (חלק מהמבחנים נותנים <span dir="ltr">1.5×10<sup>10</sup></span>); <span dir="ltr">E<sub>g</sub>(GaAs) = 1.42 eV</span>, <span dir="ltr">E<sub>g</sub>(Ge) = 0.67 eV</span>, <span dir="ltr">E<sub>g</sub>(InAs) = 0.35 eV</span>, <span dir="ltr">E<sub>g</sub>(GaP) = 2.25 eV</span>, <span dir="ltr">E<sub>g</sub>(InSb) = 0.18 eV</span>; <span dir="ltr">q = 1.6×10<sup>−19</sup> C</span>.</div>
 
 <p><b>מתי זה מגיע במבחן:</b> כשנתונה דיאגרמת אנרגיה ומבקשים את סוג האילוח ואת הריכוזים <span dir="ltr">[2025 סמסטר ג׳ מועד ב׳]</span>, או כשנתון <span dir="ltr">|E<sub>i</sub> − E<sub>F</sub>|</span> ומבקשים לחלץ ממנו את <span dir="ltr">n<sub>i</sub></span> של סגסוגת <span dir="ltr">[2025 סמסטר ג׳ מועד א׳]</span>. הכיוון עובד לשני הצדדים: מריכוז לרמת פרמי ומרמת פרמי לריכוז.</p>
 
-<h2>2 · אינטרינזי, אקסטרינזי ופיצוי (compensation)</h2>
+<div class="ok"><b>💡 בקיצור:</b> מיקום רמת פרמי קובע את הריכוזים — <span dir="ltr">n<sub>0</sub> = n<sub>i</sub>·e<sup>(E<sub>F</sub>−E<sub>i</sub>)/k<sub>B</sub>T</sup></span> — ובשיווי משקל תמיד <span dir="ltr">n<sub>0</sub>p<sub>0</sub> = n<sub>i</sub><sup>2</sup></span>.</div>
+
+<h2>🧂 2 · אינטרינזי, אקסטרינזי ופיצוי (compensation)</h2>
 
 <p>מל״מ <b>אינטרינזי</b> הוא חומר טהור, שבו <span dir="ltr">n = p = n<sub>i</sub></span>. מל״מ <b>אקסטרינזי</b> עבר אילוח מכוון: <b>תורמים</b> (חבורה V בסיליקון — <span dir="ltr">P, As</span>) תורמים אלקטרון עודף ויוצרים חומר <span dir="ltr">n</span>-type; <b>מקבלים</b> (חבורה III — <span dir="ltr">B, Al, In</span>) קולטים אלקטרון ויוצרים חור, כלומר חומר <span dir="ltr">p</span>-type. הנשא שריכוזו גדול נקרא <b>נשא הרוב</b>, והשני <b>נשא המיעוט</b>.</p>
 
@@ -1211,9 +1285,13 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="tip"><b>טכניקה שהמבחן אוהב:</b> אחרי שמחשבים כך, שואלים "האם אילוח חד-כיווני היה נותן מוליכות שווה?" התשובה: <b>גבוהה יותר</b>. אותו <span dir="ltr">n<sub>0</sub></span>, אבל ריכוז היונים המפזרים קטן פי 10 (<span dir="ltr">10<sup>14</sup></span> במקום <span dir="ltr">10<sup>15</sup></span>) ⟹ פחות פיזור על יונים מיוננים ⟹ <span dir="ltr">μ<sub>n</sub></span> גדולה יותר ⟹ <span dir="ltr">σ</span> גדולה יותר. <span dir="ltr">[2025 סמסטר ב׳ סעיף ב3]</span></div>
 
-<h2>3 · אילוח לא אחיד והשדה המובנה</h2>
+<div class="ok"><b>💡 בקיצור:</b> תמיד עובדים עם ההפרש <span dir="ltr">|N<sub>d</sub>−N<sub>a</sub>|</span> מול <span dir="ltr">n<sub>i</sub></span> — מקרבים רק כשהוא גדול בהרבה, ואת הנשא השני משלימים תמיד מ-<span dir="ltr">n<sub>0</sub>p<sub>0</sub> = n<sub>i</sub><sup>2</sup></span>.</div>
+
+<h2>⚡ 3 · אילוח לא אחיד והשדה המובנה</h2>
 
 <p>זו הלבנה שמופיעה בשאלה 1 יותר מכל אחרת. כשהאילוח משתנה במרחב, האלקטרונים מתפזרים מאזורי ריכוז גבוה לנמוך — אבל היונים התורמים <b>קבועים בסריג ולא זזים</b>. התוצאה: הפרדת מטען, ולכן שדה חשמלי פנימי — <b>גם בלי מתח מופעל וגם בלי צומת PN</b>. השדה גדל עד שהוא בדיוק מאזן את הדיפוזיה, ואז המערכת נחה בשיווי משקל.</p>
+
+<div class="tip"><b>🤔 רגע, מה זה אומר?</b> דמיינו קהל צפוף שמתפזר לרחבה ריקה — האלקטרונים הם הקהל, אבל הכיסאות (היונים התורמים) מקובעים לרצפה. ההתפזרות חושפת מאחוריה מטען חיובי, ונבנה "מדרון" חשמלי שדוחף את הקהל חזרה. שיווי המשקל הוא בדיוק הנקודה שבה שיפוע המדרון עוצר את ההתפזרות — זה כל הסיפור של השדה המובנה.</div>
 
 <p>הדרישה "זרם האלקטרונים הכולל מתאפס בכל <span dir="ltr">x</span>" נותנת:</p>
 
@@ -1233,9 +1311,11 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <p>לדוגמה, כשנתון <span dir="ltr">E<sub>i</sub>(x) = 0.5√x [eV]</span> מקבלים מיד <span dir="ltr">ε(x) = 0.25/√x [V/cm]</span>, והמתח בין הקצוות הוא פשוט הפרש הערכים: <span dir="ltr">V = E<sub>i</sub>(0.6) − E<sub>i</sub>(0.1) ≈ 0.23 V</span> — בלי לאנטגרל בכלל. <span dir="ltr">[2025 סמסטר ג׳ מועד ב׳ סעיפים ד, ו]</span></p>
 
-<h2>4 · מוביליות, מוליכות והתנגדות</h2>
+<div class="ok"><b>💡 בקיצור:</b> אילוח לא אחיד ⟹ שדה מובנה <span dir="ltr">ε = −(k<sub>B</sub>T/q)·d(ln n<sub>0</sub>)/dx</span> — הדיפוזיה בונה אותו, והוא בתמורה עוצר אותה.</div>
 
-<p>אלקטרון חופשי בפיסת מל״מ נע כבר בלי שדה — תנועה תרמית אקראית במהירות <span dir="ltr">v<sub>TH</sub> = √(3k<sub>B</sub>T/m<sub>n</sub>)</span>, עם זמן ממוצע בין התנגשויות <span dir="ltr">τ<sub>coll</sub> ≈ 10<sup>−13</sup> sec</span>. התנועה הזו לא מייצרת זרם — היא סימטרית. כשמפעילים שדה, מתווספת עליה <b>הסחפה</b>: מהירות ממוצעת קטנה בכיוון מוגדר.</p>
+<h2>🏃 4 · מוביליות, מוליכות והתנגדות</h2>
+
+<p>אלקטרון חופשי בפיסת מל״מ נע כבר בלי שדה — תנועה תרמית אקראית במהירות <span dir="ltr">v<sub>TH</sub> = √(3k<sub>B</sub>T/m<sub>n</sub>)</span>, עם זמן ממוצע בין התנגשויות <span dir="ltr">τ<sub>coll</sub> ≈ 10<sup>−13</sup> sec</span>. התנועה הזו לא מייצרת זרם — היא סימטרית. כשמפעילים שדה, מתווספת עליה <b>הסחפה</b>: מהירות ממוצעת קטנה בכיוון מוגדר. המסה שבנוסחאות היא <b>המסה האפקטיבית</b> <span dir="ltr">m*</span> — המסה שהנשא "מרגיש" בעת תנועתו בסריג, עקב הפוטנציאלים החשמליים של האטומים; היא קבועה לכל חומר ושונה ממסת האלקטרון החופשי.</p>
 
 <div class="m blk">v<sub>p</sub> = μ<sub>p</sub>ε &nbsp;&nbsp;,&nbsp;&nbsp; v<sub>n</sub> = −μ<sub>n</sub>ε &nbsp;&nbsp;,&nbsp;&nbsp; μ = <span class="fr"><span class="n">q·τ<sub>coll</sub></span><span class="d">m*</span></span></div>
 
@@ -1251,13 +1331,17 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <p>באילוח נמוך <span dir="ltr">(N &lt; 10<sup>15</sup>)</span> מגיעים לרוויה סביב <span dir="ltr">μ<sub>n</sub> ≈ 1400</span>, <span dir="ltr">μ<sub>p</sub> ≈ 470 cm<sup>2</sup>/V·sec</span> — כלל אצבע: <span dir="ltr">μ<sub>n</sub> ≈ 3μ<sub>p</sub></span>.</p>
 
+<div class="note"><b>שאלה איכותית קלאסית — מה קורה כשמחממים?</b> במתכת ההתנגדות <b>עולה</b> עם הטמפרטורה (יותר תנודות סריג ⟹ יותר פיזור פונוני), אבל במל״מ היא <b>יורדת</b>: הגנרציה התרמית מוסיפה נשאים בקצב אקספוננציאלי, וזה גובר בהרבה על הירידה במוביליות. זו בדיוק ההבחנה שבין מוליך, מל״מ ומבודד בפתיחת החוברת.</div>
+
 <p><b>המקרה הלא אחיד.</b> כשהאילוח משתנה לאורך הפיסה, <span dir="ltr">σ = σ(x)</span> ואי אפשר להשתמש ב-<span dir="ltr">R = ρL/A</span> ישירות. מתייחסים לפיסה כאוסף נגדים אינפיניטסימליים <b>בטור</b>:</p>
 
 <div class="m blk">dR = <span class="fr"><span class="n">dx</span><span class="d">A·σ(x)</span></span> &nbsp;&nbsp;⟹&nbsp;&nbsp; R = <span class="fr"><span class="n">1</span><span class="d">A</span></span>∫<span class="fr"><span class="n">dx</span><span class="d">σ(x)</span></span></div>
 
 <p>ב-<span dir="ltr">[2022 מועד א׳ סעיף ד]</span> עם <span dir="ltr">N<sub>d</sub>(x) = N<sub>d</sub>[1+cos(πx/L)]</span> ההנחיה בשאלה נתנה במתנה את תוצאת האינטגרל, והתוצאה הסופית היתה <span dir="ltr">R = 2L/(πAqμ<sub>n</sub>N<sub>d</sub>) ≈ 0.28 Ω</span>. שימו לב: במוליכות שולט נשא הרוב בלבד — <span dir="ltr">σ(x) ≈ qμ<sub>n</sub>n<sub>0</sub>(x)</span>, כי <span dir="ltr">p<sub>0</sub></span> קטן ממנו בסדרי גודל.</p>
 
-<h2>5 · סחיפה מול דיפוזיה — ארבעת הזרמים</h2>
+<div class="ok"><b>💡 בקיצור:</b> <span dir="ltr">σ = q(μ<sub>n</sub>n + μ<sub>p</sub>p)</span> ובה שולט נשא הרוב; וכאשר <span dir="ltr">σ(x)</span> משתנה — נגדים בטור: <span dir="ltr">R = (1/A)∫dx/σ(x)</span>.</div>
+
+<h2>🌊 5 · סחיפה מול דיפוזיה — ארבעת הזרמים</h2>
 
 <p>זרם דיפוזיה נובע מ<b>גרדיאנט ריכוז</b>, לא משדה. חלקיקים זולגים מריכוז גבוה לנמוך פשוט מסטטיסטיקה. הביטויים — ושימו לב לסימנים, זו מלכודת קבועה:</p>
 
@@ -1275,11 +1359,15 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="warn"><b>מלכודת טמפרטורה:</b> אם המבחן נותן טמפרטורה שאינה <span dir="ltr">300K</span>, חייבים לשנות קנה מידה: <span dir="ltr">D/μ = 26mV·(T/300)</span>. למשל ב-<span dir="ltr">T = 450K</span>: <span dir="ltr">D = μ·0.026·(450/300) = μ·0.039</span>.</div>
 
+<div class="tip"><b>🤔 רגע, מה זה אומר?</b> דיפוזיה היא כמו טיפת בושם שמתפשטת בחדר — אף אחד לא "דוחף" את המולקולות, זו סטטיסטיקה טהורה. ולמה בכלל קיים יחס איינשטיין? כי גם הסחיפה וגם הדיפוזיה נבלמות על ידי <u>אותן</u> התנגשויות בסריג — ולכן היחס ביניהן לא תלוי בחומר אלא רק בטמפרטורה: <span dir="ltr">D/μ = k<sub>B</sub>T/q</span>.</div>
+
 <p><b>הטענה שהמבחן ביקש להוכיח:</b> בכל מל״מ בשיווי משקל, תנועות הדיפוזיה של האלקטרונים והחורים הן בכיוונים מנוגדים. ההוכחה בשורה אחת: מ-<span dir="ltr">n<sub>0</sub> = n<sub>i</sub><sup>2</sup>/p<sub>0</sub></span> נובע <span dir="ltr">dn<sub>0</sub>/dx = −(n<sub>i</sub><sup>2</sup>/p<sub>0</sub><sup>2</sup>)(dp<sub>0</sub>/dx)</span>, והמקדם חיובי תמיד ⟹ הסימנים מנוגדים. <span dir="ltr">[2024 מועד א׳ סעיף א]</span></p>
 
 <div class="tip"><b>איך משתמשים בטענה הזו כדי להוכיח שמערכת <u>אינה</u> בשיווי משקל:</b> אם מצאתם ששני הגרדיאנטים באותו סימן — יש סתירה, ולכן המערכת אינה בשיווי משקל. כך בדיוק פתרו את שאלת גרדיאנט הטמפרטורה: <span dir="ltr">T</span> עולה עם <span dir="ltr">x</span> ⟹ <span dir="ltr">n<sub>i</sub>(x)</span> עולה ⟹ עם <span dir="ltr">p<sub>0</sub> ≈ N<sub>a</sub></span> קבוע, גם <span dir="ltr">n<sub>0</sub></span> עולה — שני גרדיאנטים חיוביים, סתירה. <span dir="ltr">[2024 מועד א׳ סעיף ב1]</span></div>
 
-<h2>6 · נשאי מטען עודפים, גנרציה ורקומבינציה וזמן חיים</h2>
+<div class="ok"><b>💡 בקיצור:</b> ארבעה זרמים, שני סימנים — <span dir="ltr">J<sub>n</sub><sup>diff</sup> = +qD<sub>n</sub>(dn/dx)</span>, <span dir="ltr">J<sub>p</sub><sup>diff</sup> = −qD<sub>p</sub>(dp/dx)</span> — ובשיווי משקל כל זוג סחיפה-דיפוזיה של אותו נשא מתאפס בנפרד.</div>
+
+<h2>☀️ 6 · נשאי מטען עודפים, גנרציה ורקומבינציה וזמן חיים</h2>
 
 <p>עד כאן הכל היה שיווי משקל. ברגע שמפעילים עירור שאינו תרמי — הארה, מתח, הזרקה — הריכוזים חורגים מערכי שיווי המשקל, וכותבים:</p>
 
@@ -1287,9 +1375,13 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <p>העירור האופטי יוצר <b>זוגות</b>, ולכן <span dir="ltr">δn = δp</span> תמיד. אבל ההשפעה שלהם אינה סימטרית: אם <span dir="ltr">n<sub>0</sub> = 10<sup>15</sup></span> ו-<span dir="ltr">p<sub>0</sub> = 10<sup>5</sup></span>, תוספת של <span dir="ltr">10<sup>5</sup></span> לכל אחד היא רעש עבור הרוב אך <b>הכפלה</b> עבור המיעוט. לכן כל הפיזיקה של נשאים עודפים היא פיזיקה של <b>נשאי המיעוט</b> — ומכאן השם "נשאי מטען מיעוט עודפים".</p>
 
+<div class="tip"><b>🤔 רגע, מה זה אומר?</b> חשבו על <span dir="ltr">n<sub>0</sub></span> כעל גובה פני הים ועל <span dir="ltr">δn</span> כעל גל שנוסף מעליהם: כל הדינמיקה (רציפות, דעיכה, זמן חיים) מתארת רק את הגל, לא את הים. עבור נשא הרוב הגל הוא אדווה זניחה; עבור המיעוט הוא צונאמי שמכפיל את הריכוז — ולכן כל התורה קרויה על שם נשאי ה<b>מיעוט</b>.</div>
+
 <p><b>גנרציה</b> — יצירת זוג. שלושה סוגים: תרמית ישירה (band-to-band), תרמית לא ישירה (דרך מרכזי R/G), ואופטית. גנרציה אופטית דורשת פוטון בעל אנרגיה מספקת:</p>
 
 <div class="m blk">hν ≥ E<sub>g</sub> &nbsp;&nbsp;⟹&nbsp;&nbsp; λ<sub>max</sub> = <span class="fr"><span class="n">hc</span><span class="d">E<sub>g</sub></span></span> = <span class="fr"><span class="n">1240</span><span class="d">E<sub>g</sub>[eV]</span></span> [nm]</div>
+
+<p><b>מל״מ ישיר מול עקיף</b> — הבחנה מהחוברת ששווה נקודות בסעיפים איכותיים: במל״מ <b>ישיר</b> (<span dir="ltr">GaAs</span>) המינימום של פס ההולכה והמקסימום של פס הערכיות נמצאים באותו תנע גבישי <span dir="ltr">k</span>, המעבר דורש רק שימור אנרגיה — ופוטון נבלע או נפלט ביעילות. במל״מ <b>עקיף</b> (<span dir="ltr">Si</span>, <span dir="ltr">Ge</span>) הם בתנע שונה, והמעבר חייב לשתף גם פונון (שינוי תנע); לכן רקומבינציה במל״מ עקיף משחררת את האנרגיה בעיקר כ<b>חום</b> ולא כאור. בסגסוגת (למשל <span dir="ltr">Al<sub>x</sub>Ga<sub>1−x</sub>As</span>) פער האנרגיה מתקבל בקירוב לינארי: <span dir="ltr">E<sub>g</sub>(x) = x·E<sub>g</sub>(B) + (1−x)·E<sub>g</sub>(A)</span> — אותו כלל לינארי שמשמש גם להתאמת קבוע הסריג למצע.</p>
 
 <p><b>רקומבינציה (שחבור)</b> — אלקטרון חופשי פוגש חור וחוזר לפס הערכיות; שניהם נעלמים. הקצב פרופורציוני למכפלת הריכוזים, כי צריך שהשניים <u>ייפגשו</u>:</p>
 
@@ -1309,7 +1401,9 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="tip"><b>טכניקת ההבזקים</b> <span dir="ltr">[2024 מועד ב׳ סעיף ג]</span> — כשמאירים בסדרת הבזקים בתדירות <span dir="ltr">f</span>, בונים איטרטיבית: כל הבזק מוסיף <span dir="ltr">Δp</span> על מה שנשאר מהקודם, ובין הבזקים יש דעיכה <span dir="ltr">e<sup>−t/τ</sup></span>. כשמקרה המבחן נותן <span dir="ltr">f = 1/τ</span> בדיוק, כל מחזור מכפיל ב-<span dir="ltr">e<sup>−1</sup></span> ומקבלים טור הנדסי: <span dir="ltr">δp<sub>m</sub>(t) = Δp·[(e<sup>m</sup>−1)/(e−1)]·e<sup>−ft</sup></span>. את הזמן מודדים <b>מרגע ההבזק ה-m</b>, ולכן "מיד אחרי ההבזק החמישי" פירושו <span dir="ltr">m=5</span> ו-<span dir="ltr">t = 4τ</span>.</div>
 
-<h2>7 · משוואת הרציפות והפתרונות הסטנדרטיים</h2>
+<div class="ok"><b>💡 בקיצור:</b> עירור יוצר זוגות — <span dir="ltr">δn = δp</span>; במצב עמיד <span dir="ltr">δp = g<sub>op</sub>τ</span>, ואחרי כיבוי <span dir="ltr">δp(t) = Δp·e<sup>−t/τ</sup></span>.</div>
+
+<h2>📒 7 · משוואת הרציפות והפתרונות הסטנדרטיים</h2>
 
 <p>משוואת הרציפות היא ספר החשבונות המלא של נשאי המיעוט העודפים: כמה נכנס, כמה נעלם, וכמה זרם החוצה. בחומר מסוג <span dir="ltr">n</span> מתעניינים בחורים, ובחומר מסוג <span dir="ltr">p</span> באלקטרונים:</p>
 
@@ -1351,7 +1445,9 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <p>לפעמים תנאי השפה מאפסים את שני האקספוננטים לגמרי. ב-<span dir="ltr">[2022 מועד ב׳]</span>, עם <span dir="ltr">g<sub>op</sub>(x) = c(L−x)</span> ותנאי השפה <span dir="ltr">δp(0)=τ<sub>p</sub>cL</span>, <span dir="ltr">δp(L)=0</span>, יוצא <span dir="ltr">A=B=0</span> ונשארים עם התוצאה הפשוטה והיפה <span dir="ltr">δp(x) = τ<sub>p</sub>·g<sub>op</sub>(x)</span> — כלומר "מצב עמיד מקומי" בכל נקודה בנפרד. אל תיבהלו כשמתקבלים אפסים; זה לרוב סימן שהתשובה נכונה.</p>
 
-<h2>8 · פוטו-מוליכות וגלאי אור</h2>
+<div class="ok"><b>💡 בקיצור:</b> מוחקים איברים לפי הסיווג, מציבים את הפתרון <u>הנתון</u>, משווים מקדמים לפי חזקות — ותנאי שפה/התחלה רק בסוף, לקיבוע הקבועים.</div>
+
+<h2>🔦 8 · פוטו-מוליכות וגלאי אור</h2>
 
 <p>זו הצורה ה"הנדסית" של השאלה: פס מל״מ עם מגעים, מתח מופעל, ומד זרם. הרעיון — הארה מוסיפה נשאים, המוליכות עולה, והזרם עולה. סדר הפעולות שעבד ב-<span dir="ltr">[2025 סמסטר ב׳ מועד א׳]</span>:</p>
 
@@ -1369,7 +1465,9 @@ table.cue td:first-child{ font-weight:700; width:38% }
 <li><i>מרחק הסחיפה</i> — <span dir="ltr">l = μ<sub>n</sub>·(V/L)·τ<sub>n</sub></span>. בדוגמה במבחן זה יצא כ-<span dir="ltr">0.54 μm</span> — קטן מאוד לעומת אורך הפיסה, ולכן רוב הנשאים לא מגיעים למגע.</li>
 </ul>
 
-<h2>מלכודות שחוזרות במבחנים</h2>
+<div class="ok"><b>💡 בקיצור:</b> שרשרת של ארבע הצבות — זרם החושך נותן את <span dir="ltr">p<sub>0</sub></span>, ההספק נותן את <span dir="ltr">g<sub>op</sub></span>, מצב עמיד נותן <span dir="ltr">Δn = g<sub>op</sub>τ</span>, ו-<span dir="ltr">ΔI</span> נבנה עם <b>שתי</b> המוביליות.</div>
+
+<h2>🚨 מלכודות שחוזרות במבחנים</h2>
 
 <div class="warn"><b>מלכודת 1 — <span dir="ltr">n<sub>0</sub> = N<sub>d</sub></span> כשיש גם מקבלים.</b> כשיש <b>שני</b> סוגי אילוח, האילוח האפקטיבי הוא <b>ההפרש</b>: <span dir="ltr">n<sub>0</sub> = N<sub>d</sub> − N<sub>a</sub></span>. ב-<span dir="ltr">[2024 מועד ב׳]</span> נתונים <span dir="ltr">N<sub>d</sub>=10<sup>11</sup>, N<sub>a</sub>=10<sup>10</sup></span> והתשובה היא <span dir="ltr">9×10<sup>10</sup></span>, לא <span dir="ltr">10<sup>11</sup></span>. באילוח האמפוטרי <span dir="ltr">[2025 סמסטר ב׳]</span> ההפרש קטן פי 10 מהאילוח הכולל — טעות כאן גוררת את כל השאלה.</div>
 
@@ -1395,6 +1493,18 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="warn"><b>מלכודת 12 — <span dir="ltr">q</span> מיותר בשדה מדיאגרמת אנרגיה.</b> אם <span dir="ltr">E<sub>i</sub>(x)</span> נתונה כבר ב-<span dir="ltr">eV</span>, אז <span dir="ltr">φ[V] = −E<sub>i</sub>[eV]</span> ישירות, והשדה הוא <span dir="ltr">ε = dE<sub>i</sub>/dx</span> ב-<span dir="ltr">V/cm</span> — <b>בלי</b> חלוקה נוספת ב-<span dir="ltr">q</span>. גם באותו עניין: המתח בין שתי נקודות הוא פשוט הפרש ערכי <span dir="ltr">E<sub>i</sub></span> בהן, בלי אינטגרציה. <span dir="ltr">[2025 סמסטר ג׳ מועד ב׳]</span></div>
 
+<h2>✅ בדוק את עצמך — 30 שניות</h2>
+
+<p>ארבע שאלות, תשובה של שורה אחת לכל אחת. פספסתם? חזרו למלכודת המתאימה למעלה.</p>
+
+<details class="sol"><summary>מאירים פיסה באופן לא אחיד, בלי מתח חיצוני. נוצר שדה חשמלי?</summary><div class="body">לא — ההארה יוצרת זוגות אלקטרון-חור שמטענם הכולל אפס, אין הפרדת מטען ואין שדה. יש דיפוזיה! שדה מובנה נוצר רק מ<b>אילוח</b> לא אחיד.</div></details>
+
+<details class="sol"><summary>גרדיאנט טמפרטורה קבוע בזמן — מצב עמיד? שיווי משקל?</summary><div class="body">עמיד (שום דבר לא משתנה בזמן) אך <b>לא</b> בשיווי משקל — אלה שני מושגים בלתי תלויים, ותמיד עונים על שניהם בנפרד.</div></details>
+
+<details class="sol"><summary>בשיווי משקל — כמה זוגות מושמדים ברקומבינציה בכל שנייה?</summary><div class="body"><span dir="ltr">r<sub>eq</sub> = p<sub>0</sub>/τ</span> — מספר חיובי, לא אפס! מה שמתאפס הוא ההפרש בין גנרציה לרקומבינציה (<span dir="ltr">g<sub>i</sub> = r<sub>i</sub></span>), לא הקצבים עצמם.</div></details>
+
+<details class="sol"><summary>נתונים <span dir="ltr">N<sub>d</sub> = 10<sup>11</sup></span> ו-<span dir="ltr">N<sub>a</sub> = 10<sup>10</sup></span>. מהו <span dir="ltr">n<sub>0</sub></span>?</summary><div class="body">קודם ההפרש: <span dir="ltr">n<sub>0</sub> = N<sub>d</sub> − N<sub>a</sub> = 9×10<sup>10</sup></span> — לא <span dir="ltr">10<sup>11</sup></span>! (ואם ההפרש היה מתקרב ל-<span dir="ltr">n<sub>i</sub></span> — עוברים לנוסחה הריבועית המלאה.)</div></details>
+
 <div class="ok"><b>לפני שנכנסים למבחן:</b> ודאו שאתם יכולים לרשום מהזיכרון, בלי דף נוסחאות, את ארבע השורות האלה — <span dir="ltr">n<sub>0</sub>p<sub>0</sub>=n<sub>i</sub><sup>2</sup></span>; <span dir="ltr">n<sub>0</sub>+N<sub>a</sub>=p<sub>0</sub>+N<sub>d</sub></span>; <span dir="ltr">ε=−(k<sub>B</sub>T/q)(1/n<sub>0</sub>)(dn<sub>0</sub>/dx)</span>; <span dir="ltr">δp=g<sub>op</sub>τ</span>. מהן נגזרים כמעט כל סעיפי שאלה 1 בשמונת המבחנים האחרונים.</div>
 
 </section>
@@ -1408,7 +1518,7 @@ table.cue td:first-child{ font-weight:700; width:38% }
 <div class="ok"><b>המסר המרכזי:</b> השאלה הזו כמעט אף פעם לא בודקת "האם אתה זוכר נוסחה". היא בודקת האם אתה יודע <b>באיזה סדר</b> להפעיל את הנוסחאות ו<b>מתי הקירוב הרגיל נשבר</b>. שני הדברים האלה מכניסים או מפילים את מרבית הנקודות.</div>
 
 
-<h2>שיטת הגישה — סדר פעולות קבוע</h2>
+<h2>🧭 שיטת הגישה — סדר פעולות קבוע</h2>
 
 <p>הסדר הבא עובד על כל גרסה של שאלה 2 שראיתי במבחנים. גם כשהשאלה מתחילה "באמצע" (למשל נותנים לך <span class="m">ρ(x)</span> ומבקשים את <span class="m">n<sub>i</sub></span>), אתה בעצם רץ על אותה שרשרת — רק בכיוון ההפוך.</p>
 
@@ -1464,8 +1574,10 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="tip"><b>טכניקה לחיסכון זמן:</b> כשמבקשים את הזרם ונתונים <span class="m">μ</span> ו-<span class="m">τ</span> ולא <span class="m">D</span> ו-<span class="m">L</span> — אל תחשבו את <span class="m">D</span> ואת <span class="m">L</span> בנפרד. השתמשו בזהות <span class="m"><span class="fr"><span class="n">D</span><span class="d">L</span></span> = <span class="fr"><span class="n">D</span><span class="d">√(Dτ)</span></span> = √<span class="fr"><span class="n">D</span><span class="d">τ</span></span> = √<span class="fr"><span class="n">k<sub>B</sub>Tμ</span><span class="d">qτ</span></span></span> ותקבלו את <span class="m">I<sub>0</sub></span> בשורה אחת. זה בדיוק המהלך בפתרון הרשמי של [2022 מועד א׳] ו-[2024 מועד א׳].</div>
 
+<div class="ok"><b>💡 בקיצור:</b> קודם מזהים את נקודת הכניסה של השאלה, ואז רצים על אותה שרשרת קבועה — <span class="m">ρ → E → φ → </span>זרם — ומסיימים ב-30 שניות של בדיקות שפיות.</div>
 
-<h2>טבלת זיהוי — אם רואים X, עושים Y</h2>
+
+<h2>🔍 טבלת זיהוי — אם רואים X, עושים Y</h2>
 
 <div class="tw"><table class="cue">
 <thead><tr><th>מה כתוב / מה בגרף</th><th>מה עושים</th></tr></thead>
@@ -1532,11 +1644,13 @@ table.cue td:first-child{ font-weight:700; width:38% }
 </table></div>
 
 
-<h2>1 · מהו צומת PN ולמה בכלל נוצר אזור מחסור</h2>
+<h2>🤝 1 · מהו צומת PN ולמה בכלל נוצר אזור מחסור</h2>
 
 <p>צומת <span dir="ltr">PN</span> נוצרת כשמאלחים מקטע אחד של אותו גביש בתורמים (<span dir="ltr">N-type</span>) ומקטע סמוך במקבלים (<span dir="ltr">P-type</span>). בצד ה-n יש עודף עצום של אלקטרונים חופשיים, ובצד ה-p עודף עצום של חורים. ברגע המגע נוצר <b>שיפוע ריכוז אדיר</b> בדיוק בממשק, ולכן אלקטרונים מפעפעים ימינה→שמאלה וחורים שמאלה→ימינה.</p>
 
 <p>אבל כשאלקטרון עוזב את צד ה-n, הוא משאיר מאחוריו <b>יון תורם חיובי נייח</b>, ובהתאמה חור שעוזב את צד ה-p משאיר <b>יון מקבל שלילי נייח</b>. נוצרת שכבת מטען חשופה — חיובית בצד ה-n, שלילית בצד ה-p — ואיתה שדה חשמלי שמכוון מ-n ל-p ומתנגד לדיפוזיה. התהליך נעצר בדיוק כשהשדה חזק מספיק כדי שזרם הסחיפה יבטל את זרם הדיפוזיה, בנפרד עבור כל סוג נשא. זהו <b>שיווי משקל תרמודינמי</b>: <span class="m">J<sub>n</sub><sup>drift</sup> + J<sub>n</sub><sup>diff</sup> = 0</span> וגם <span class="m">J<sub>p</sub><sup>drift</sup> + J<sub>p</sub><sup>diff</sup> = 0</span>, בכל נקודה.</p>
+
+<div class="tip"><b>🤔 רגע, מה זה אומר?</b> דמיינו שני קהלים צפופים שנפגשים — אלקטרונים מימין, חורים משמאל. השורות הקדמיות חוצות אל הקהל השני, אבל כל מי שחוצה משאיר מאחוריו "כיסא טעון" נייח. נוצרת רצועת שטח-הפקר שאין בה אף אחד — רק כיסאות טעונים — והמטען שלהם בונה "גדר חשמלית" שהולכת ומתחזקת, עד שאף אחד כבר לא מצליח לחצות. הרצועה הזו היא אזור המחסור, והגדר היא השדה.</div>
 
 <p>האזור שהתרוקן מנשאים חופשיים נקרא <b>אזור המחסור</b> (<span dir="ltr">Depletion Region</span> / <span dir="ltr">Space Charge Region</span>). בתוכו מתקיים בקירוב <span class="m">n ≈ p ≈ 0</span>, ולכן צפיפות המטען שם היא כולה מטען היונים:</p>
 
@@ -1546,10 +1660,12 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="note"><b>בבחינה:</b> "האם הצומת בשיווי משקל?" — התשובה נובעת מכך שאין מתח מופעל וזרם הסחיפה מתאזן בדיוק עם זרם הדיפוזיה עבור כל סוג נשא בנפרד. בדיאגרמת פסים הסימן הוא <span class="m">E<sub>F</sub></span> אחיד וישר [2025 ס״ג מועד ב׳ א׳].</div>
 
+<div class="ok"><b>💡 בקיצור:</b> דיפוזיה חושפת יונים נייחים ⟸ נוצר שדה שמתנגד לה ⟸ שיווי משקל כשסחיפה מאזנת דיפוזיה, לכל סוג נשא בנפרד.</div>
 
-<h2>2 · פוטנציאל המגע V<sub>0</sub> — ושתי הצורות שלו</h2>
 
-<p>פוטנציאל המגע (או <b>הפוטנציאל המובנה</b>, <span class="m">φ<sub>bi</sub></span>) הוא הפרש הפוטנציאל בין שני האזורים הנייטרליים, כלומר גובה מחסום האנרגיה: <span class="m">ΔE = qV<sub>0</sub></span> על דיאגרמת הפסים. פיזיקלית הוא נובע מכך שרמת פרמי חייבת להיות אחידה בשיווי משקל, בעוד שבצד ה-n היא קרובה ל-<span class="m">E<sub>c</sub></span> ובצד ה-p קרובה ל-<span class="m">E<sub>v</sub></span> — ההפרש בין שני המרחקים האלה הוא בדיוק <span class="m">qV<sub>0</sub></span>.</p>
+<h2>⛰️ 2 · פוטנציאל המגע V<sub>0</sub> — ושתי הצורות שלו</h2>
+
+<p>פוטנציאל המגע (או <b>הפוטנציאל המובנה</b>, <span class="m">φ<sub>bi</sub></span>) הוא הפרש הפוטנציאל בין שני האזורים הנייטרליים, כלומר גובה מחסום האנרגיה: <span class="m">ΔE = qV<sub>0</sub></span> על דיאגרמת הפסים. פיזיקלית הוא נובע מכך שרמת פרמי חייבת להיות אחידה בשיווי משקל, בעוד שבצד ה-n היא קרובה ל-<span class="m">E<sub>c</sub></span> ובצד ה-p קרובה ל-<span class="m">E<sub>v</sub></span> — ההפרש בין שני המרחקים האלה הוא בדיוק <span class="m">qV<sub>0</sub></span>. כך בדיוק החוברת גוזרת אותו [עמ׳ 4]: מסמנים <span class="m">qA = E<sub>c</sub> − E<sub>F</sub></span> בצד ה-n ו-<span class="m">qB = E<sub>c</sub> − E<sub>F</sub></span> בצד ה-p, כותבים את <span class="m">n</span> בכל צד דרך <span class="m">N<sub>c</sub>e<sup>−(E<sub>c</sub>−E<sub>F</sub>)/k<sub>B</sub>T</sup></span>, ומקבלים <span class="m">V<sub>0</sub> = B − A</span>.</p>
 
 <p><b>הצורה הראשונה (המוכרת):</b></p>
 
@@ -1565,8 +1681,10 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="ok"><b>עובדה שמצילה סעיפים שלמים:</b> <span class="m">V<sub>0</sub></span> תלוי <b>רק</b> בריכוזים בשני הקצוות. הוא לא תלוי בשטח החתך, לא ברוחב אזור המחסור, ולא במה שיש באמצע. זו הסיבה שב-[2025 ס״ב מועד א׳ טופס X] התשובה על "האם <span class="m">V<sub>0</sub></span> של ה-<span dir="ltr">PIN</span> שונה מזה של ה-<span dir="ltr">PN</span>?" היא <b>שווה בדיוק</b>, בלי שום חישוב.</div>
 
+<div class="ok"><b>💡 בקיצור:</b> <span class="m">V<sub>0</sub></span> נקבע רק מהריכוזים בשני הקצוות; כשהקירוב האקסטרינזי נשבר — עוברים לצורת יחס הריכוזים <span class="m">ln(p<sub>p</sub>/p<sub>n</sub>)</span>.</div>
 
-<h2>3 · קירוב אזור המחסור וצפיפות המטען ρ(x)</h2>
+
+<h2>📦 3 · קירוב אזור המחסור וצפיפות המטען ρ(x)</h2>
 
 <p>מודל קירוב המחסור מחלק את הצומת לשלושה אזורים חדים: אזור נייטרלי p, אזור מחסור, אזור נייטרלי n. הקירוב הוא בכך שההתרוקנות מונחת <b>מלאה ופתאומית</b> — במציאות המעבר הדרגתי על פני כמה אורכי דביי, אבל לצורך המבחן זה חד.</p>
 
@@ -1580,8 +1698,10 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="tip"><b>טכניקת זיהוי:</b> כשנותנים לכם פרופיל אילוח רציף ושואלים "מהם גבולות אזור המחסור? נמקו!" — הנימוק הוא: האזורים הנייטרליים הם בדיוק אלה שבהם <span class="m">N(x)</span> הגיע לערך הרוויה שלו, ולכן אזור המחסור הוא בדיוק המשלים לכך. ב-[2022 מועד ב׳] זה נותן ישירות <span class="m">x<sub>p</sub> = a, x<sub>n</sub> = 2a</span>, וב-[2024 מועד ב׳] <span class="m">x<sub>p0</sub> = a, x<sub>n0</sub> = 3a</span>.</div>
 
+<div class="ok"><b>💡 בקיצור:</b> גרף <span class="m">ρ(x)</span> הוא שני מלבנים עם <b>שטחים שווים</b> — הצד המאולח חזק גבוה וצר, הצד הדל נמוך ורחב.</div>
 
-<h2>4 · מ-ρ(x) לשדה ולפוטנציאל — אינטגרציה עוקבת</h2>
+
+<h2>📐 4 · מ-ρ(x) לשדה ולפוטנציאל — אינטגרציה עוקבת</h2>
 
 <p>זהו הליבה החישובית של השאלה, והוא זהה תמיד — גם למלבן וגם לכל פרופיל אחר. שני שלבי אינטגרציה:</p>
 
@@ -1610,8 +1730,10 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="note"><b>למה זה נראה קשה ולא באמת קשה:</b> השאלות עם פרופיל מעריכי/סינוסי מרתיעות, אבל למעשה הן <b>הכי מכניות</b> בכל המבחן — אין בהן שיקול פיזיקלי אמיתי חוץ מזיהוי גבולות אזור המחסור, וכל השאר הוא שני אינטגרלים ותנאי שפה. שווה מאוד לתרגל אחת מהן במלואה [2022 מועד ב׳ / 2024 מועד ב׳].</div>
 
+<div class="ok"><b>💡 בקיצור:</b> אינטגרל ראשון <span class="m">ρ → E</span> (אפס בשני הקצוות, רציף באמצע), אינטגרל שני <span class="m">E → φ</span>; ו-<span class="m">V<sub>0</sub></span> הוא תמיד השטח מתחת לגרף השדה.</div>
 
-<h2>5 · רוחבי אזור המחסור והקירוב החד-צדדי</h2>
+
+<h2>📏 5 · רוחבי אזור המחסור והקירוב החד-צדדי</h2>
 
 <p>שילוב של שתי המשוואות — נייטרליות <span class="m">x<sub>p</sub>N<sub>a</sub> = x<sub>n</sub>N<sub>d</sub></span> ותנאי הפוטנציאל — נותן:</p>
 
@@ -1625,6 +1747,12 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <p><b>שימו לב לאסימטריה:</b> <span class="m">x<sub>n0</sub></span> פרופורציוני ל-<span class="m">N<sub>a</sub></span> — כלומר <b>ככל שצד ה-p מאולח יותר, אזור המחסור מתרחב יותר לתוך צד ה-n</b>. זה הגיוני: כדי לחשוף אותה כמות מטען בצד הדל באילוח צריך "לרוקן" נפח גדול יותר.</p>
 
+<div class="tip"><b>🤔 רגע, מה זה אומר?</b> תחשבו על זה כמו איסוף תרומות: משני הצדדים צריך לאסוף <b>אותו סכום מטען</b> בדיוק. בצד העשיר (מאולח חזק) מספיק לדפוק על כמה דלתות — רצועה צרה. בצד הדל צריך לעבור בית-בית לאורך רחוב שלם — רצועה רחבה. לכן המחסור תמיד "פולש" לצד החלש.</div>
+
+<p><b>תוספת שימושית מהחוברת</b> [עמ׳ 7]: אפשר לרשום את הקשר גם <b>הפוך</b> — נתון <span class="m">W</span>, מהו המתח שמחזיק אותו? זו בדיוק הנוסחה לוריאנט "נתון רוחב — מצאו את המתח החיצוני":</p>
+
+<div class="m blk">V<sub>0</sub> = <span class="fr"><span class="n">1</span><span class="d">2</span></span>·<span class="fr"><span class="n">q</span><span class="d">ε<sub>0</sub>ε<sub>r</sub></span></span>·<span class="fr"><span class="n">N<sub>a</sub>N<sub>d</sub></span><span class="d">N<sub>a</sub>+N<sub>d</sub></span></span>·W<sup>2</sup></div>
+
 <p><b>הקירוב החד-צדדי:</b> אם <span class="m">N<sub>d</sub> ≫ N<sub>a</sub></span> (צומת <span class="m">n<sup>+</sup>p</span>), אז <span class="m">x<sub>n0</sub> ≈ 0</span> וכמעט כל אזור המחסור בצד ה-p:</p>
 
 <div class="m blk">W<sub>dep</sub> ≈ x<sub>p0</sub> ≈ √<span class="fr"><span class="n">2ε<sub>r</sub>ε<sub>0</sub>V<sub>0</sub></span><span class="d">qN<sub>a</sub></span></span></div>
@@ -1633,8 +1761,10 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="note"><b>ערכי ייחוס לבדיקת שפיות:</b> בצומת סיליקון טיפוסית עם <span class="m">N ~ 10<sup>16</sup>–10<sup>17</sup> cm<sup>−3</sup></span> מתקבל <span class="m">V<sub>0</sub> ≈ 0.75 V</span>, <span class="m">W ≈ 3×10<sup>−5</sup> cm</span> (כלומר כמה מאות ננומטר), ושדה מקסימלי בסדר של <span class="m">10<sup>4</sup>–10<sup>5</sup> V/cm</span>. אם קיבלתם רוחב של מיקרונים או שדה של <span class="m">10<sup>8</sup></span> — יש טעות חישובית או טעות יחידות.</div>
 
+<div class="ok"><b>💡 בקיצור:</b> הצד הדל באילוח מקבל את רוב אזור המחסור, ובחד-צדדית — את כולו: <span class="m">W ≈ √(2ε<sub>r</sub>ε<sub>0</sub>V<sub>0</sub>/qN<sub>weak</sub>)</span>.</div>
 
-<h2>6 · ממתח חיצוני — קדמי ואחורי</h2>
+
+<h2>🔋 6 · ממתח חיצוני — קדמי ואחורי</h2>
 
 <p>הרעיון המרכזי: כמעט כל נפילת המתח החיצוני נופלת על <b>אזור המחסור</b>, כי שם ההתנגדות הגבוהה (אין נשאים). האזורים הנייטרליים מוליכים היטב ולכן כמעט שאין עליהם נפילת מתח. לכן המתח האפקטיבי שמחזיק את אזור המחסור הוא <span class="m">V<sub>0</sub> − V<sub>A</sub></span>, וכל הנוסחאות מהסעיף הקודם נשארות זהות בדיוק עם ההחלפה הזו:</p>
 
@@ -1644,12 +1774,16 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <p><b>ממתח אחורי</b> (<span class="m">V<sub>A</sub> &lt; 0</span>): מגדיל את המחסום, <b>מרחיב</b> את אזור המחסור ומגביר את השדה. הזרם נחסם לערך זעיר.</p>
 
+<div class="tip"><b>🤔 רגע, מה זה אומר?</b> תחשבו על המחסום כמו סכר מול אגם: מאחוריו מחכה כמות עצומה של נשאים (הרוב), ורק מעטים אנרגטיים במיוחד מצליחים לקפוץ מעליו. ממתח קדמי <b>מנמיך את הסכר</b> — ומכיוון שהתפלגות האנרגיות היא אקספוננציאלית (בולצמן), כל הנמכה קטנה משחררת מבול גדול פי <span class="m">e</span> — לכן הזרם אקספוננציאלי במתח. ממתח אחורי מגביה את הסכר — אבל הטפטוף הזעיר בכיוון ההפוך (נשאי מיעוט שנופלים מהצד השני) בכלל לא תלוי בגובה הסכר, ולכן <span class="m">I ≈ −I<sub>0</sub></span> קבוע.</div>
+
 <p><b>תוקף:</b> הנוסחאות תקפות עבור <span class="m">V<sub>A</sub> ≤ V<sub>0</sub></span> — אחרת השורש שלילי, וזה מסמן שהמודל עצמו קרס (מעבר לכך המחסום כבר לא קיים בפועל).</p>
 
 <div class="tip"><b>איך מזהים כיוון הטיה בלי שיגידו לכם:</b> (א) מגרף נשאי מיעוט — עודף ליד הצומת = קדמי, חוסר ליד הצומת = אחורי. (ב) מדיאגרמת פסים — <span class="m">E<sub>F</sub></span> ישר = שיווי משקל; פיצול של רמות פרמי-מעין = יש מתח, והכיוון נקבע מכיוון הפיצול. (ג) מרוחב מחסור מדוד — אם <span class="m">W</span> גדול מהערך בשיווי משקל, זה אחורי.</div>
 
+<div class="ok"><b>💡 בקיצור:</b> החלפה אחת בלבד — <span class="m">V<sub>0</sub> → V<sub>0</sub> − V<sub>A</sub></span> בכל הנוסחאות. קדמי מצמצם את המחסור, אחורי מרחיב. זהו.</div>
 
-<h2>7 · הזרקת נשאי מיעוט ופרופילי הדיפוזיה</h2>
+
+<h2>💉 7 · הזרקת נשאי מיעוט ופרופילי הדיפוזיה</h2>
 
 <p>בממתח קדמי, נשאים שהצליחו לחצות את המחסום מגיעים לצד השני והופכים שם ל<b>נשאי מיעוט עודפים</b>. הריכוז שלהם ממש בקצה אזור המחסור גדל בפקטור בולצמן:</p>
 
@@ -1671,10 +1805,12 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <p><b>מספרים לייחוס</b> [2025 ס״ב מועד ב׳]: בסיליקון עם <span class="m">μ<sub>n</sub> = 1400, μ<sub>p</sub> = 500</span> ו-<span class="m">τ = 10<sup>−6</sup> s</span> מקבלים <span class="m">D<sub>n</sub> = 36.4, D<sub>p</sub> = 13 cm<sup>2</sup>/s</span>, ואורכי דיפוזיה <span class="m">L<sub>n</sub> ≈ 6×10<sup>−3</sup>, L<sub>p</sub> ≈ 3.6×10<sup>−3</sup> cm</span> — כלומר <b>גדולים בשני סדרי גודל מרוחב אזור המחסור</b>. זו עובדה שכדאי לצטט בסעיפי הסבר.</p>
 
+<div class="ok"><b>💡 בקיצור:</b> הריכוז בשפת המחסור קופץ בפקטור בולצמן <span class="m">e<sup>qV/k<sub>B</sub>T</sup></span>, והעודף דועך אקספוננציאלית פנימה עם אורך הדיפוזיה <span class="m">L = √(Dτ)</span>.</div>
 
-<h2>8 · משוואת שוקלי וזרם הרוויה I<sub>0</sub></h2>
 
-<p>מכיוון שבאזורים הנייטרליים זרם נשאי המיעוט הוא <b>זרם דיפוזיה טהור</b>, גוזרים את הפרופיל ומקבלים את צפיפויות הזרם בכל צד. סכימה בשתי שפות אזור המחסור (שם שני הזרמים חיים יחד) נותנת את הזרם הכולל, שהוא קבוע בכל <span class="m">x</span>:</p>
+<h2>📈 8 · משוואת שוקלי וזרם הרוויה I<sub>0</sub></h2>
+
+<p>מכיוון שבאזורים הנייטרליים זרם נשאי המיעוט הוא <b>זרם דיפוזיה טהור</b>, גוזרים את הפרופיל ומקבלים את צפיפויות הזרם בכל צד. סכימה בשתי שפות אזור המחסור (שם שני הזרמים חיים יחד) נותנת את הזרם הכולל, שהוא קבוע בכל <span class="m">x</span>. ההנחה שמאחורי הסכימה הזו, כפי שהחוברת מציינת במפורש [עמ׳ 12]: אזור המחסור דק (<span class="m">x<sub>n</sub> = −x<sub>p</sub> ≈ 0</span>) ואין בו יצירה ושחבור, כך ששני זרמי המיעוט אינם משתנים לרוחבו ומותר לחבר אותם באותה נקודה:</p>
 
 <div class="m blk">I = I<sub>0</sub>(e<sup>qV/k<sub>B</sub>T</sup> − 1)</div>
 
@@ -1692,8 +1828,10 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="tip"><b>סדר עבודה בסעיף הזרם:</b> <span class="m">D = (k<sub>B</sub>T/q)μ</span> ← <span class="m">L = √(Dτ)</span> ← <span class="m">p<sub>n0</sub>, n<sub>p0</sub></span> ← <span class="m">I<sub>0</sub></span> ← <span class="m">I</span>. כל שלב הוא נקודות בפני עצמו, גם אם בשלב מאוחר יש טעות חשבונית.</div>
 
+<div class="ok"><b>💡 בקיצור:</b> <span class="m">I<sub>0</sub></span> בנוי כולו מריכוזי מיעוט <span class="m">n<sub>i</sub><sup>2</sup>/N</span> — לכן הוא קטן כשהאילוח חזק, וענק כש-<span class="m">n<sub>i</sub></span> ענק.</div>
 
-<h2>9 · פילוג הזרם בין אלקטרונים לחורים</h2>
+
+<h2>⚖️ 9 · פילוג הזרם בין אלקטרונים לחורים</h2>
 
 <p>זהו נושא שחוזר כשאלה שלמה בשני מבחנים [2025 ס״ב מועד א׳ טופס Y, 2025 ס״ב מועד ב׳] והוא הכי "מושגי" בשאלה 2 — כמעט בלי חישוב, הרבה הסבר.</p>
 
@@ -1715,20 +1853,24 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <p><b>ובאחורי:</b> באזור המחסור עצמו הזרם הוא <b>סחיפה</b> של נשאי מיעוט שנשאבים אליו מהתפזורת. איזה סוג נשא דומיננטי? זה שהאיבר שלו ב-<span class="m">I<sub>0</sub></span> גדול יותר. ב-[2025 ס״ג מועד א׳] התרומה של האלקטרונים גדולה פי כ-35 מזו של החורים, ולכן התשובה "רוב הזרם הוא סחיפה של אלקטרונים".</p>
 
+<div class="ok"><b>💡 בקיצור:</b> הזרם הכולל קבוע בכל חתך — רק החלוקה בין אלקטרונים לחורים משתנה: <span class="m">I<sub>n</sub>(x) = I − I<sub>p</sub>(x)</span>.</div>
 
-<h2>10 · זרם אזור המחסור, זליגה, ופריצה אחורית</h2>
+
+<h2>💧 10 · זרם אזור המחסור, זליגה, ופריצה אחורית</h2>
 
 <p>המודל של שוקלי מניח שאין יצירה ושחבור <b>בתוך</b> אזור המחסור. בפועל יש, וזה מוסיף איבר:</p>
 
 <div class="m blk">I = I<sub>0</sub>(e<sup>qV/k<sub>B</sub>T</sup> − 1) + A<span class="fr"><span class="n">qn<sub>i</sub>W<sub>dep</sub></span><span class="d">τ<sub>dep</sub></span></span>(e<sup>qV/2k<sub>B</sub>T</sup> − 1)</div>
 
-<p>שימו לב ל-<span class="m">2</span> במכנה של האקספוננט — זה מה שנותן שיפוע של <span class="m">60 mV/dec</span> במקום <span class="m">120</span> בגרף הלוגריתמי. בממתח אחורי מתקבל <b>זרם הזליגה</b>:</p>
+<p>האיבר השני הוא בסך הכל קצב הגנרציה-ריקומבינציה נטו ליחידת נפח, <span class="m">(n<sub>i</sub>/τ<sub>dep</sub>)(e<sup>qV/2k<sub>B</sub>T</sup> − 1)</span>, כפול נפח אזור המחסור <span class="m">A·W<sub>dep</sub></span> [חוברת שיעור 2, עמ׳ 13]. שימו לב ל-<span class="m">2</span> במכנה של האקספוננט — בגללו האיבר הזה מטפס בשיפוע מתון של <span class="m">120 mV/dec</span>, לעומת <span class="m">60 mV/dec</span> של איבר שוקלי האידאלי (זה השיפוע המסומן בגרף שבחוברת, עמ׳ 13). לכן במתחים קדמיים נמוכים איבר הגנרציה שולט, ובמתחים גבוהים שוקלי משתלט. בממתח אחורי מתקבל <b>זרם הזליגה</b>:</p>
 
 <div class="m blk">I<sub>leakage</sub> = I<sub>0</sub> + A<span class="fr"><span class="n">qn<sub>i</sub>W<sub>dep</sub></span><span class="d">τ<sub>dep</sub></span></span></div>
 
 <p><b>המסקנה שמופיעה בחוברת ומצוטטת בבחינה:</b> זרם הגנרציה האחורי <b>אינו תלוי בגודל המתח</b> ולא בגודל השדה — הוא נקבע מהיצירה התרמית בתוך אזור המחסור. לכן הגדלת המתח האחורי לא מגדילה אותו — אבל <b>חימום</b> או <b>הארה</b> כן, כי הם מייצרים זוגות אלקטרון-חור נוספים. זהו בדיוק ההסבר שנדרש בסעיף ה׳ של [2025 ס״ב מועד א׳ טופס X] לגבי צומת <span dir="ltr">PIN</span>: השכבה האינטרינזית מוסיפה נפח גנרציה שגם בו יש שדה, ולכן <b>זרם הזליגה ב-PIN גדול יותר</b>.</p>
 
-<p><b>פריצה אחורית</b> — שני מנגנונים נפרדים, ושואלים עליהם בעיקר בסעיפים איכותיים:</p>
+<p><b>פריצה אחורית</b> — שני מנגנונים נפרדים:</p>
+
+<div class="note"><b>שקיפות מלאה:</b> נושא הפריצה <b>אינו מופיע</b> בחוברת שיעור 2, ולא הופיע בשאלה 2 באף אחד מהמבחנים שנותחו. הטבלה הבאה היא רקע משלים מהספרות הסטנדרטית — ליתר ביטחון בלבד, לא חומר ליבה.</div>
 
 <div class="tw"><table>
 <thead><tr><th>מאפיין</th><th>זנר (<span dir="ltr">Zener</span>)</th><th>מפולת (<span dir="ltr">Avalanche</span>)</th></tr></thead>
@@ -1743,8 +1885,10 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="note"><b>נימוק שעובד תמיד:</b> שני המנגנונים תלויים בשדה החשמלי, ולכן כל מה שמגדיל את השדה בעוצמת מתח נתונה (אילוח חזק יותר ⟸ <span class="m">W</span> קטן יותר ⟸ <span class="m">E<sub>max</sub> = 2(V<sub>0</sub>−V<sub>A</sub>)/W</span> גדול יותר) מקטין את מתח הפריצה.</div>
 
+<div class="ok"><b>💡 בקיצור:</b> זרם הזליגה האחורי קבוע במתח — רק חימום או הארה מגדילים אותו, כי הם מייצרים עוד זוגות אלקטרון-חור.</div>
 
-<h2>11 · השפעות אופטיות</h2>
+
+<h2>☀️ 11 · השפעות אופטיות</h2>
 
 <p>הארה של הצומת יוצרת זוגות אלקטרון-חור בקצב <span class="m">g<sub>op</sub></span> ליחידת נפח ליחידת זמן. כל זוג שנוצר בתוך אזור המחסור — או במרחק של עד אורך דיפוזיה אחד ממנו משני צדדיו — נסחף על ידי השדה ותורם לזרם. הנפח האפקטיבי הוא לכן <span class="m">A(L<sub>n</sub> + W + L<sub>p</sub>)</span>, ומתקבל <b>זרם פוטו</b> קבוע שנוסף לזרם הדיודה:</p>
 
@@ -1757,8 +1901,10 @@ table.cue td:first-child{ font-weight:700; width:38% }
 <li>גם בממתח אחורי, ההארה מגדילה את הזרם — וזה בדיוק העיקרון של גלאי אור (<span dir="ltr">photodiode</span>), שבו העדיפו מבנה <span dir="ltr">PIN</span> כי הוא מגדיל את נפח האיסוף.</li>
 </ul>
 
+<div class="ok"><b>💡 בקיצור:</b> הארה מזיזה את כל האופיין <b>למטה</b> בקבוע <span class="m">qAg<sub>op</sub>(L<sub>n</sub> + W + L<sub>p</sub>)</span> — זה כל הסיפור של תא סולארי וגלאי אור.</div>
 
-<h2>12 · צומת PIN — הווריאנט המבני</h2>
+
+<h2>🥪 12 · צומת PIN — הווריאנט המבני</h2>
 
 <p>ב-<span dir="ltr">PIN</span> יש שכבה אינטרינזית נטרלית באורך <span class="m">L</span> בין צד ה-p לצד ה-n. כל מה שצריך לדעת עליה נובע מעובדה אחת: <b>בשכבה האינטרינזית <span class="m">ρ = 0</span></b>. ולכן, מגאוס, <span class="m">dE/dx = 0</span> שם — כלומר <b>השדה קבוע</b> לאורך כל השכבה.</p>
 
@@ -1771,8 +1917,10 @@ table.cue td:first-child{ font-weight:700; width:38% }
 <li><b>זרם זליגה:</b> <b>גדול יותר</b> — נפח גנרציה גדול יותר.</li>
 </ul>
 
+<div class="ok"><b>💡 בקיצור:</b> <span class="m">ρ = 0</span> בשכבה האינטרינזית ⟸ שדה קבוע ⟸ גרף טרפז. <span class="m">V<sub>0</sub></span> לא משתנה, השדה המקסימלי קטן, והזליגה גדלה.</div>
 
-<h2>מלכודות שחוזרות במבחנים</h2>
+
+<h2>🚨 מלכודות שחוזרות במבחנים</h2>
 
 <div class="warn"><b>מלכודת 1 — <span class="m">p ≈ N<sub>a</sub></span> כשהאילוח אינו ≫ <span class="m">n<sub>i</sub></span>.</b> זוהי המלכודת הכי יקרה, והיא מופיעה כשהחומר אינו סיליקון. ב-[2022 מועד א׳] עם <span dir="ltr">InSb</span>: <span class="m">n<sub>i</sub> = 2×10<sup>16</sup></span> ו-<span class="m">N<sub>d</sub> = 3×10<sup>16</sup></span> — מאותו סדר גודל. הפתרון הנכון: <span class="m">n<sub>n</sub><sup>2</sup> − N<sub>d</sub>n<sub>n</sub> − n<sub>i</sub><sup>2</sup> = 0</span> ⟹ <span class="m">n<sub>n</sub> = 4×10<sup>16</sup></span>, <span class="m">p<sub>n</sub> = 10<sup>16</sup></span> — ולא <span class="m">3×10<sup>16</sup></span> ו-<span class="m">1.3×10<sup>16</sup></span>. <b>בדקו את הצדדים בנפרד</b>: באותה שאלה עצמה, צד ה-p (<span class="m">N<sub>a</sub> = 10<sup>20</sup></span>) כן מקיים את הקירוב.</div>
 
@@ -1798,6 +1946,19 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="warn"><b>מלכודת 12 — לחשוב שאחוז יוננות משנה את <span class="m">V<sub>0</sub></span>.</b> אם נתון ש"רק 90% מהאילוח יוננו", ריכוזי הרוב עדיין נקבעים מנייטרליות ומהדיאגרמה — הנתון משמש רק כדי למקם את רמת התורמים דרך פונקציית פרמי-דיראק: <span class="m">f(E<sub>D</sub>) = 0.1 ⟹ E<sub>D</sub> − E<sub>F</sub> = k<sub>B</sub>T·ln9 ≈ 0.057 eV</span> [2025 ס״ג מועד ב׳ ג׳]. השתמשו ב-<span class="m">N<sub>d</sub><sup>+</sup></span> (המיונן) בכל נוסחאות המחסור, לא ב-<span class="m">N<sub>d</sub></span> הכולל.</div>
 
+<h2>✅ בדוק את עצמך — 30 שניות</h2>
+
+<p>ארבע שאלות, שורה אחת כל תשובה. אם עניתם על כולן בלי להציץ — אתם מוכנים לשאלה 2.</p>
+
+<details class="sol"><summary>נתון <span dir="ltr">InSb</span> עם <span class="m">N<sub>d</sub> = 3×10<sup>16</sup></span> ו-<span class="m">n<sub>i</sub> = 2×10<sup>16</sup></span>. מותר לכתוב <span class="m">n ≈ N<sub>d</sub></span>?</summary><div class="body">לא — הם מאותו סדר גודל. פותרים את המשוואה הריבועית <span class="m">n<sup>2</sup> − N<sub>d</sub>n − n<sub>i</sub><sup>2</sup> = 0</span>, ואת <span class="m">V<sub>0</sub></span> מחשבים מצורת יחס הריכוזים, לא מ-<span class="m">N<sub>a</sub>N<sub>d</sub>/n<sub>i</sub><sup>2</sup></span>.</div></details>
+
+<details class="sol"><summary>בצומת עם <span class="m">N<sub>a</sub> = 10N<sub>d</sub></span> — לאיזה צד נכנס רוב אזור המחסור, ופי כמה?</summary><div class="body">לצד ה-n הדל, פי 10: <span class="m">x<sub>n0</sub>/x<sub>p0</sub> = N<sub>a</sub>/N<sub>d</sub> = 10</span>. המחסור תמיד פולש לצד החלש.</div></details>
+
+<details class="sol"><summary>גרף נשאי מיעוט <b>עולה</b> ככל שמתרחקים מהצומת — קדמי או אחורי?</summary><div class="body">אחורי — הם דלים ליד הצומת כי נשאבו החוצה. הערך האסימפטוטי הרחוק הוא ערך שיווי המשקל <span class="m">n<sub>i</sub><sup>2</sup>/N</span>.</div></details>
+
+<details class="sol"><summary>מגדילים את המתח האחורי פי 2 — מה קורה לזרם?</summary><div class="body">כמעט כלום: <span class="m">I ≈ −I<sub>0</sub></span> קבוע (עד פריצה). מה שכן מגדיל אותו — חימום או הארה. <span class="m">W</span> והשדה כן גדלים.</div></details>
+
+
 <div class="ok"><b>סיכום להערב שלפני:</b> שננו שלושה דברים בעל פה — (1) הבדיקה <span class="m">N ≫ n<sub>i</sub></span> ומה עושים אם לא; (2) השרשרת <span class="m">ρ → E → V</span> עם תנאי השפה <span class="m">E = 0</span> בקצוות ורציפות באמצע; (3) הרצף <span class="m">D = (k<sub>B</sub>T/q)μ → L = √(Dτ) → n<sub>i</sub><sup>2</sup>/N → I<sub>0</sub> → </span> שוקלי. עם שלושת אלה בראש, כל 33 הנקודות של שאלה 2 פתוחות בפניכם.</div>
 
 </section>
@@ -1810,7 +1971,7 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="ok"><b>מה באמת נדרש:</b> שליטה בשלוש נוסחאות ליבה — <span class="m">V<sub>g</sub> = V<sub>ox</sub> + φ<sub>s</sub></span>, <span class="m">Q<sub>dep</sub> = √(2qε<sub>s</sub>ε<sub>0</sub>N<sub>a</sub>φ<sub>s</sub>)</span>, <span class="m">V<sub>ox</sub> = Q<sub>dep</sub>/C<sub>ox</sub></span> — ובנוסף היכולת לקרוא מגרף אילו נתונים אתם כבר מחזיקים ביד. כל השאר נגזר מאלה.</div>
 
-<h2>שיטת הגישה — סדר פעולות קבוע</h2>
+<h2>🧭 שיטת הגישה — סדר פעולות קבוע</h2>
 
 <p>הצעדים למטה מכסים למעשה את כל תשע גרסאות שאלה 3 שנבדקו. לא בכל שאלה תצטרכו את כולם — אבל <b>הסדר לעולם לא משתנה</b>, ואם תקפצו צעד אחורה תגלו שחסר לכם בדיוק מה שכן חושב שם.</p>
 
@@ -1911,7 +2072,9 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 </ol>
 
-<h2>טבלת זיהוי — אם רואים X, עושים Y</h2>
+<div class="ok"><b>💡 בקיצור:</b> קובעים מצע ⟵ מחשבים <span class="m">φ<sub>F</sub></span> ⟵ קובעים מצב ⟵ מגלגלים את <span class="m">V<sub>g</sub> = V<sub>ox</sub> + φ<sub>s</sub></span> — הסדר קבוע, וכל סעיף הוא הצבה בשרשרת.</div>
+
+<h2>👀 טבלת זיהוי — אם רואים X, עושים Y</h2>
 
 <p>כל שורה כאן מגיעה משאלה אמיתית שנבדקה. עמודת "מה עושים" היא הפעולה הראשונה — לא כל הפתרון.</p>
 
@@ -2017,15 +2180,19 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 </tbody></table></div>
 
-<h2>המבנה, ומה מותר להניח בקבל אידאלי</h2>
+<h2>🥪 המבנה, ומה מותר להניח בקבל אידאלי</h2>
 
 <p>קבל <span dir="ltr">MOS</span> הוא שלוש שכבות: <b>מתכת</b> (בפועל <span dir="ltr">poly-Si</span> מזוהם כבדות, ומכאן השם <span dir="ltr">poly-Si gate</span>), <b>אוקסיד</b> מבודד (<span dir="ltr">SiO<sub>2</sub></span> בדרך כלל, לפעמים <span dir="ltr">HfO<sub>2</sub></span> ב"אוקסיד גבוה-<span class="m">κ</span>"), ו<b>מצע</b> מוליך למחצה מזוהם. המתח <span class="m">V<sub>g</sub></span> מופעל על השער ביחס למצע המוארק.</p>
+
+<div class="tip"><b>🤔 רגע, מה זה אומר?</b> תחשבו על סנדוויץ׳: פרוסת מתכת, שכבת בידוד דקה, ופרוסת סיליקון. שום זרם לא עובר דרך הבידוד — מתח השער רק "מסדר מחדש" מרחוק את המטענים בפרוסה התחתונה. כל הפרק הוא בעצם שאלה אחת: איך מסתדרים המטענים בסיליקון עבור כל מתח שער.</div>
 
 <p>נקודה שמבלבלת: <b>סוג הקבל נקבע לפי סוג השער, לא לפי סוג המצע</b>. קבל מסוג <span dir="ltr">N</span> הוא בעל שער מזוהם <span class="m">N<sup>+</sup></span> ומצע <span dir="ltr">p</span> — וזה בדיוק מה שהופך, כשמוסיפים מקור ושפך, לטרנזיסטור <span dir="ltr">NMOS</span>. לכן בפתרונות רואים שוב ושוב את המעבר "מתח סף חיובי ⟸ מצע p ⟸ <span dir="ltr">NMOS</span>".</p>
 
 <div class="note"><b>ההנחה החשובה ביותר בקורס:</b> עוסקים <b>אך ורק</b> בקבלים <b>אידאליים</b>, שבהם <span class="m">V<sub>FB</sub> = φ<sub>M</sub> − φ<sub>S</sub> = 0</span>. משמעות מעשית: דיאגרמת הפסים המיושרת (<span dir="ltr">flat band</span>) היא זו של <span class="m">V<sub>g</sub> = 0</span>, ואין צורך לחשב פונקציות עבודה או זיקה אלקטרונית. כל הנוסחאות בדף הזה כתובות תחת ההנחה הזו. (בקבל מעשי היה צריך להוסיף <span class="m">V<sub>FB</sub></span> לכל ביטוי של <span class="m">V<sub>g</sub></span> ו-<span class="m">V<sub>T</sub></span> — החוברת מציינת במפורש שלא נדבר על כך כלל.)</div>
 
-<h2>כיפוף פסים: מה זה <span class="m">φ<sub>F</sub></span> ומה זה <span class="m">φ<sub>s</sub></span></h2>
+<div class="ok"><b>💡 בקיצור:</b> קבל אידאלי ⟹ <span class="m">V<sub>FB</sub> = 0</span> ⟹ ב-<span class="m">V<sub>g</sub> = 0</span> הפסים ישרים; וסוג הקבל נקרא על שם השער — לא על שם המצע.</div>
+
+<h2>🎢 כיפוף פסים: מה זה <span class="m">φ<sub>F</sub></span> ומה זה <span class="m">φ<sub>s</sub></span></h2>
 
 <p>שני הפוטנציאלים האלה הם כל התיאוריה. שניהם מוגדרים כהפרשי אנרגיה חלקי <span class="m">q</span>, ושניהם נמדדים ביחס לרמה האינטרינזית <span class="m">E<sub>i</sub></span>:</p>
 
@@ -2035,11 +2202,15 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <p><b><span class="m">φ<sub>s</sub></span> הוא מה שאתם שולטים בו.</b> הוא מודד בכמה התכופפו הפסים בשפת המל"מ ביחס לעומק — כלומר, כמה מתח השער הצליח "לחדור" אל תוך המוליך למחצה. כל מצבי העבודה מוגדרים על ידי השוואה של <span class="m">φ<sub>s</sub></span> ל-<span class="m">φ<sub>F</sub></span>.</p>
 
+<div class="tip"><b>🤔 רגע, מה זה אומר?</b> דמיינו טרמפולינה מתוחה: <span class="m">φ<sub>s</sub></span> הוא כמה עמוק לחצתם את הבד בשפה, ו-<span class="m">φ<sub>F</sub></span> הוא קו סימון שתלוי רק בסוג הבד (האילוח) — הוא לא זז כשלוחצים. לחצתם עד הקו (<span class="m">φ<sub>s</sub> = φ<sub>F</sub></span>) — השפה "התאפסה" ונעשתה אינטרינזית; לחצתם עד פעמיים הקו (<span class="m">2φ<sub>F</sub></span>) — השפה התהפכה לגמרי, וזה בדיוק הסף.</div>
+
 <p><b>למה דווקא <span class="m">2φ<sub>F</sub></span>?</b> ריכוז האלקטרונים בשפה הוא <span class="m">n<sub>s</sub> = n<sub>i</sub>e<sup>q(φ<sub>s</sub>−φ<sub>F</sub>)/kT</sup></span>. כאשר <span class="m">φ<sub>s</sub> = φ<sub>F</sub></span> מקבלים <span class="m">n<sub>s</sub> = n<sub>i</sub></span> — השפה נעשתה אינטרינזית (זו התחלת ההיפוך). כאשר <span class="m">φ<sub>s</sub> = 2φ<sub>F</sub></span> מקבלים <span class="m">n<sub>s</sub> = n<sub>i</sub>e<sup>qφ<sub>F</sub>/kT</sup> = N<sub>a</sub></span> — ריכוז נשאי המיעוט בשפה השתווה לריכוז נשאי הרוב בעומק. <b>זו ההגדרה של היפוך חזק</b>, ומכאן הגורם 2. זה לא שרירותי, וכדאי לדעת להסביר את זה — זה מופיע כסעיף הסבר בשאלות.</p>
 
 <div class="tip"><b>טכניקה:</b> ההגדרה <span class="m">n<sub>s</sub> = N<sub>a</sub></span> בסף היא גם דרך מהירה <b>לאמת</b> תשובה. אם חישבתם <span class="m">φ<sub>s</sub></span> ויצא ש-<span class="m">n<sub>s</sub> ≪ n<sub>i</sub></span> — אתם במחסור, לא בהיפוך, ואם כתבתם "היפוך" בסעיף קודם יש סתירה שכדאי לתפוס לפני המגיה.</div>
 
-<h2>ארבעת מצבי העבודה</h2>
+<div class="ok"><b>💡 בקיצור:</b> <span class="m">φ<sub>F</sub></span> קבוע (כמה החומר מזוהם), <span class="m">φ<sub>s</sub></span> נשלט (כמה כיפפתם), והיפוך חזק מוגדר בדיוק ב-<span class="m">φ<sub>s</sub> = 2φ<sub>F</sub></span> — כי שם <span class="m">n<sub>s</sub> = N<sub>a</sub></span>.</div>
+
+<h2>🎚️ ארבעת מצבי העבודה</h2>
 
 <p>הטבלה למטה היא <b>עבור מצע p</b> (קבל <span dir="ltr">NMOS</span>). היא כמעט זהה לזו שבחוברת, והיא כלי הזיהוי המרכזי בסעיף א׳ של כל שאלה.</p>
 
@@ -2063,9 +2234,13 @@ table.cue td:first-child{ font-weight:700; width:38% }
 <li><b>היפוך חזק</b> — עכשיו יש שכבת אלקטרונים ממשית בממשק. מכאן והלאה המטען הכולל הוא <span class="m">Q<sub>sub</sub> = Q<sub>inv</sub> + Q<sub>dep</sub></span>, ו<b>מטען המחסור מפסיק לגדול</b>: כל אלקטרון נוסף שהשער מושך נכנס לשכבת ההיפוך במקום להרחיב את המחסור. הקבל מתנהג כקבל לוחות עם <span class="m">Q<sub>inv</sub> = −C<sub>ox</sub>(V<sub>g</sub> − V<sub>T</sub>)</span>.</li>
 </ul>
 
+<div class="tip"><b>🤔 רגע, מה זה אומר?</b> מצע p הוא שכונה של חורים. מתח שער שלילי מזמין עוד חורים לשפה (צבירה). מתח חיובי קודם מגרש אותם — נשארים רק "בתים ריקים", היונים השליליים הנייחים (מחסור). ממשיכים ללחוץ? מתחילים לעבור לגור שם אלקטרונים, עד שבשפה יש יותר אלקטרונים ממה שיש חורים בעומק — האוכלוסייה של השכונה התהפכה. זה היפוך.</div>
+
 <div class="warn"><b>סימנים במצע n — המקור המספר 1 לטעויות:</b> במצע n מהפכים <b>הכל</b>. <span class="m">φ<sub>F</sub> &lt; 0</span>, ההיפוך מושג במתח שער <b>שלילי</b>, <span class="m">φ<sub>s</sub> &lt; 0</span> בהיפוך, ו-<span class="m">V<sub>T</sub> &lt; 0</span>. הצבירה מתרחשת ב-<span class="m">V<sub>g</sub> &gt; 0</span>. בשאלת 2024 מועד א׳ (type-n) התשובה הנכונה הייתה <span class="m">V<sub>T</sub> = −0.7 + 2(−0.3) = −1.3V</span> — מי שהתעלם מהסימנים קיבל <span class="m">+1.3V</span> ואיבד את כל סעיף א׳ ואת דיאגרמת הפסים אחריו. <b>שיטת עבודה בטוחה:</b> חשבו את כל הגדלים בערך מוחלט, ורק בשורה האחרונה הדביקו את הסימן לפי סוג המצע.</div>
 
-<h2>מתח הסף <span class="m">V<sub>T</sub></span> — מאיפה מגיע כל איבר</h2>
+<div class="ok"><b>💡 בקיצור:</b> משווים <span class="m">φ<sub>s</sub></span> ל-<span class="m">φ<sub>F</sub></span> ול-<span class="m">2φ<sub>F</sub></span> — זה כל הזיהוי; ובמצע n הופכים כל סימן וכל אי-שוויון.</div>
+
+<h2>🔑 מתח הסף <span class="m">V<sub>T</sub></span> — מאיפה מגיע כל איבר</h2>
 
 <p>מתח הסף אינו נוסחה שצריך לשנן בעל פה — הוא <b>תוצאה של מאזן המתחים בנקודה אחת מסוימת</b>. מתחילים מ-<span class="m">V<sub>g</sub> = V<sub>ox</sub> + φ<sub>s</sub></span>, מציבים <span class="m">φ<sub>s</sub> = 2φ<sub>F</sub></span> (הגדרת הסף), ומציבים את <span class="m">V<sub>ox</sub></span> שנובע ממטען המחסור המקסימלי:</p>
 
@@ -2080,9 +2255,11 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="note"><b>אפקט המצע (Body Effect)</b> — הרחבה שמופיעה בחוברת ה-MOSFET ובתרגילים, לא בשאלות המבחן שנבדקו. אם מפעילים מתח בין המצע למקור, מתח הסף גדל:
 <div class="m blk">ΔV<sub>T</sub> = <span class="fr"><span class="n">√(2qN<sub>a</sub>ε<sub>s</sub>ε<sub>0</sub>)</span><span class="d">C<sub>ox</sub></span></span> (√(2φ<sub>F</sub> + V<sub>SB</sub>) − √(2φ<sub>F</sub>))</div>
-הגורם שמכפיל נקרא פרמטר אפקט המצע <span class="m">γ</span>. אם השאלה מזכירה <span class="m">V<sub>SB</sub></span> — זה מה שהיא רוצה.</div>
+הגורם שמכפיל נקרא פרמטר אפקט המצע <span class="m">γ</span>. אם השאלה מזכירה <span class="m">V<sub>SB</sub></span> — זה מה שהיא רוצה. (גם כאן החוברת כותבת <span class="m">φ<sub>B</sub></span> במקום <span class="m">φ<sub>F</sub></span> — אותו גודל.)</div>
 
-<h2>אזור המחסור: <span class="m">w</span>, השדות, ולמה <span class="m">w</span> נעצר</h2>
+<div class="ok"><b>💡 בקיצור:</b> <span class="m">V<sub>T</sub> = 2φ<sub>F</sub> + Q<sub>dep</sub>(2φ<sub>F</sub>)/C<sub>ox</sub></span> — מחיר הכיפוף במל"מ ועוד מחיר האוקסיד; ולכן הוא גדל גם עם <span class="m">N<sub>a</sub></span> וגם עם <span class="m">d<sub>ox</sub></span>.</div>
+
+<h2>📏 אזור המחסור: <span class="m">w</span>, השדות, ולמה <span class="m">w</span> נעצר</h2>
 
 <p>תחת קירוב אזור המחסור, צפיפות המטען באזור היא <span class="m">ρ = −qN<sub>a</sub></span> קבועה. מכאן, בדיוק כמו בצומת <span dir="ltr">PN</span>:</p>
 
@@ -2099,9 +2276,11 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="tip"><b>מתי זה מזכה בנקודות:</b> בשאלת 2025 סמסטר ג׳ מועד א׳ סעיף י׳, מגדילים את <span class="m">V<sub>g</sub></span> ב-1V. הפיתוי הוא לחשב <span class="m">φ<sub>s</sub></span> חדש מהמשוואה הריבועית. הפתרון הנכון: לבדוק ש-<span class="m">V<sub>g,new</sub> = 1.51V &gt; V<sub>T</sub> = 1V</span>, ולכן <span class="m">φ<sub>s</sub> = 2φ<sub>F</sub> = 0.6V</span> קבוע, <span class="m">w = w<sub>T</sub> = 8.66×10<sup>−5</sup>cm</span> קבוע, וכל התוספת נופלת על <span class="m">V<sub>ox</sub> = 0.91V</span>. שלוש שורות במקום חצי עמוד.</div>
 
-<h2>אופיין <span dir="ltr">C-V</span>: תדר נמוך מול תדר גבוה</h2>
+<div class="ok"><b>💡 בקיצור:</b> מעל הסף <span class="m">φ<sub>s</sub></span> ננעל על <span class="m">2φ<sub>F</sub></span> ו-<span class="m">w</span> ננעל על <span class="m">w<sub>T</sub></span> — כל תוספת מתח נופלת על האוקסיד בלבד.</div>
 
-<p>הקיבול הנמדד מוגדר כ<b>אות קטן</b>: על מתח <span dir="ltr">DC</span> קבוע רוכב אות סינוסי קטן (<span class="m">1 kHz</span> עד <span class="m">100 MHz</span>), ומודדים <span class="m">C = i<sub>cap</sub>/v<sub>ac</sub></span>, כלומר <span class="m">C = dQ<sub>G</sub>/dV<sub>G</sub></span>. זה קריטי להבנה של הגרף: הקיבול מודד <b>כמה מטען זז בתגובה לשינוי קטן במתח</b> — לא כמה מטען יש.</p>
+<h2>🛁 אופיין <span dir="ltr">C-V</span>: תדר נמוך מול תדר גבוה</h2>
+
+<p>הקיבול הנמדד מוגדר כ<b>אות קטן</b>: על מתח <span dir="ltr">DC</span> קבוע רוכב אות סינוסי קטן (<span class="m">1 kHz</span> עד <span class="m">100 MHz</span>), ומודדים את זרם החילופין: <span class="m">i<sub>cap</sub>/v<sub>ac</sub> = ωC</span>, שממנו מחלצים את <span class="m">C = dQ<sub>G</sub>/dV<sub>G</sub></span>. זה קריטי להבנה של הגרף: הקיבול מודד <b>כמה מטען זז בתגובה לשינוי קטן במתח</b> — לא כמה מטען יש.</p>
 
 <p>הצורה הכללית (מצע p): מתחילים מ-<span class="m">C<sub>ox</sub></span> בצבירה (מטען החורים בממשק מגיב מיידית), יורדים באזור המחסור כי מצטרף קבל טורי <span class="m">C<sub>dep</sub> = ε<sub>s</sub>ε<sub>0</sub>/w</span> ש<b>קטן</b> ככל ש-<span class="m">w</span> גדל, ומגיעים למינימום בדיוק בסף — שם <span class="m">w = w<sub>T</sub></span> מקסימלי. אחרי הסף:</p>
 
@@ -2118,7 +2297,9 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <p><b>אופיין למצע n</b> הוא תמונת מראה: אותה צורה, משוקפת סביב <span class="m">V<sub>g</sub> = 0</span> — הצבירה בצד החיובי, ההיפוך בצד השלילי, ומתח הסף שלילי.</p>
 
-<h2>מ-MOS ל-MOSFET: יצירת התעלה</h2>
+<div class="ok"><b>💡 בקיצור:</b> <span class="m">C<sub>max</sub> = C<sub>ox</sub></span> בצבירה, <span class="m">C<sub>min</sub></span> בדיוק בסף (עם <span class="m">w<sub>T</sub></span>); בתדר גבוה נשארים על <span class="m">C<sub>min</sub></span>, בתדר נמוך חוזרים ל-<span class="m">C<sub>ox</sub></span> — צורת אמבטיה.</div>
+
+<h2>🚇 מ-MOS ל-MOSFET: יצירת התעלה</h2>
 
 <p>טרנזיסטור <span dir="ltr">MOSFET</span> הוא בדיוק אותו קבל <span dir="ltr">MOS</span>, שאליו הוסיפו שני בורות מזוהמים חזק בזיהום <b>הפוך</b> משל המצע — המקור (<span dir="ltr">Source</span>) והשפך (<span dir="ltr">Drain</span>). לכן <span dir="ltr">NMOS</span> נכתב <span class="m">n<sup>+</sup>pn<sup>+</sup></span>.</p>
 
@@ -2132,13 +2313,17 @@ table.cue td:first-child{ font-weight:700; width:38% }
 <tr><td><b>רוויה</b> (Saturation)</td><td><span class="m">V<sub>G</sub> &gt; V<sub>T</sub></span> וגם <span class="m">V<sub>D</sub> ≥ V<sub>D,sat</sub></span></td><td>התעלה נעלמה בקצה השפך (<span dir="ltr">pinch-off</span>). הזרם מפסיק לגדול — הוא מוגבל על ידי כמות המטען שנכנסת לתעלה, לא על ידי <span class="m">V<sub>D</sub></span>.</td></tr>
 </tbody></table></div>
 
+<p><b>שתי הערות זיהוי מהחוברת:</b> (1) בהתקן עם תעלה <b>קצרה</b> האופיין ברוויה מקבל שיפוע קטן — <span class="m">I<sub>D</sub></span> גדל מעט עם <span class="m">V<sub>D</sub></span> גם מעבר לרוויה; באידאלי (תעלה ארוכה) הוא שטוח לגמרי. (2) ההתקנים בקורס הם מסוג <b>Enhancement</b> (חיזוק הולכה) — אין תעלה ב-<span class="m">V<sub>G</sub> = 0</span> והיא נוצרת רק מעל הסף. התקן <b>Depletion</b> הוא ההפך: נולד עם תעלה מובנית וצריך מתח שער שלילי (ב-<span dir="ltr">NMOS</span>) כדי לכבות אותה. "מהו סוג הטרנזיסטור?" הוא סעיף שלם בשאלה 10 בחוברת — התשובה: Enhancement.</p>
+
 <p><b>מהו בדיוק <span dir="ltr">pinch-off</span>:</b> מטען ההיפוך בנקודה כלשהי לאורך התעלה הוא <span class="m">Q<sub>inv</sub>(y) = −C<sub>ox</sub>[V<sub>G</sub> − V<sub>T</sub> − V(y)]</span>. בקצה השפך <span class="m">V(y) = V<sub>D</sub></span>, ולכן המטען מתאפס בדיוק כאשר <span class="m">V<sub>D</sub> = V<sub>G</sub> − V<sub>T</sub></span>. זהו:</p>
 
 <div class="m blk">V<sub>D,sat</sub> = V<sub>G</sub> − V<sub>T</sub></div>
 
 <p>שאלה קלאסית מהחוברת: "מהו המטען ליחידת שטח בשכבת ההיפוך בקצה השפך בנקודה (2)?" כאשר (2) היא נקודת הרוויה — התשובה היא <b>אפס</b>, בדיוק מההגדרה הזו.</p>
 
-<h2>משוואות הזרם ומקדם ההולכה <span class="m">k</span></h2>
+<div class="ok"><b>💡 בקיצור:</b> התעלה היא שכבת ההיפוך; <span class="m">V<sub>T</sub></span> של הטרנזיסטור הוא בדיוק <span class="m">V<sub>T</sub></span> של הקבל; וברוויה המטען בקצה השפך מתאפס כאשר <span class="m">V<sub>D</sub> = V<sub>G</sub> − V<sub>T</sub></span>.</div>
+
+<h2>⚡ משוואות הזרם ומקדם ההולכה <span class="m">k</span></h2>
 
 <p>שיטת <span dir="ltr">Square Law</span> — זו השיטה שנדרשת בכל שאלות המבחן שנבדקו:</p>
 
@@ -2159,10 +2344,12 @@ table.cue td:first-child{ font-weight:700; width:38% }
 <p><b>עבור <span dir="ltr">PMOS</span></b> הופכים את כל כיווני הממתחים (<span class="m">V<sub>DS</sub> → V<sub>SD</sub></span>, <span class="m">V<sub>GS</sub> → V<sub>SG</sub></span>) ואת כיווני אי-השוויונות, ומחליפים <span class="m">μ<sub>n</sub> → μ<sub>p</sub></span>. הצורה של המשוואות זהה לחלוטין.</p>
 
 <div class="note"><b>שיטת <span dir="ltr">Bulk Charge</span></b> — תיקון מדויק יותר, שמופיע בחוברת ה-MOSFET ובתרגילים (לא בשאלות המבחן שנבדקו). הצורה הנוחה לזכירה:
-<div class="m blk">I<sub>D,sat</sub> = <span class="fr"><span class="n">Zμ<sub>n</sub>C<sub>ox</sub></span><span class="d">2mL</span></span>(V<sub>G</sub>−V<sub>T</sub>)<sup>2</sup> &nbsp;,&nbsp; m = 1 + <span class="fr"><span class="n">K</span><span class="d">2√(2φ<sub>F</sub>)</span></span> &nbsp;,&nbsp; K = <span class="fr"><span class="n">√(ε<sub>s</sub>ε<sub>0</sub>qN<sub>a</sub>)</span><span class="d">C<sub>ox</sub></span></span></div>
-כלומר: אותו <span dir="ltr">Square Law</span> מחולק ב-<span class="m">m &gt; 1</span>. בתרגיל הדוגמה בחוברת ההפרש הוא כ-20% (<span class="m">1.49 mA</span> מול <span class="m">1.21 mA</span>).</div>
+<div class="m blk">I<sub>D,sat</sub> = <span class="fr"><span class="n">Zμ<sub>n</sub>C<sub>ox</sub></span><span class="d">2mL</span></span>(V<sub>G</sub>−V<sub>T</sub>)<sup>2</sup> &nbsp;,&nbsp; m = 1 + <span class="fr"><span class="n">K</span><span class="d">2√φ<sub>F</sub></span></span> &nbsp;,&nbsp; K = <span class="fr"><span class="n">√(ε<sub>s</sub>ε<sub>0</sub>qN<sub>a</sub>)</span><span class="d">C<sub>ox</sub></span></span></div>
+כלומר: אותו <span dir="ltr">Square Law</span> מחולק ב-<span class="m">m &gt; 1</span>. גם <span class="m">V<sub>D,sat</sub></span> קטן בהתאם: <span class="m">V<sub>D,sat</sub> = (V<sub>G</sub>−V<sub>T</sub>)/m</span>. בתרגיל הדוגמה בחוברת ההפרש הוא כ-20% (<span class="m">1.49 mA</span> מול <span class="m">1.21 mA</span>). שימו לב: בחוברת ה-MOSFET הפוטנציאל מסומן <span class="m">φ<sub>B</sub></span> — זהו בדיוק <span class="m">φ<sub>F</sub></span> שלנו.</div>
 
-<h2>מלכודות שחוזרות במבחנים</h2>
+<div class="ok"><b>💡 בקיצור:</b> קודם בודקים קיטעון, אחר כך משווים <span class="m">V<sub>D</sub></span> ל-<span class="m">V<sub>G</sub> − V<sub>T</sub></span>, ורק אז מציבים — טריודה או רוויה, עם <span class="m">k = Zμ<sub>n</sub>C<sub>ox</sub>/L</span>.</div>
+
+<h2>🚨 מלכודות שחוזרות במבחנים</h2>
 
 <div class="warn"><b>מלכודת 1 — מצע n הופך את כל הסימנים.</b> ב-type-n מתקיים <span class="m">φ<sub>F</sub> &lt; 0</span>, <span class="m">φ<sub>s</sub> &lt; 0</span> בהיפוך, <span class="m">V<sub>ox</sub> &lt; 0</span>, ו-<span class="m">V<sub>T</sub> &lt; 0</span>. בשאלת 2024 מועד א׳ נתונים <b>ערכים מוחלטים</b> (<span class="m">|V<sub>ox</sub>| = 0.7V</span>, <span class="m">|φ<sub>F</sub>| = 0.3V</span>) והמבחן בודק אם תדעו להדביק סימן מינוס: <span class="m">V<sub>T</sub> = −1.3V</span>. כמו כן דיאגרמת הפסים שם מתכופפת <b>כלפי מעלה</b> בשפה — הפוך מהציור שכולם מתאמנים עליו.</div>
 
@@ -2180,7 +2367,7 @@ table.cue td:first-child{ font-weight:700; width:38% }
 
 <div class="warn"><b>מלכודת 8 — קיבול ליחידת שטח מול קיבול מוחלט.</b> חלק מהשאלות מבקשות <span class="m">F/cm<sup>2</sup></span> (2022 מועד ב׳, 2024 מועד ב׳) וחלק מבקשות קיבול <b>מוחלט</b> ב-<span dir="ltr">nF</span> (2025 סמסטר ב׳ מועד א׳, שם <span class="m">A = 1cm<sup>2</sup></span> "מסתיר" את ההבדל, ו-2025 סמסטר ג׳ מועד ב׳, שם <span class="m">A = 10<sup>−2</sup>cm<sup>2</sup></span> ובאמת משנה). כשמבקשים "כמה נושאי מטען בתעלה" — זה בהכרח מטען מוחלט, כלומר עם <span class="m">A</span>.</div>
 
-<h2>רשימת בדיקה אחרונה לפני שמגישים</h2>
+<h2>🏁 רשימת בדיקה אחרונה לפני שמגישים</h2>
 
 <div class="ok">
 <p><b>שש בדיקות מהירות שתופסות את רוב הטעויות:</b></p>
@@ -2194,39 +2381,51 @@ table.cue td:first-child{ font-weight:700; width:38% }
 </ul>
 </div>
 
+<h2>✅ בדוק את עצמך — 30 שניות</h2>
+
+<p>ארבע שאלות בזק, כל אחת מכוונת בדיוק למלכודת שראינו. עונים בראש — ואז פותחים ובודקים.</p>
+
+<details class="sol"><summary>קבל <span dir="ltr">type-n</span> על סף היפוך חזק, עם <span class="m">|φ<sub>F</sub>| = 0.3V</span> ו-<span class="m">|V<sub>ox</sub>| = 0.7V</span>. מהו <span class="m">V<sub>T</sub></span>?</summary><div class="body"><span class="m">V<sub>T</sub> = −0.7 + 2·(−0.3) = −1.3V</span> — במצע n כל האיברים שליליים. מי שכתב <span class="m">+1.3V</span> נפל במלכודת 1.</div></details>
+
+<details class="sol"><summary>מחשבים <span class="m">C<sub>min</sub></span> — מציבים את <span class="m">w</span> שיצא בסעיף הקודם, או את <span class="m">w<sub>T</sub></span>?</summary><div class="body">תמיד <span class="m">w<sub>T</sub></span> (כלומר <span class="m">φ<sub>s</sub> = 2φ<sub>F</sub></span>): המינימום של עקומת <span dir="ltr">C-V</span> נמצא בדיוק בסף, שם אזור המחסור הכי רחב.</div></details>
+
+<details class="sol"><summary>השער בדיוק על הסף (<span class="m">V<sub>g</sub> = V<sub>T</sub></span>), ונתונים <span class="m">W</span>, <span class="m">L</span> ו-<span class="m">V<sub>D</sub></span>. מה הזרם?</summary><div class="body"><span class="m">I<sub>D</sub> = 0</span> ו-<span class="m">R → ∞</span> — התעלה טרם נפתחה. כל הגיאומטריה שנתנו היא הסחה מכוונת.</div></details>
+
+<details class="sol"><summary>נתון <span class="m">A = 10<sup>−2</sup> cm<sup>2</sup></span> ומבקשים "את הקיבול המינימלי ב-<span dir="ltr">nF</span>". מה אסור לשכוח?</summary><div class="body">להכפיל ב-<span class="m">A</span>: הנוסחאות נותנות <span class="m">C<sub>min</sub></span> ליחידת שטח (<span class="m">F/cm<sup>2</sup></span>) — הקיבול המוחלט הוא <span class="m">C<sub>min</sub>·A</span>.</div></details>
+
 </section>
 
 </div>
 
 <!-- ============ הקבצים ============
      הסדר קריטי: קונפיג ⟵ נתונים ⟵ מנועים -->
-<script src="config.js?v=1786313797"></script>
+<script src="config.js?v=1786315327"></script>
 
 <!-- נתונים (נוצרים בשלבים 2, 6, 7) — שאלות ופתרונות מונפשים, מבחן אחר מבחן -->
-<script src="questions.js?v=1786313797"></script>
-<script src="questions-22m1.js?v=1786313797"></script>
-<script src="walkthrough-22m1.js?v=1786313797"></script>
-<script src="questions-22m2.js?v=1786313797"></script>
-<script src="walkthrough-22m2.js?v=1786313797"></script>
-<script src="questions-24m1.js?v=1786313797"></script>
-<script src="walkthrough-24m1.js?v=1786313797"></script>
-<script src="questions-24m2.js?v=1786313797"></script>
-<script src="walkthrough-24m2.js?v=1786313797"></script>
-<script src="questions-25s2m1.js?v=1786313797"></script>
-<script src="walkthrough-25s2m1.js?v=1786313797"></script>
-<script src="questions-25s2m2.js?v=1786313797"></script>
-<script src="walkthrough-25s2m2.js?v=1786313797"></script>
-<script src="questions-25s3m1.js?v=1786313797"></script>
-<script src="walkthrough-25s3m1.js?v=1786313797"></script>
-<script src="questions-25s3m2.js?v=1786313797"></script>
-<script src="walkthrough-25s3m2.js?v=1786313797"></script>
+<script src="questions.js?v=1786315327"></script>
+<script src="questions-22m1.js?v=1786315327"></script>
+<script src="walkthrough-22m1.js?v=1786315327"></script>
+<script src="questions-22m2.js?v=1786315327"></script>
+<script src="walkthrough-22m2.js?v=1786315327"></script>
+<script src="questions-24m1.js?v=1786315327"></script>
+<script src="walkthrough-24m1.js?v=1786315327"></script>
+<script src="questions-24m2.js?v=1786315327"></script>
+<script src="walkthrough-24m2.js?v=1786315327"></script>
+<script src="questions-25s2m1.js?v=1786315327"></script>
+<script src="walkthrough-25s2m1.js?v=1786315327"></script>
+<script src="questions-25s2m2.js?v=1786315327"></script>
+<script src="walkthrough-25s2m2.js?v=1786315327"></script>
+<script src="questions-25s3m1.js?v=1786315327"></script>
+<script src="walkthrough-25s3m1.js?v=1786315327"></script>
+<script src="questions-25s3m2.js?v=1786315327"></script>
+<script src="walkthrough-25s3m2.js?v=1786315327"></script>
 
 <!-- מנועים — לא לערוך -->
-<script src="viz.js?v=1786313797"></script>
-<script src="adaptive-quiz.js?v=1786313797"></script>
-<script src="walkthrough-ui.js?v=1786313797"></script>
-<script src="labs.js?v=1786313797"></script>
-<script src="exam-sim.js?v=1786313797"></script>
+<script src="viz.js?v=1786315327"></script>
+<script src="adaptive-quiz.js?v=1786315327"></script>
+<script src="walkthrough-ui.js?v=1786315327"></script>
+<script src="labs.js?v=1786315327"></script>
+<script src="exam-sim.js?v=1786315327"></script>
 
 <script>
 /* ---- מצב כהה/בהיר ---- */
@@ -2304,6 +2503,60 @@ document.getElementById("courseName").textContent = window.COURSE.name || window
   el.textContent = d;
 })();
 if (window.mountCodexQuiz) window.mountCodexQuiz();
+</script>
+<script>
+/* ===== שכבת נוחות: פס קריאה, חזרה-למעלה, תוכן עניינים לעמודי נושא ===== */
+(function () {
+  var bar = document.getElementById("readbar");
+  var top = document.getElementById("toTop");
+
+  function onScroll() {
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + "%";
+    top.classList.toggle("show", h.scrollTop > 600);
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+  top.onclick = function () { window.scrollTo({ top: 0 }); };
+
+  /* תוכן עניינים אוטומטי מכותרות ה-h2 של כל עמוד נושא */
+  ["d01", "d02", "d03"].forEach(function (id) {
+    var sec = document.getElementById(id);
+    if (!sec) return;
+    var hs = [].slice.call(sec.querySelectorAll("h2"));
+    if (hs.length < 3) return;
+    var wrap = document.createElement("nav");
+    wrap.className = "toc-chips";
+    wrap.setAttribute("aria-label", "תוכן העמוד");
+    hs.forEach(function (h, i) {
+      h.id = id + "-h" + i;
+      var a = document.createElement("a");
+      a.href = "#";
+      /* טקסט קצר לצ'יפ — עד המפריד הראשון */
+      a.textContent = h.textContent.split("—")[0].trim().slice(0, 34);
+      a.onclick = function (e) {
+        e.preventDefault();
+        h.scrollIntoView({ block: "start" });
+        window.scrollBy(0, -56);
+      };
+      wrap.appendChild(a);
+    });
+    var lead = sec.querySelector(".lead");
+    (lead || sec.firstElementChild).insertAdjacentElement("afterend", wrap);
+
+    /* הדגשת הצ'יפ של המקטע הנוכחי בזמן גלילה */
+    var links = [].slice.call(wrap.children);
+    window.addEventListener("scroll", function () {
+      if (!sec.classList.contains("on")) return;
+      var at = 0;
+      hs.forEach(function (h, i) {
+        if (h.getBoundingClientRect().top < 120) at = i;
+      });
+      links.forEach(function (l, i) { l.classList.toggle("on", i === at); });
+    }, { passive: true });
+  });
+})();
 </script>
 </body>
 </html>
