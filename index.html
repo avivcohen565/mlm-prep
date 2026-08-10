@@ -822,20 +822,17 @@ html{scroll-behavior:smooth}
 .quiz-shell.flash-bad{animation:flashBad .8s ease-out}
 #streakNow.hot{color:var(--amber)}
 
-/* ===== אקורדיון בעמודי הנושא + מצב ספרינט ===== */
-.sect-body{overflow:hidden}
-.sect-body.closed{display:none}
-#d01 h2,#d02 h2,#d03 h2{cursor:pointer;user-select:none;position:relative}
-#d01 h2::after,#d02 h2::after,#d03 h2::after{
-  content:"▾";position:absolute;left:14px;top:50%;transform:translateY(-50%);
-  font-size:14px;color:var(--fg3);transition:transform .2s}
-h2.collapsed::after{transform:translateY(-50%) rotate(-90deg)!important}
-body.sprint .sect-body.sprint-hide{display:none}
-body.sprint h2.sprint-dim{opacity:.45}
+/* ===== עמודי נושא כטאבים + מצב ספרינט ===== */
+.sect-body{animation:pgIn .25s ease-out}
 #sprintBtn.on{background:var(--amber);border-color:var(--amber);color:#1a1a18}
 .sprint-note{display:none;border:1px dashed var(--amber);background:var(--amber-bg);
   border-radius:var(--radius);padding:9px 14px;margin:10px 0;font-size:13.5px}
 body.sprint .sprint-note{display:block}
+/* ניווט הקודם/הבא בין קטגוריות */
+.sect-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin:22px 0 8px;border-top:1px dashed var(--line2);padding-top:14px}
+.sect-nav .sect-pos{font:700 13px var(--mono);color:var(--fg3)}
+.sect-nav .quiz-btn:disabled{opacity:.35;cursor:default}
 
 /* ===== לוח שליטה לפי נושא (בעמוד המדריך) ===== */
 .mastery-dash{border:1px solid var(--line2);border-radius:14px;background:var(--bg2);
@@ -2461,34 +2458,34 @@ body.sprint .sprint-note{display:block}
 
 <!-- ============ הקבצים ============
      הסדר קריטי: קונפיג ⟵ נתונים ⟵ מנועים -->
-<script src="config.js?v=1786316031"></script>
+<script src="config.js?v=1786316938"></script>
 
 <!-- נתונים (נוצרים בשלבים 2, 6, 7) — שאלות ופתרונות מונפשים, מבחן אחר מבחן -->
-<script src="questions.js?v=1786316031"></script>
-<script src="questions-22m1.js?v=1786316031"></script>
-<script src="walkthrough-22m1.js?v=1786316031"></script>
-<script src="questions-22m2.js?v=1786316031"></script>
-<script src="walkthrough-22m2.js?v=1786316031"></script>
-<script src="questions-24m1.js?v=1786316031"></script>
-<script src="walkthrough-24m1.js?v=1786316031"></script>
-<script src="questions-24m2.js?v=1786316031"></script>
-<script src="walkthrough-24m2.js?v=1786316031"></script>
-<script src="questions-25s2m1.js?v=1786316031"></script>
-<script src="walkthrough-25s2m1.js?v=1786316031"></script>
-<script src="questions-25s2m2.js?v=1786316031"></script>
-<script src="walkthrough-25s2m2.js?v=1786316031"></script>
-<script src="questions-25s3m1.js?v=1786316031"></script>
-<script src="walkthrough-25s3m1.js?v=1786316031"></script>
-<script src="questions-25s3m2.js?v=1786316031"></script>
-<script src="walkthrough-25s3m2.js?v=1786316031"></script>
+<script src="questions.js?v=1786316938"></script>
+<script src="questions-22m1.js?v=1786316938"></script>
+<script src="walkthrough-22m1.js?v=1786316938"></script>
+<script src="questions-22m2.js?v=1786316938"></script>
+<script src="walkthrough-22m2.js?v=1786316938"></script>
+<script src="questions-24m1.js?v=1786316938"></script>
+<script src="walkthrough-24m1.js?v=1786316938"></script>
+<script src="questions-24m2.js?v=1786316938"></script>
+<script src="walkthrough-24m2.js?v=1786316938"></script>
+<script src="questions-25s2m1.js?v=1786316938"></script>
+<script src="walkthrough-25s2m1.js?v=1786316938"></script>
+<script src="questions-25s2m2.js?v=1786316938"></script>
+<script src="walkthrough-25s2m2.js?v=1786316938"></script>
+<script src="questions-25s3m1.js?v=1786316938"></script>
+<script src="walkthrough-25s3m1.js?v=1786316938"></script>
+<script src="questions-25s3m2.js?v=1786316938"></script>
+<script src="walkthrough-25s3m2.js?v=1786316938"></script>
 
 <!-- מנועים — לא לערוך -->
-<script src="viz.js?v=1786316031"></script>
-<script src="adaptive-quiz.js?v=1786316031"></script>
-<script src="walkthrough-ui.js?v=1786316031"></script>
-<script src="labs.js?v=1786316031"></script>
-<script src="flashcards.js?v=1786316031"></script>
-<script src="exam-sim.js?v=1786316031"></script>
+<script src="viz.js?v=1786316938"></script>
+<script src="adaptive-quiz.js?v=1786316938"></script>
+<script src="walkthrough-ui.js?v=1786316938"></script>
+<script src="labs.js?v=1786316938"></script>
+<script src="flashcards.js?v=1786316938"></script>
+<script src="exam-sim.js?v=1786316938"></script>
 
 <script>
 /* ---- מצב כהה/בהיר ---- */
@@ -2583,60 +2580,23 @@ if (window.mountCodexQuiz) window.mountCodexQuiz();
   onScroll();
   top.onclick = function () { window.scrollTo({ top: 0 }); };
 
-  /* תוכן עניינים אוטומטי מכותרות ה-h2 של כל עמוד נושא */
+})();
+
+/* ===== עמודי נושא כטאבים: כל קטגוריה בכרטיסייה נפרדת ===== */
+(function () {
+  var KEEP = /שיטת הגישה|טבלת זיהוי|מלכודות|בדוק את עצמך|צ'ק-ליסט|רשימה סופית/;
+  var topics = {};   /* id -> {hs, bodies, chips, at, sprintAllowed} */
+
   ["d01", "d02", "d03"].forEach(function (id) {
     var sec = document.getElementById(id);
     if (!sec) return;
     var hs = [].slice.call(sec.querySelectorAll("h2"));
     if (hs.length < 3) return;
-    var wrap = document.createElement("nav");
-    wrap.className = "toc-chips";
-    wrap.setAttribute("aria-label", "תוכן העמוד");
-    hs.forEach(function (h, i) {
-      h.id = id + "-h" + i;
-      var a = document.createElement("a");
-      a.href = "#";
-      /* טקסט קצר לצ'יפ — עד המפריד הראשון */
-      a.textContent = h.textContent.split("—")[0].trim().slice(0, 34);
-      a.onclick = function (e) {
-        e.preventDefault();
-        h.scrollIntoView({ block: "start" });
-        window.scrollBy(0, -56);
-      };
-      wrap.appendChild(a);
-    });
-    var lead = sec.querySelector(".lead");
-    (lead || sec.firstElementChild).insertAdjacentElement("afterend", wrap);
 
-    /* הדגשת הצ'יפ של המקטע הנוכחי בזמן גלילה */
-    var links = [].slice.call(wrap.children);
-    window.addEventListener("scroll", function () {
-      if (!sec.classList.contains("on")) return;
-      var at = 0;
-      hs.forEach(function (h, i) {
-        if (h.getBoundingClientRect().top < 120) at = i;
-      });
-      links.forEach(function (l, i) { l.classList.toggle("on", i === at); });
-    }, { passive: true });
-  });
-})();
-
-/* ===== אקורדיון + מצב ספרינט ===== */
-(function () {
-  var KEEP = /שיטת הגישה|טבלת זיהוי|מלכודות|בדוק את עצמך|צ'ק-ליסט|רשימה סופית/;
-
-  ["d01", "d02", "d03"].forEach(function (id) {
-    var sec = document.getElementById(id);
-    if (!sec) return;
-
-    /* עטיפת התוכן שאחרי כל h2 ב-div מתקפל */
-    [].slice.call(sec.querySelectorAll("h2")).forEach(function (h) {
+    /* עטיפת התוכן שאחרי כל h2 בגוף משלו */
+    var bodies = hs.map(function (h) {
       var body = document.createElement("div");
       body.className = "sect-body";
-      if (!KEEP.test(h.textContent)) {
-        body.classList.add("sprint-hide");
-        h.classList.add("sprint-dim-candidate");
-      }
       var n = h.nextSibling;
       while (n && !(n.nodeType === 1 && n.tagName === "H2")) {
         var next = n.nextSibling;
@@ -2644,30 +2604,92 @@ if (window.mountCodexQuiz) window.mountCodexQuiz();
         n = next;
       }
       h.insertAdjacentElement("afterend", body);
-      h.addEventListener("click", function () {
-        body.classList.toggle("closed");
-        h.classList.toggle("collapsed", body.classList.contains("closed"));
-      });
+      return body;
     });
 
-    /* הערת ספרינט בראש העמוד */
+    /* טאבים */
+    var wrap = document.createElement("nav");
+    wrap.className = "toc-chips";
+    wrap.setAttribute("aria-label", "קטגוריות העמוד");
+    wrap.setAttribute("role", "tablist");
+    var chips = hs.map(function (h, i) {
+      var a = document.createElement("a");
+      a.href = "#";
+      a.setAttribute("role", "tab");
+      a.textContent = h.textContent.split("—")[0].trim().slice(0, 34);
+      a.onclick = function (e) { e.preventDefault(); show(id, i, true); };
+      wrap.appendChild(a);
+      return a;
+    });
+    var lead = sec.querySelector(".lead");
+    (lead || sec.firstElementChild).insertAdjacentElement("afterend", wrap);
+
+    /* הערת ספרינט */
     var note = document.createElement("div");
     note.className = "sprint-note";
-    note.innerHTML = "⚡ <b>מצב ספרינט פעיל:</b> מוצגים רק שיטת הגישה, טבלת הזיהוי, המלכודות והבדיקה העצמית. " +
-      "התאוריה המלאה מוסתרת — כבה את הספרינט בסרגל כדי לראות הכל.";
-    var chips = sec.querySelector(".toc-chips");
-    (chips || sec.firstElementChild).insertAdjacentElement("afterend", note);
+    note.innerHTML = "⚡ <b>מצב ספרינט פעיל:</b> מוצגות רק הכרטיסיות של שיטת הגישה, טבלת הזיהוי, " +
+      "המלכודות והבדיקה העצמית. כבה את הספרינט בסרגל כדי לראות את כל הקטגוריות.";
+    wrap.insertAdjacentElement("afterend", note);
+
+    /* ניווט הקודם/הבא בתחתית */
+    var nav = document.createElement("div");
+    nav.className = "sect-nav";
+    nav.innerHTML =
+      '<button class="quiz-btn" data-sect-prev>→ הקטגוריה הקודמת</button>' +
+      '<span class="sect-pos"></span>' +
+      '<button class="quiz-btn primary" data-sect-next>הקטגוריה הבאה ←</button>';
+    sec.appendChild(nav);
+    nav.querySelector("[data-sect-prev]").onclick = function () { step(id, -1); };
+    nav.querySelector("[data-sect-next]").onclick = function () { step(id, +1); };
+
+    topics[id] = { sec: sec, hs: hs, bodies: bodies, chips: chips, at: 0, nav: nav,
+      allowed: hs.map(function (h) { return KEEP.test(h.textContent); }) };
+    show(id, 0, false);
   });
 
+  function visibleIdx(t) {
+    var sprint = document.body.classList.contains("sprint");
+    return t.hs.map(function (_, i) { return i; })
+      .filter(function (i) { return !sprint || t.allowed[i]; });
+  }
+
+  function show(id, i, scroll) {
+    var t = topics[id];
+    if (!t) return;
+    var vis = visibleIdx(t);
+    if (vis.indexOf(i) < 0) i = vis[0] !== undefined ? vis[0] : 0;
+    t.at = i;
+    t.hs.forEach(function (h, j) {
+      var on = j === i;
+      h.style.display = on ? "" : "none";
+      t.bodies[j].style.display = on ? "" : "none";
+      t.chips[j].classList.toggle("on", on);
+      t.chips[j].style.display = vis.indexOf(j) >= 0 ? "" : "none";
+    });
+    var pos = t.nav.querySelector(".sect-pos");
+    pos.textContent = (vis.indexOf(i) + 1) + " / " + vis.length;
+    t.nav.querySelector("[data-sect-prev]").disabled = vis.indexOf(i) === 0;
+    t.nav.querySelector("[data-sect-next]").disabled = vis.indexOf(i) === vis.length - 1;
+    if (scroll) {
+      var y = t.sec.querySelector(".toc-chips").getBoundingClientRect().bottom + window.scrollY;
+      window.scrollTo({ top: Math.max(0, y - 60) });
+    }
+  }
+
+  function step(id, d) {
+    var t = topics[id], vis = visibleIdx(t);
+    var k = vis.indexOf(t.at) + d;
+    if (k >= 0 && k < vis.length) show(id, vis[k], true);
+  }
+
+  /* מצב ספרינט — מסנן את הטאבים */
   var btn = document.getElementById("sprintBtn");
   var SPRINT_KEY = (window.COURSE.storagePrefix || "course-") + "sprint";
 
   function setSprint(on) {
     document.body.classList.toggle("sprint", on);
     btn.classList.toggle("on", on);
-    document.querySelectorAll(".sprint-dim-candidate").forEach(function (h) {
-      h.classList.toggle("sprint-dim", on);
-    });
+    Object.keys(topics).forEach(function (id) { show(id, topics[id].at, false); });
     try { localStorage.setItem(SPRINT_KEY, on ? "1" : ""); } catch (e) {}
   }
   btn.addEventListener("click", function () {
